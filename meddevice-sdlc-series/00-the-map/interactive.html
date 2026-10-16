@@ -1,0 +1,1343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Medical Device Software Map</title>
+<meta name="description" content="Interactive transit map of the medical device software life cycle: 28 common rules as plain questions, on five lines (regulators, ISO 13485, ISO 14971, IEC 62304, tools and AI) across five zones.">
+<script>
+  (function () {
+    var t = new URLSearchParams(location.search).get("theme");
+    document.documentElement.setAttribute("data-theme", t === "dark" ? "dark" : "light");   // light by default, to match the series site
+  })();
+</script>
+<style>
+  :root {
+    --bg: #efe5d0; --surface: #fbf7ee; --zone: #f7f0e1; --raise: #ffffff; --hl: #fffdf8;   /* warm cream, as in the videos */
+    --text: #1f2328; --muted: #4f5662; --faint: #5f6670; --line: #d8ccb2;
+    --focus: #2563eb; --link: #1d4ed8; --primary: #047857; --on-primary: #ffffff;
+    --reg: #b45309; --reg-bg: #fef3c7; --qms: #1e40af; --qms-bg: #dbeafe; --risk: #be123c; --risk-bg: #ffe4e6;
+    --sw: #047857; --sw-bg: #d1fae5; --ai: #6d28d9; --ai-bg: #ede9fe;
+    --trip: #fde047; --trip-a: .85; --pulse: #eab308; --pulse-a: .9; --trip-bg: #fef9c3;
+    --shadow: rgba(15, 23, 42, .16); --sheet-shadow: rgba(15, 23, 42, .28);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b1220; --surface: #111a2e; --zone: #121c31; --raise: #16213a; --hl: #1e293b;
+      --text: #e2e8f0; --muted: #aab6c7; --faint: #8b98ab; --line: #334155;
+      --focus: #60a5fa; --link: #93c5fd; --primary: #34d399; --on-primary: #0b1220;
+      --reg: #fbbf24; --reg-bg: #3b2a0a; --qms: #93c5fd; --qms-bg: #172554; --risk: #fda4af; --risk-bg: #4c0519;
+      --sw: #34d399; --sw-bg: #064e3b; --ai: #c4b5fd; --ai-bg: #2e1065;
+      --trip: #facc15; --trip-a: .3; --pulse: #fde047; --pulse-a: .55; --trip-bg: #3a3108;
+      --shadow: rgba(0, 0, 0, .5); --sheet-shadow: rgba(0, 0, 0, .6);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0b1220; --surface: #111a2e; --zone: #121c31; --raise: #16213a; --hl: #1e293b;
+    --text: #e2e8f0; --muted: #aab6c7; --faint: #8b98ab; --line: #334155;
+    --focus: #60a5fa; --link: #93c5fd; --primary: #34d399; --on-primary: #0b1220;
+    --reg: #fbbf24; --reg-bg: #3b2a0a; --qms: #93c5fd; --qms-bg: #172554; --risk: #fda4af; --risk-bg: #4c0519;
+    --sw: #34d399; --sw-bg: #064e3b; --ai: #c4b5fd; --ai-bg: #2e1065;
+    --trip: #facc15; --trip-a: .3; --pulse: #fde047; --pulse-a: .55; --trip-bg: #3a3108;
+    --shadow: rgba(0, 0, 0, .5); --sheet-shadow: rgba(0, 0, 0, .6);
+  }
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  html { scroll-padding-top: calc(var(--bar-h, 56px) + 10px); scroll-padding-bottom: calc(var(--sheet-h, 0px) + 10px); }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.5 "Segoe UI", system-ui, -apple-system, Helvetica, Arial, sans-serif; }
+  main { max-width: 1280px; margin: 0 auto; padding: 24px 16px 40px; }
+  button { font: inherit; cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  .ic { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .ic.sm { width: 18px; height: 18px; }
+
+  /* header */
+  .label { color: var(--muted); font-size: 14px; margin: 0; }
+  h1 { font-size: clamp(26px, 4vw, 36px); line-height: 1.15; margin: 6px 0 12px; }
+  .intro { position: relative; background: var(--surface); padding: 12px 16px 12px 22px; border-radius: 6px; margin: 0 0 14px; }
+  .intro::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; border-radius: 6px 0 0 6px;
+    background: linear-gradient(var(--reg) 0 20%, var(--qms) 20% 40%, var(--risk) 40% 60%, var(--sw) 60% 80%, var(--ai) 80%); }
+  .intro p { margin: 0; }
+  .intro .lead { font-size: 18px; }
+  .intro .note { margin-top: 6px; font-size: 15px; color: var(--muted); }
+  .mu { display: inline-block; font-size: 14px; font-weight: 600; font-style: italic; line-height: 1.25; color: var(--muted);
+    border: 1.5px dashed var(--muted); border-radius: 999px; padding: 0 7px; margin-right: 4px; white-space: nowrap; }
+
+  /* ride bar (sticky) */
+  .ridebar { position: sticky; top: 0; z-index: 30; display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+    background: var(--bg); padding: 8px 0; margin: 0 0 10px; border-bottom: 1px solid var(--line); }
+  .btn { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; border: 1px solid var(--line); background: var(--surface);
+    color: var(--text); border-radius: 8px; padding: 7px 14px; }
+  .btn.primary { background: var(--primary); color: var(--on-primary); border-color: var(--primary); font-weight: 600; }
+  .counter { color: var(--muted); font-size: 14px; margin-left: 4px; }
+  .prog { position: absolute; left: 0; right: 0; bottom: -1px; height: 3px; background: transparent; }
+  .prog > span { display: block; height: 100%; width: 0; background: var(--text); transition: width .4s ease; }
+
+  /* lines and trips */
+  .fgroup { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin: 0 0 10px; }
+  .gl { font-size: 14px; font-weight: 700; color: var(--muted); min-width: 52px; }
+  .chips, .trips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; text-align: left; border: 1.5px solid var(--line); background: var(--raise);
+    color: var(--text); border-radius: 10px; padding: 4px 10px 4px 8px; min-height: 40px; }
+  .chip .swatch { width: 26px; height: 10px; flex: none; fill: none; stroke: var(--c); stroke-width: 5; stroke-linecap: round; }
+  .chip .ctx { display: flex; flex-direction: column; line-height: 1.2; }
+  .chip .nm { font-weight: 700; font-size: 15px; }
+  .chip .dt { font-size: 14px; color: var(--muted); }
+  .chip .ck { display: none; color: var(--c); }
+  .chip[aria-pressed="true"] { border-color: var(--c); background: var(--cbg); box-shadow: inset 0 0 0 1px var(--c); }
+  .chip[aria-pressed="true"] .dt { color: var(--text); }
+  .chip[aria-pressed="true"] .ck { display: block; }
+  .linkbtn { border: 0; background: none; color: var(--link); text-decoration: underline; padding: 6px 4px; font-size: 15px; }
+  .fstat { font-size: 14px; color: var(--muted); }
+  .trip { display: inline-flex; align-items: center; gap: 6px; border: 1.5px solid var(--line); background: var(--raise); color: var(--text);
+    border-radius: 999px; padding: 6px 14px 6px 10px; font-size: 15px; min-height: 40px; }
+  .trip .ep { font-weight: 700; }
+  .trip[aria-pressed="true"] { background: var(--trip-bg); border-color: var(--text); box-shadow: inset 0 0 0 1px var(--text); }
+
+  .tripcard { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; border: 1.5px solid var(--text); background: var(--trip-bg);
+    border-radius: 12px; padding: 10px 12px 10px 14px; margin: 0 0 12px; }
+  .tc-h { margin: 0; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+  .route { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; list-style: none; margin: 0; padding: 0; }
+  .route li { display: flex; align-items: center; gap: 4px; }
+  .route .to { width: 14px; height: 14px; color: var(--muted); }
+  .route button { min-width: 36px; height: 34px; border-radius: 8px; border: 1.5px solid var(--text); background: var(--raise);
+    color: var(--text); font-weight: 700; font-size: 14px; padding: 0 6px; }
+  .tc-link { display: inline-flex; align-items: center; gap: 6px; color: var(--link); font-weight: 600; }
+  .tc-x { margin-left: auto; }
+  .iconbtn { display: inline-grid; place-items: center; width: 40px; height: 40px; border: 1px solid var(--line); background: var(--raise);
+    color: var(--text); border-radius: 8px; padding: 0; }
+
+  .mlegend { display: flex; flex-wrap: wrap; gap: 4px 18px; list-style: none; margin: 0 0 10px; padding: 0; font-size: 14px; color: var(--muted); }
+  .mlegend li { display: inline-flex; align-items: center; gap: 6px; }
+  .mlegend svg { flex: none; }
+  .lg-mk { fill: var(--bg); stroke: var(--text); stroke-width: 2; }
+  .lg-tb { fill: var(--text); }
+  .lg-tbt { fill: var(--bg); font-size: 14px; font-weight: 700; }
+
+  /* the map */
+  .stage { margin: 0 0 22px; }
+  .mapcol { display: flex; flex-direction: column; min-width: 0; }
+  .map { position: relative; margin: 0 0 8px; }
+  .mapcol .mlegend { margin: 0 0 14px; }
+  @media (min-width: 1140px) { .s1 { display: none; } }
+  .map svg { display: block; pointer-events: none; }
+  .zbg { fill: var(--zone); }
+  .zk { fill: var(--muted); font-size: 14px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+  .zn { fill: var(--text); font-size: 16px; font-weight: 700; }
+  .trk { fill: none; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; transition: opacity .3s; }
+  .trk.dim { opacity: .16; }
+  .mk { transition: opacity .3s; }
+  .mk rect { fill: var(--bg); stroke: var(--text); stroke-width: 2; }
+  .mk.dim { opacity: .2; }
+  .corr { fill: none; stroke: var(--trip); stroke-opacity: var(--trip-a); stroke-linecap: round; stroke-linejoin: round; }
+  .pulse { fill: none; stroke: var(--pulse); stroke-opacity: var(--pulse-a); stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 22 978; animation: pulse 6s linear infinite; }
+  @keyframes pulse { from { stroke-dashoffset: 1000; } to { stroke-dashoffset: 0; } }
+  .tb rect { fill: var(--text); }
+  .tb text { fill: var(--bg); font-size: 14px; font-weight: 700; text-anchor: middle; dominant-baseline: central; }
+  .halo { fill: none; stroke: var(--text); stroke-width: 2.5; }
+
+  .stations { position: absolute; inset: 0; margin: 0; padding: 0; list-style: none; }
+  .stations li { position: absolute; }
+  .st { position: absolute; inset: 0; width: 100%; display: flex; align-items: center; padding: 0 0 0 var(--lx, 72px); border: 0;
+    background: transparent; color: var(--text); text-align: left; border-radius: 10px; }
+  .st .lb { display: block; flex: none; width: var(--lw, 150px); padding: 4px 6px; border-radius: 8px; line-height: 1.3;
+    transition: background-color .25s, color .25s, box-shadow .25s; }
+  .st .sn { display: inline-block; min-width: 24px; margin-right: 6px; padding: 0 4px; border: 1.5px solid currentColor; border-radius: 6px;
+    font-size: 14px; font-weight: 700; line-height: 1.25; text-align: center; vertical-align: 1px; }
+  .st .sq { font-size: 15px; font-weight: 600; }
+  .st:hover .sq { text-decoration: underline; }
+  .st:hover .lb { background: var(--hl); }
+  .st[aria-current="true"] .lb { background: var(--hl); box-shadow: 0 0 0 2px var(--text), 0 4px 12px var(--shadow); }
+  .st[aria-current="true"] .sn { background: var(--text); color: var(--bg); border-color: var(--text); }
+  .st.dim .lb { color: var(--faint); }
+  .st:focus-visible { outline: 3px solid var(--focus); outline-offset: 0; }
+
+  /* detail panel */
+  .panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px 20px 16px; font-size: 17px; }
+  .p-top { display: flex; align-items: center; gap: 10px; }
+  .eyebrow { margin: 0; flex: 1; font-size: 16px; font-weight: 600; color: var(--muted); }
+  .p-x { display: none; }
+  .panel h2 { margin: 4px 0 6px; font-size: 26px; line-height: 1.2; }
+  .concept { display: inline-block; margin: 2px 0 6px; font-size: 18px; font-weight: 700; line-height: 1.3; padding: 3px 14px;
+    border-radius: 999px; border: 1.5px solid var(--text); background: var(--raise); }
+  .p-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 0 32px; }
+  .panel h3 { margin: 12px 0 2px; font-size: 16px; color: var(--muted); }
+  .panel p { margin: 0; }
+  .ai { margin-top: 14px; border: 1.5px solid var(--ai); background: var(--ai-bg); border-radius: 10px; padding: 10px 12px; }
+  .ai-h { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 16px; margin-bottom: 2px !important; }
+  .ai-h .ic { color: var(--ai); }
+  .pchips { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 4px 0 0; padding: 0; }
+  .pchip { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; line-height: 1.3; color: var(--c); background: var(--cbg);
+    border: 1.5px solid var(--c); border-radius: 999px; padding: 2px 12px 2px 8px; }
+  .pchip i { display: block; width: 18px; height: 5px; border-radius: 3px; background: var(--c); flex: none; }
+  .src { display: flex; gap: 8px; align-items: flex-start; }
+  .src .ic { margin-top: 3px; color: var(--muted); }
+  .stories { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 4px; }
+  .stories a { display: inline-flex; align-items: flex-start; gap: 8px; color: var(--link); font-weight: 600; }
+  .stories .ic { margin-top: 3px; }
+  .none { color: var(--muted); }
+  .aid { display: flex; gap: 8px; align-items: flex-start; margin-top: 16px !important; padding-top: 10px; border-top: 1px solid var(--line);
+    color: var(--muted); font-size: 16px; }
+  .aid .ic { margin-top: 3px; }
+  .p-empty ul { margin: 8px 0 0; padding-left: 22px; }
+  .p-empty li { margin: 2px 0; }
+
+  footer { font-size: 14px; color: var(--muted); border-top: 1px solid var(--line); padding-top: 12px; }
+  footer p { margin: 0 0 6px; }
+
+  /* mid widths: vertical map beside a sticky panel */
+  @media (min-width: 760px) and (max-width: 1139px) {
+    .stage { display: grid; grid-template-columns: minmax(300px, 1fr) minmax(320px, 1.15fr); gap: 20px; align-items: start; }
+    .map { margin: 0; }
+    .mapcol .mlegend { order: -1; margin: 0 0 10px; }
+    .panel { position: sticky; top: calc(var(--bar-h, 56px) + 12px); max-height: calc(100vh - var(--bar-h, 56px) - 24px); overflow: auto; }
+    .p-grid { grid-template-columns: minmax(0, 1fr); }
+  }
+  /* phones: vertical map, the panel becomes a bottom sheet */
+  @media (max-width: 759px) {
+    .map { margin: 0; }
+    .mapcol .mlegend { order: -1; margin: 0 0 10px; }
+    .intro .lead { font-size: 17px; }
+    .btn { padding: 7px 11px; }
+    .bl, .cw, .chip .dt, .trip .tt, .fstat { display: none; }
+    .gl { min-width: 0; width: 100%; }
+    .chip { padding: 4px 10px 4px 7px; gap: 6px; }
+    .chip .swatch { width: 18px; }
+    .trip { padding: 6px 12px 6px 9px; }
+    .tc-x { margin-left: 0; }
+    .panel { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; max-height: 60vh; overflow: auto; border-radius: 16px 16px 0 0;
+      border-bottom: 0; padding: 8px 16px 18px; box-shadow: 0 -8px 24px var(--sheet-shadow);
+      transform: translateY(105%); visibility: hidden; transition: transform .3s ease, visibility 0s linear .3s; }
+    .panel.open { transform: none; visibility: visible; transition: transform .3s ease; }
+    .panel::before { content: ""; display: block; width: 44px; height: 5px; border-radius: 3px; background: var(--line); margin: 0 auto 6px; }
+    .p-x { display: inline-grid; }
+    .panel h2 { font-size: 22px; }
+    .p-grid { grid-template-columns: minmax(0, 1fr); }
+    main { padding-bottom: calc(var(--sheet-h, 0px) + 40px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+    .pulse { display: none; }
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 24 24"><path d="M9 5.5v13M15 5.5v13"/></symbol>
+  <symbol id="i-replay" viewBox="0 0 24 24"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5v4.5H9"/></symbol>
+  <symbol id="i-back" viewBox="0 0 24 24"><path d="M14.5 5.5L8 12l6.5 6.5"/></symbol>
+  <symbol id="i-next" viewBox="0 0 24 24"><path d="M9.5 5.5L16 12l-6.5 6.5"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="M6.5 6.5l11 11M17.5 6.5l-11 11"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3 3 0 0 0 0-6H9a3 3 0 0 1 0-6h6.5"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6.5l5.5 5.5-5.5 5.5"/></symbol>
+  <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3.5l1.9 5.6 5.6 1.9-5.6 1.9-1.9 5.6-1.9-5.6-5.6-1.9 5.6-1.9z"/><path d="M19 16v4M17 18h4"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4.5h11a3 3 0 0 1 3 3v12.5H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.01"/></symbol>
+</svg>
+<main>
+  <header>
+    <p class="label"><a href="../">Medical Device Software Lifecycle in Practice</a> · The map</p>
+    <h1>The map of medical device software</h1>
+    <div class="intro">
+      <p class="lead">Many rules in medical device software can be read as a plain question. Here are 28 of them, in the order a device lives through them; tap any station.</p>
+      <p class="note"><span class="mu">made-up</span> The series uses one made-up device: a motorized rehab device that moves a patient's arm or leg.</p>
+    </div>
+  </header>
+
+  <div class="ridebar" id="ridebar">
+    <button class="btn primary" id="play" type="button"><svg class="ic" aria-hidden="true" focusable="false"><use id="play-ic" href="#i-play"/></svg><span id="play-tx">Ride the map</span></button>
+    <button class="btn" id="prev" type="button" aria-label="Back: previous station"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-back"/></svg><span class="bl">Back</span></button>
+    <button class="btn" id="next" type="button" aria-label="Next station"><span class="bl">Next</span><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-next"/></svg></button>
+    <span class="counter" id="counter"></span>
+    <span class="prog" aria-hidden="true"><span id="prog"></span></span>
+  </div>
+
+  <div class="fgroup" role="group" aria-labelledby="g-lines">
+    <span class="gl" id="g-lines">Lines</span>
+    <div class="chips" id="chips"></div>
+    <button class="linkbtn" id="clear" type="button" hidden>Show all</button>
+    <span class="fstat" id="fstat" aria-live="polite"></span>
+  </div>
+  <div class="fgroup" role="group" aria-labelledby="g-trips">
+    <span class="gl" id="g-trips">Story trips<span class="s1"> · Season 1</span></span>
+    <div class="trips" id="trips"></div>
+  </div>
+  <div class="tripcard" id="tripcard" hidden>
+    <p class="tc-h"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-route"/></svg><span id="tc-title"></span></p>
+    <ol class="route" id="tc-route" aria-label="Stops in story order"></ol>
+    <a class="tc-link" id="tc-link" href="./"><span id="tc-link-tx"></span><svg class="ic sm" aria-hidden="true" focusable="false"><use href="#i-arrow"/></svg></a>
+    <button class="iconbtn tc-x" id="tc-x" type="button" aria-label="Clear the story trip"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-close"/></svg></button>
+  </div>
+  <p class="sr" id="trip-live" aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap"></p>
+
+  <div class="stage">
+    <div class="mapcol">
+      <div class="map" id="map" role="group">
+        <svg id="msvg" aria-hidden="true" focusable="false"></svg>
+        <ol class="stations" id="stations" aria-label="Stations in lifecycle order"></ol>
+      </div>
+      <ul class="mlegend" aria-label="How to read the map">
+        <li><svg width="20" height="20" aria-hidden="true" focusable="false"><rect class="lg-mk" x="2" y="2" width="16" height="16" rx="8"/><circle cx="10" cy="10" r="3.6" style="fill:var(--risk)"/></svg>Station</li>
+        <li><svg width="40" height="20" aria-hidden="true" focusable="false"><rect class="lg-mk" x="2" y="2" width="36" height="16" rx="8"/><circle cx="10" cy="10" r="3.6" style="fill:var(--qms)"/><circle cx="20" cy="10" r="3.6" style="fill:var(--risk)"/><circle cx="30" cy="10" r="3.6" style="fill:var(--sw)"/></svg>Interchange: one dot per line that stops there</li>
+        <li><svg width="34" height="20" aria-hidden="true" focusable="false"><path d="M6 10h22" style="stroke:var(--trip);stroke-opacity:var(--trip-a);stroke-width:16;stroke-linecap:round"/><path d="M6 10h22" style="stroke:var(--muted);stroke-width:3;stroke-linecap:round"/></svg>Story trip route</li>
+        <li><svg width="22" height="22" aria-hidden="true" focusable="false"><circle class="lg-tb" cx="11" cy="11" r="10.5"/><text class="lg-tbt" x="11" y="11" text-anchor="middle" dominant-baseline="central">1</text></svg>Stop order on a trip</li>
+      </ul>
+    </div>
+
+    <section class="panel" id="panel" aria-live="polite" aria-label="Station details">
+      <div class="p-top">
+        <p class="eyebrow" id="p-eyebrow"></p>
+        <button class="iconbtn p-x" id="p-x" type="button" aria-label="Close the details"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-close"/></svg></button>
+      </div>
+      <div class="p-empty" id="p-empty">
+        <h2>Pick a station</h2>
+        <p>Each station is a plain question. Pick one to see the concept that answers it, what it is, why it matters, and its source.</p>
+        <ul>
+          <li><b>Ride the map</b> visits every station in order, about 4 seconds each.</li>
+          <li><b>Lines</b> dims the stations that aren't on the lines you pick.</li>
+          <li><b>Story trips</b> show the route each Season 1 episode takes.</li>
+        </ul>
+      </div>
+      <div id="p-body" hidden>
+        <h2 id="p-q"></h2>
+        <p class="concept" id="p-concept"></p>
+        <div class="p-grid">
+          <div>
+            <h3>What it is</h3>
+            <p id="p-what"></p>
+            <h3>Why it matters</h3>
+            <p id="p-why"></p>
+            <div class="ai" id="p-ai">
+              <p class="ai-h"><svg class="ic" aria-hidden="true" focusable="false"><use href="#i-spark"/></svg>Where AI can help (a person decides)</p>
+              <p id="p-ai-t"></p>
+            </div>
+          </div>
+          <div>
+            <h3>On the lines</h3>
+            <ul class="pchips" id="p-lines"></ul>
+            <h3>Source</h3>
+            <p class="src"><svg class="ic sm" aria-hidden="true" focusable="false"><use href="#i-book"/></svg><span id="p-src"></span></p>
+            <h3>Appears in the stories:</h3>
+            <ul class="stories" id="p-stories"></ul>
+            <p class="none" id="p-none">Not in a story yet. Later in the series.</p>
+          </div>
+        </div>
+        <p class="aid"><svg class="ic sm" aria-hidden="true" focusable="false"><use href="#i-info"/></svg><span>Learning aid, my personal understanding, not regulatory advice.</span></p>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <p>My personal understanding, shared for learning. Not legal or regulatory advice. Follow your own QMS, procedures and regulator. Made-up examples. No liability accepted. Views are my own, not those of any current or past employer. I used an AI assistant for research, fact-checking and drafting; the judgment and any mistakes are mine.</p>
+    <p>Standards and rules as listed in each station's source; checked October 2026.</p>
+    <p>Samit Desai · Text CC BY 4.0 · Code MIT</p>
+  </footer>
+</main>
+
+<script id="stations-data" type="application/json">
+{
+ "lines": [
+  {
+   "id": "qms",
+   "name": "ISO 13485",
+   "detail": "ISO 13485 (FDA QMSR)",
+   "color": "#3b82f6"
+  },
+  {
+   "id": "risk",
+   "name": "ISO 14971",
+   "detail": "ISO 14971",
+   "color": "#f43f5e"
+  },
+  {
+   "id": "sw",
+   "name": "IEC 62304",
+   "detail": "IEC 62304",
+   "color": "#10b981"
+  },
+  {
+   "id": "reg",
+   "name": "Regulators",
+   "detail": "FDA · EU (MDR) · India (CDSCO)",
+   "color": "#f59e0b"
+  },
+  {
+   "id": "ai",
+   "name": "Tools and AI",
+   "detail": "Pipeline, validated tools, AI drafts",
+   "color": "#8b5cf6"
+  }
+ ],
+ "zones": [
+  {
+   "id": 1,
+   "name": "Before you start"
+  },
+  {
+   "id": 2,
+   "name": "Design"
+  },
+  {
+   "id": 3,
+   "name": "Build"
+  },
+  {
+   "id": 4,
+   "name": "Release"
+  },
+  {
+   "id": 5,
+   "name": "In the field"
+  }
+ ],
+ "stations": [
+  {
+   "n": 1,
+   "zone": 1,
+   "q": "Is it a medical device?",
+   "concept": "Intended use",
+   "what": "The medical purpose you claim usually decides whether software is a device; the law excludes some functions.",
+   "why": "It decides whether the rest of this map applies.",
+   "source": "FD&C Act §201(h)(1), §520(o); EU MDR Art. 2(1), 2(12); ISO 14971:2019, 5.2",
+   "lines": [
+    "reg",
+    "risk"
+   ],
+   "stories": []
+  },
+  {
+   "n": 2,
+   "zone": 1,
+   "q": "Is the software the device itself, SaMD, or part of one?",
+   "concept": "SaMD, or part of a device",
+   "what": "Software as a medical device (SaMD) does its medical job without being part of a hardware device, though it may connect to one. Software meant to drive a hardware device is not SaMD.",
+   "why": "It changes which rules and guidance fit. In the made-up rehab device, the PC app and firmware drive the motor, so neither is SaMD; both are part of the device.",
+   "source": "IMDRF SaMD N10 (2013)",
+   "lines": [
+    "reg"
+   ],
+   "stories": []
+  },
+  {
+   "n": 3,
+   "zone": 1,
+   "q": "How risky is the device?",
+   "concept": "Device class",
+   "what": "The regulator's risk class for the whole device: FDA I–III, EU I, IIa, IIb, III, India A–D.",
+   "why": "It shapes the route to market and how closely you're checked.",
+   "source": "21 CFR 860.3; EU MDR Annex VIII; India Medical Devices Rules, 2017",
+   "lines": [
+    "reg"
+   ],
+   "stories": []
+  },
+  {
+   "n": 4,
+   "zone": 1,
+   "q": "How does it reach the market?",
+   "concept": "Route to market",
+   "what": "US: usually a 510(k), De Novo or PMA (HDE for some rare-condition devices), unless exempt. EU: CE marking, with a notified body for class IIa and above and some class I. India: a license under the Medical Devices Rules, 2017; class A non-sterile, non-measuring devices only need registration.",
+   "why": "The route sets how much evidence is needed and how long it takes.",
+   "source": "FD&C Act §§510(k), 513(f)(2), 515, 520(m); EU MDR Art. 52; India MDR 2017; CDSCO FAQ (2024)",
+   "lines": [
+    "reg"
+   ],
+   "stories": []
+  },
+  {
+   "n": 5,
+   "zone": 1,
+   "q": "How does the company work?",
+   "concept": "Quality system",
+   "what": "ISO 13485 is the international standard for a device maker's quality system. FDA's QMSR has incorporated it by reference since 2 February 2026.",
+   "why": "Products are designed, made and fixed in a planned, controlled and recorded way.",
+   "source": "ISO 13485:2016; 21 CFR 820 (QMSR, from 2 Feb 2026); EU MDR Art. 10(9)",
+   "lines": [
+    "qms"
+   ],
+   "stories": []
+  },
+  {
+   "n": 6,
+   "zone": 2,
+   "q": "What could hurt someone?",
+   "concept": "Hazard · situation · harm",
+   "what": "A potential source of harm, the circumstance in which people, property or the environment are exposed to it, and the resulting injury or damage.",
+   "why": "Separating them shows where a safety control belongs.",
+   "source": "ISO 14971:2019, 3.3–3.5",
+   "lines": [
+    "risk"
+   ],
+   "stories": []
+  },
+  {
+   "n": 7,
+   "zone": 2,
+   "q": "How is the risk controlled?",
+   "concept": "Risk controls",
+   "what": "In order: inherently safe design, then protective measures, then information for safety.",
+   "why": "A warning is the last resort, not the first.",
+   "source": "ISO 14971:2019, 7.1",
+   "lines": [
+    "risk"
+   ],
+   "stories": []
+  },
+  {
+   "n": 8,
+   "zone": 2,
+   "q": "How much rigor does the software need?",
+   "concept": "Software safety class",
+   "what": "Assume the software fails and count only risk controls outside it. A: no unacceptable risk remains. B: unacceptable risk remains, and the worst possible harm is non-serious injury. C: unacceptable risk remains, and serious injury or death is possible.",
+   "why": "The class sets how much process each part needs, and the architecture decides which parts carry it.",
+   "source": "IEC 62304:2006+A1:2015, 4.3",
+   "lines": [
+    "sw",
+    "risk"
+   ],
+   "stories": []
+  },
+  {
+   "n": 9,
+   "zone": 2,
+   "q": "What must it do?",
+   "concept": "Design inputs → requirements",
+   "what": "User needs become system and software requirements, including the risk controls.",
+   "why": "You can only verify what you wrote down.",
+   "source": "ISO 13485 7.3.3; IEC 62304 5.2",
+   "lines": [
+    "qms",
+    "sw"
+   ],
+   "stories": []
+  },
+  {
+   "n": 10,
+   "zone": 2,
+   "q": "What does the design produce, and who checks it?",
+   "concept": "Design outputs and review",
+   "what": "Design outputs are the results of design work (specifications, architecture, code), in a form that can be verified against the inputs and approved before release. Design reviews at planned stages check whether the results can meet the requirements, and record any actions needed.",
+   "why": "Reviews catch gaps early, while they're still cheap to fix.",
+   "source": "ISO 13485 7.3.4, 7.3.5",
+   "lines": [
+    "qms"
+   ],
+   "stories": []
+  },
+  {
+   "n": 11,
+   "zone": 2,
+   "q": "How could someone attack it?",
+   "concept": "Cybersecurity",
+   "what": "Threats are modeled and security is designed in, then watched after release.",
+   "why": "In the US, cyber device submissions must include a vulnerability plan, security processes and an SBOM.",
+   "source": "FD&C Act §524B; FDA cybersecurity guidance (3 Feb 2026); EU MDR Annex I 17.2, 17.4",
+   "lines": [
+    "risk",
+    "sw",
+    "reg"
+   ],
+   "stories": [],
+   "ai": "AI can help sort vulnerability alerts; a person decides."
+  },
+  {
+   "n": 12,
+   "zone": 2,
+   "q": "How will people really use it?",
+   "concept": "Usability",
+   "what": "IEC 62366-1: study the intended users, their tasks and use environment, and test the interface, to reduce use errors that could lead to harm.",
+   "why": "A confusing screen can lead to harm too.",
+   "source": "IEC 62366-1:2015+A1:2020; ISO 13485 7.3.3",
+   "lines": [
+    "risk",
+    "qms"
+   ],
+   "stories": []
+  },
+  {
+   "n": 13,
+   "zone": 3,
+   "q": "Can a team work in sprints?",
+   "concept": "Sprints, with the evidence",
+   "what": "Plan first: IEC 62304 asks for a development plan but prescribes no life cycle model. AAMI TIR45 describes how agile practices fit.",
+   "why": "Sprints work when 'done' includes the evidence.",
+   "source": "IEC 62304 5.1; AAMI TIR45",
+   "lines": [
+    "sw"
+   ],
+   "stories": []
+  },
+  {
+   "n": 14,
+   "zone": 3,
+   "q": "What version is this?",
+   "concept": "Configuration management",
+   "what": "Every configuration item (code, SOUP, documents, and the tools the development plan says to control) is identified and versioned. Changes need an approved change request, are verified, and are recorded.",
+   "why": "You can rebuild exactly what you released and see what changed. You can't test or fix a version you can't identify.",
+   "source": "IEC 62304 5.1.10, clause 8",
+   "lines": [
+    "sw"
+   ],
+   "stories": []
+  },
+  {
+   "n": 15,
+   "zone": 3,
+   "q": "What came off the shelf?",
+   "concept": "SOUP and SBOM",
+   "what": "SOUP is software not developed for the device, like an open-source library, or software without adequate development records. The SBOM lists every software component.",
+   "why": "You can't watch what you haven't listed.",
+   "source": "IEC 62304 3.29, 5.3.3, 5.3.4, 8.1.2; FD&C Act §524B(b)(3)",
+   "lines": [
+    "sw",
+    "reg",
+    "ai"
+   ],
+   "stories": [],
+   "ai": "AI can flag newly known vulnerabilities; a person assesses them."
+  },
+  {
+   "n": 16,
+   "zone": 3,
+   "q": "Was it built right?",
+   "concept": "Verification",
+   "what": "Reviews and tests show each output meets its requirement.",
+   "why": "Evidence, not belief, that the software does what it says.",
+   "source": "ISO 13485 7.3.6; IEC 62304 5.5–5.7",
+   "lines": [
+    "sw",
+    "qms",
+    "ai"
+   ],
+   "stories": [],
+   "ai": "AI can suggest missing tests; people decide what's enough."
+  },
+  {
+   "n": 17,
+   "zone": 3,
+   "q": "Does everything link?",
+   "concept": "Traceability",
+   "what": "Requirements link to the tests that verify them, and each risk control links to the hazard it treats, the requirement and design that carry it, and its verification.",
+   "why": "It lets you check that every requirement was tested or otherwise verified, and every risk control was built and verified.",
+   "source": "IEC 62304 5.1.1, 5.7.4, 7.3.3; ISO 13485 7.3",
+   "lines": [
+    "sw",
+    "qms",
+    "risk",
+    "ai"
+   ],
+   "stories": [],
+   "ai": "AI can spot missing links; people fix them."
+  },
+  {
+   "n": 18,
+   "zone": 4,
+   "q": "When is the software released?",
+   "concept": "Software release",
+   "what": "Before release: verification is complete, known remaining anomalies are documented and evaluated, the version and how it was built are documented, and the software and documents are archived and can be delivered intact. Some steps depend on the safety class.",
+   "why": "This releases the software for use in the full device. Validating and releasing the device itself happens in the quality system, outside IEC 62304.",
+   "source": "IEC 62304 5.8, 1.2",
+   "lines": [
+    "sw"
+   ],
+   "stories": []
+  },
+  {
+   "n": 19,
+   "zone": 4,
+   "q": "Was the right thing built?",
+   "concept": "Design validation",
+   "what": "Shows the device meets its intended use and users' needs, tested on representative product, with clinical evaluation where required.",
+   "why": "Passing tests isn't the same as working for users. It sits in the quality system, outside IEC 62304.",
+   "source": "ISO 13485 7.3.7; IEC 62304 1.2",
+   "lines": [
+    "qms"
+   ],
+   "stories": []
+  },
+  {
+   "n": 20,
+   "zone": 4,
+   "q": "Is it safe enough to ship?",
+   "concept": "Residual risk vs benefit",
+   "what": "Judge the risk left after controls, weigh the overall residual risk against the benefit, and review the risk management before release.",
+   "why": "Named people decide, and the reasoning is recorded.",
+   "source": "ISO 14971:2019, 7.3, 7.4, 8, 9",
+   "lines": [
+    "risk"
+   ],
+   "stories": []
+  },
+  {
+   "n": 21,
+   "zone": 4,
+   "q": "How does the design get into production?",
+   "concept": "Design transfer",
+   "what": "Design outputs are checked as suitable for manufacturing before they become production specifications. For software, that includes a controlled way to get the released build to its point of use without corruption or unauthorized change.",
+   "why": "The device in the field should match the design that was verified and validated.",
+   "source": "ISO 13485 7.3.8; IEC 62304 5.8.8",
+   "lines": [
+    "qms"
+   ],
+   "stories": []
+  },
+  {
+   "n": 22,
+   "zone": 4,
+   "q": "What goes to the regulator?",
+   "concept": "The submission",
+   "what": "The premarket file, for example a 510(k), with software documentation at a Basic or Enhanced level.",
+   "why": "In the US, the level follows the software's risk, not the device class alone.",
+   "source": "FDA guidance: Content of Premarket Submissions for Device Software Functions (June 14, 2023); EU MDR Annex II technical documentation",
+   "lines": [
+    "reg"
+   ],
+   "stories": []
+  },
+  {
+   "n": 23,
+   "zone": 4,
+   "q": "Where's the proof?",
+   "concept": "Design and development file",
+   "what": "The design and development file shows how the design came to be: inputs, outputs, reviews, verification, validation, transfer and changes.",
+   "why": "FDA's QMSR (published 2024, in effect February 2, 2026) dropped the term DHF. It adopts ISO 13485, so the 7.3.10 file is what FDA now expects.",
+   "source": "ISO 13485 7.3.10; QMSR final rule (89 FR 7496)",
+   "lines": [
+    "qms"
+   ],
+   "stories": []
+  },
+  {
+   "n": 24,
+   "zone": 5,
+   "q": "What if released software changes?",
+   "concept": "Maintenance, change control",
+   "what": "Once code is under configuration control: check what a change affects, approve it before making it, and decide whether the regulator must be told.",
+   "why": "Even a one-line fix needs a review and a record.",
+   "source": "IEC 62304 clause 6, 6.2.4, 8.2; ISO 13485 7.3.9",
+   "lines": [
+    "sw",
+    "qms"
+   ],
+   "stories": []
+  },
+  {
+   "n": 25,
+   "zone": 5,
+   "q": "What didn't meet a requirement?",
+   "concept": "NCR",
+   "what": "A nonconformance report (NCR) records product that doesn't meet its requirements, so it's identified, kept from unintended use or delivery, evaluated, and the decision and its reason are recorded.",
+   "why": "One NCR handles one case. The need for CAPA is evaluated; repeated or serious problems usually lead to one.",
+   "source": "ISO 13485 8.3, 8.5.2",
+   "lines": [
+    "qms"
+   ],
+   "stories": []
+  },
+  {
+   "n": 26,
+   "zone": 5,
+   "q": "What if something goes wrong?",
+   "concept": "Complaints, problems, reporting",
+   "what": "Post-market surveillance watches the device in use: complaints are evaluated, software problems investigated, new vulnerabilities watched, and reportable events reported on time.",
+   "why": "The field shows what testing missed.",
+   "source": "ISO 13485 8.2.1–8.2.3; IEC 62304 clause 9; ISO 14971 clause 10; 21 CFR 803; EU MDR Art. 83–87",
+   "lines": [
+    "qms",
+    "risk",
+    "sw",
+    "reg",
+    "ai"
+   ],
+   "stories": [],
+   "ai": "AI can group similar reports; a person decides."
+  },
+  {
+   "n": 27,
+   "zone": 5,
+   "q": "What stops it coming back?",
+   "concept": "CAPA",
+   "what": "Corrective and preventive action: remove the cause of a problem, or of a potential one.",
+   "why": "Fixing one case isn't enough if the cause remains.",
+   "source": "ISO 13485 8.5.2, 8.5.3",
+   "lines": [
+    "qms"
+   ],
+   "stories": []
+  },
+  {
+   "n": 28,
+   "zone": 5,
+   "q": "Who checks?",
+   "concept": "Audits and inspections",
+   "what": "Internal audits, notified body audits and FDA inspections. An FDA investigator may leave a Form 483 listing observations.",
+   "why": "Calm audits come from records that already link.",
+   "source": "ISO 13485 8.2.4; FDA inspections",
+   "lines": [
+    "qms",
+    "reg"
+   ],
+   "stories": []
+  }
+ ],
+ "trips": [],
+ "checked": "16 October 2026",
+ "disclaimer": "My personal understanding, shared for learning. Not legal or regulatory advice. Follow your own QMS, procedures and regulator. Made-up examples. No liability accepted. Views are my own, not those of any current or past employer. I used an AI assistant for research, fact-checking and drafting; the judgment and any mistakes are mine."
+}
+</script>
+<script>
+/* Test hooks: ?station=N opens station N, ?trip=N shows the Episode N trip, ?theme=dark|light sets the theme. */
+(function () {
+  "use strict";
+  var DATA = JSON.parse(document.getElementById("stations-data").textContent);
+
+  /* ---------- data ---------- */
+  const LINES = DATA.lines || [];
+  const ZONES = DATA.zones || [];
+  const zIdx = new Map(ZONES.map((z, k) => [z.id, k]));
+  const ST = (DATA.stations || []).filter(st => zIdx.has(st.zone))
+    .sort((a, b) => (zIdx.get(a.zone) - zIdx.get(b.zone)) || (a.n - b.n));
+  const N = ST.length;
+  const TRIPS = (DATA.trips || []).slice().sort((a, b) => a.ep - b.ep);
+  const LI = new Map(LINES.map((l, k) => [l.id, k]));
+  const kByN = new Map(ST.map((st, k) => [st.n, k]));
+  const KNOWN = ["reg", "qms", "risk", "sw", "ai"];
+  const EP_LINK = { 1: "../01-where-62304-stops/", 2: "../02-one-hazard-risk-to-test/", 3: "../03-evidence-by-default/", 4: "../04-auditor-picks-one-bug/" };
+  const linesOf = st => (st.lines || []).filter(id => LI.has(id));
+  const tripsOf = st => TRIPS.filter(t => (t.stations || []).includes(st.n));
+  const cVar = id => KNOWN.includes(id) ? "var(--" + id + ")" : ((LINES[LI.get(id)] || {}).color || "var(--muted)");
+  const cBg = id => KNOWN.includes(id) ? "var(--" + id + "-bg)" : "var(--surface)";
+  const lineName = id => LINES[LI.get(id)].name;
+
+  /* ---------- helpers ---------- */
+  const $ = id => document.getElementById(id);
+  if (!TRIPS.length) {   // no episodes yet: hide the story-trip controls, legend and panel section until there are trips
+    const hide = el => { if (el) el.style.display = "none"; };
+    hide($("g-trips").closest(".fgroup"));
+    document.querySelectorAll(".mlegend li").forEach((li, k) => { if (k >= 2) hide(li); });
+    hide(document.querySelector("#p-empty li:nth-child(3)"));
+    hide($("p-stories").previousElementSibling); hide($("p-stories")); hide($("p-none"));
+  }
+  const NS = "http://www.w3.org/2000/svg";
+  const f = v => Math.round(v * 10) / 10;
+  function h(tag, cls, parent, text) {
+    const e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text != null) e.textContent = text;
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function sv(tag, attrs, parent) {
+    const e = document.createElementNS(NS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function icon(id, cls) {
+    const e = sv("svg", { "class": "ic" + (cls ? " " + cls : ""), "aria-hidden": "true", focusable: "false" });
+    sv("use", { href: "#" + id }, e);
+    return e;
+  }
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+  const mqNarrow = matchMedia("(max-width: 759px)");
+  const mqWide = matchMedia("(min-width: 1140px)");
+  const getMode = () => mqNarrow.matches ? "narrow" : (mqWide.matches ? "wide" : "mid");
+  const behavior = instant => (instant || reduce.matches) ? "auto" : "smooth";
+
+  /* A center line sampled into points, each with its arc length s and unit tangent. */
+  class Path {
+    constructor(x, y) { this.p = [{ x, y, s: 0, tx: 0, ty: 1 }]; }
+    get len() { return this.p[this.p.length - 1].s; }
+    lineTo(x, y) {
+      const a = this.p[this.p.length - 1], dx = x - a.x, dy = y - a.y, d = Math.hypot(dx, dy);
+      if (d < 1e-6) return;
+      const tx = dx / d, ty = dy / d;
+      if (this.p.length === 1) { a.tx = tx; a.ty = ty; }
+      this.p.push({ x, y, s: a.s + d, tx, ty });
+    }
+    arc(cx, cy, r, a0, a1) {
+      const n = Math.max(2, Math.ceil(Math.abs(a1 - a0) / 5)), sg = Math.sign(a1 - a0);
+      for (let i = 1; i <= n; i++) {
+        const a = (a0 + (a1 - a0) * i / n) * Math.PI / 180, prev = this.p[this.p.length - 1];
+        const x = cx + r * Math.cos(a), y = cy + r * Math.sin(a);
+        this.p.push({ x, y, s: prev.s + Math.hypot(x - prev.x, y - prev.y), tx: -Math.sin(a) * sg, ty: Math.cos(a) * sg });
+      }
+    }
+    at(s) {
+      const p = this.p;
+      if (s <= 0) return p[0];
+      if (s >= this.len) return p[p.length - 1];
+      let lo = 0, hi = p.length - 1;
+      while (hi - lo > 1) { const m = (lo + hi) >> 1; if (p[m].s <= s) lo = m; else hi = m; }
+      const a = p[lo], b = p[hi], t = (s - a.s) / ((b.s - a.s) || 1);
+      let tx = a.tx + (b.tx - a.tx) * t, ty = a.ty + (b.ty - a.ty) * t;
+      const m = Math.hypot(tx, ty) || 1;
+      return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t, s, tx: tx / m, ty: ty / m };
+    }
+    slice(s0, s1) {
+      const out = [this.at(s0)];
+      for (const q of this.p) if (q.s > s0 + 1e-6 && q.s < s1 - 1e-6) out.push(q);
+      out.push(this.at(s1));
+      return out;
+    }
+  }
+
+  /* ---------- geometry constants ---------- */
+  const SP = 10, CR = 8, DOT = 3.6, PADL = 26, GAP = 10, RC = 30;
+  const BH = ((LINES.length - 1) / 2) * SP + CR;            // half the bundle width, incl. marker radius
+  const off = id => ((LINES.length - 1) / 2 - LI.get(id)) * SP; // track offset along the left-hand normal
+  const LX = 2 * BH + GAP + 6;                               // label start inside a station button
+
+  /* ---------- DOM ---------- */
+  const mapEl = $("map"), svg = $("msvg"), listEl = $("stations"), panel = $("panel"), ridebar = $("ridebar");
+  const btns = [], lis = [], chipBtns = new Map(), tripBtns = [];
+  let cur = -1, timer = null, trip = null, G = null, mode = getMode(), lastW = 0;
+  const sel = new Set();
+  const L = {};
+
+  mapEl.setAttribute("aria-label", "Transit map: " + N + " stations in " + ZONES.length + " zones on " + LINES.length +
+    " lines. Arrow keys move between stations.");
+
+  LINES.forEach(l => {
+    const b = h("button", "chip", $("chips"));
+    b.type = "button"; b.setAttribute("aria-pressed", "false");
+    b.style.setProperty("--c", cVar(l.id)); b.style.setProperty("--cbg", cBg(l.id));
+    const sw = sv("svg", { "class": "swatch", viewBox: "0 0 28 10", "aria-hidden": "true", focusable: "false" }, b);
+    sv("path", { d: "M3 5h22" }, sw);
+    const tx = h("span", "ctx", b);
+    h("span", "nm", tx, l.name);
+    h("span", "dt", tx, l.detail);
+    b.appendChild(icon("i-check", "sm ck"));
+    b.addEventListener("click", () => toggleLine(l.id));
+    chipBtns.set(l.id, b);
+  });
+
+  TRIPS.forEach(t => {
+    const b = h("button", "trip", $("trips"));
+    b.type = "button"; b.setAttribute("aria-pressed", "false");
+    b.setAttribute("aria-label", "Ep " + t.ep + " " + t.title + ", story trip");
+    b.appendChild(icon("i-route", "sm"));
+    h("span", "ep", b, "Ep " + t.ep);
+    h("span", "tt", b, t.title);
+    b.addEventListener("click", () => setTrip(trip === t ? null : t, true));
+    b._trip = t;
+    tripBtns.push(b);
+  });
+
+  ST.forEach((st, k) => {
+    const li = h("li", null, listEl);
+    const b = h("button", "st", li);
+    b.type = "button"; b.dataset.k = k;
+    const lb = h("span", "lb", b);
+    h("span", "sn", lb, String(st.n));
+    h("span", "sq", lb, st.q);
+    const z = ZONES[zIdx.get(st.zone)];
+    b.setAttribute("aria-label", st.n + " " + st.q + " " + st.concept + ". Station " + st.n + " of " + N + ", zone " + z.id + ": " + z.name +
+      ". Lines: " + linesOf(st).map(lineName).join(", ") + ".");
+    b.addEventListener("click", () => { stop(); select(k, { scroll: true, panelToo: true }); });
+    btns.push(b); lis.push(li);
+  });
+
+  /* ---------- layout ---------- */
+  function measure(lw) {
+    mapEl.style.setProperty("--lw", lw + "px");
+    mapEl.style.setProperty("--lx", LX + "px");
+    return btns.map(b => b.firstElementChild.offsetHeight);
+  }
+
+  function layoutWide(W) {
+    const nz = ZONES.length, Wz = W / nz;
+    const lw = Math.max(90, Math.floor(Wz - PADL - LX - 2));
+    const hs = measure(lw);
+    const MINR = 48, RG = 12;
+    const zk = ZONES.map(z => ST.map((st, k) => k).filter(k => ST[k].zone === z.id));
+    const rows = zk.map(ks => ks.map(k => Math.max(MINR, hs[k] + RG)));
+    const H = Math.max(MINR, ...rows.map(r => r.reduce((a, b) => a + b, 0)));
+    const YH = ((LINES.length - 1) / 2) * SP + 6;  // top run of the upper U-turns
+    const YT = YH + RC, HEAD = 48, Y0 = YT + HEAD, Y1 = Y0 + H, YB = Y1 + 8;
+    const total = Math.ceil(YB + RC + YH);
+    const xb = k => k * Wz + PADL + BH;
+    const P = new Path(xb(0), Y0);
+    const pos = new Array(N), zones = [];
+    for (let k = 0; k < nz; k++) {
+      const down = k % 2 === 0, x = xb(k), s0 = P.len, y0 = down ? Y0 : Y1;
+      const r = rows[k], ks = zk[k];
+      const extra = ks.length ? (H - r.reduce((a, b) => a + b, 0)) / ks.length : 0;
+      let cum = 0;
+      ks.forEach((kk, j) => {
+        const rh = r[j] + extra, y = down ? Y0 + cum + rh / 2 : Y1 - cum - rh / 2;
+        cum += rh;
+        pos[kk] = { x, y, s: s0 + Math.abs(y - y0), top: y - rh / 2, h: rh, left: x - BH - 6, width: LX + lw };
+      });
+      zones.push({ x: k * Wz + 3, y: YT - 6, w: Wz - 6, h: Y1 + 8 - (YT - 6), tx: x + BH + GAP + 6, ty1: YT + 20, ty2: YT + 42 });
+      P.lineTo(x, down ? Y1 : Y0);
+      if (k < nz - 1) {
+        const x2 = xb(k + 1);
+        if (down) {
+          P.lineTo(x, YB); P.arc(x + RC, YB, RC, 180, 90); P.lineTo(x2 - RC, YB + RC); P.arc(x2 - RC, YB, RC, 90, 0); P.lineTo(x2, Y1);
+        } else {
+          P.lineTo(x, YT); P.arc(x + RC, YT, RC, 180, 270); P.lineTo(x2 - RC, YT - RC); P.arc(x2 - RC, YT, RC, 270, 360); P.lineTo(x2, Y0);
+        }
+      }
+    }
+    return { W, H: total, P, pos, zones };
+  }
+
+  function layoutTall(W) {
+    const xc = PADL + BH;
+    const lw = Math.max(120, Math.floor(W - (xc - BH - 6) - LX - 2));
+    const hs = measure(lw);
+    const MINR = 48, RG = 12, HEAD = 50, ZG = 8;
+    const pos = new Array(N), zones = [];
+    let y = 4;
+    ZONES.forEach(z => {
+      const top = y;
+      y += HEAD;
+      ST.forEach((st, k) => {
+        if (st.zone !== z.id) return;
+        const rh = Math.max(MINR, hs[k] + RG);
+        pos[k] = { x: xc, y: y + rh / 2, top: y, h: rh, left: xc - BH - 6, width: LX + lw };
+        y += rh;
+      });
+      y += 6;
+      zones.push({ x: 0, y: top, w: W, h: y - top, tx: xc + BH + GAP + 6, ty1: top + 20, ty2: top + 42 });
+      y += ZG;
+    });
+    const y0 = pos[0] ? pos[0].y : 0, y1 = pos[N - 1] ? pos[N - 1].y : 0;
+    const P = new Path(xc, y0);
+    P.lineTo(xc, Math.max(y1, y0 + 1));
+    pos.forEach(p => { p.s = p.y - y0; });
+    return { W, H: Math.ceil(y), P, pos, zones };
+  }
+
+  function layout() {
+    mode = getMode();
+    document.body.setAttribute("data-mode", mode);
+    if (mode !== "narrow") panel.classList.remove("open");
+    const W = Math.floor(mapEl.clientWidth);
+    if (!W || !N) return;
+    lastW = W;
+    G = mode === "wide" ? layoutWide(W) : layoutTall(W);
+    draw();
+    renderDims();
+    renderTrip();
+    renderCurrent(false);
+    syncBars();
+  }
+
+  function draw() {
+    const g = G;
+    svg.setAttribute("width", g.W); svg.setAttribute("height", g.H); svg.setAttribute("viewBox", "0 0 " + g.W + " " + g.H);
+    mapEl.style.height = g.H + "px";
+    svg.textContent = "";
+    const zl = sv("g", {}, svg);
+    g.zones.forEach((z, k) => {
+      sv("rect", { "class": "zbg", x: f(z.x), y: f(z.y), width: f(z.w), height: f(z.h), rx: 12 }, zl);
+      sv("text", { "class": "zk", x: f(z.tx), y: f(z.ty1) }, zl).textContent = "Zone " + ZONES[k].id;
+      sv("text", { "class": "zn", x: f(z.tx), y: f(z.ty2) }, zl).textContent = ZONES[k].name;
+    });
+    L.trip = sv("g", {}, svg);
+    const tl = sv("g", {}, svg);
+    L.tracks = new Map();
+    LINES.forEach(l => {
+      const ss = [];
+      ST.forEach((st, k) => { if (linesOf(st).includes(l.id)) ss.push(g.pos[k].s); });
+      if (ss.length < 2) return;
+      const o = off(l.id);
+      const d = g.P.slice(Math.min(...ss), Math.max(...ss))
+        .map((q, i) => (i ? "L" : "M") + f(q.x - o * q.ty) + " " + f(q.y + o * q.tx)).join("");
+      const p = sv("path", { "class": "trk", d }, tl);
+      p.style.stroke = cVar(l.id);
+      L.tracks.set(l.id, p);
+    });
+    const ml = sv("g", {}, svg);
+    L.marks = ST.map((st, k) => {
+      const p = g.pos[k], q = g.P.at(p.s), nx = -q.ty;
+      const ids = linesOf(st), os = ids.length ? ids.map(off) : [0];
+      const xs = os.map(o => p.x + o * nx);
+      const x0 = Math.min(...xs), x1 = Math.max(...xs);
+      const gg = sv("g", { "class": "mk" }, ml);
+      sv("rect", { x: f(x0 - CR), y: f(p.y - CR), width: f(x1 - x0 + 2 * CR), height: 2 * CR, rx: CR }, gg);
+      ids.forEach((id, j) => { sv("circle", { cx: f(xs[j]), cy: f(p.y), r: DOT }, gg).style.fill = cVar(id); });
+      return gg;
+    });
+    L.badges = sv("g", {}, svg);
+    L.halo = sv("rect", { "class": "halo", x: -(BH + 7), y: -(CR + 7), width: 2 * (BH + 7), height: 2 * (CR + 7), rx: CR + 7 }, svg);
+    L.halo.style.display = "none";
+    ST.forEach((st, k) => {
+      const p = g.pos[k], s = lis[k].style;
+      s.left = f(p.left) + "px"; s.top = f(p.top) + "px"; s.width = f(p.width) + "px"; s.height = f(p.h) + "px";
+    });
+  }
+
+  /* ---------- state rendering ---------- */
+  function renderDims() {
+    ST.forEach((st, k) => {
+      const onLine = !sel.size || linesOf(st).some(id => sel.has(id));
+      const onTrip = !trip || (trip.stations || []).includes(st.n);
+      const dim = !(onLine && onTrip);
+      btns[k].classList.toggle("dim", dim);
+      if (L.marks) L.marks[k].classList.toggle("dim", dim);
+    });
+    if (L.tracks) L.tracks.forEach((p, id) => p.classList.toggle("dim", sel.size > 0 && !sel.has(id)));
+    chipBtns.forEach((b, id) => b.setAttribute("aria-pressed", String(sel.has(id))));
+    $("clear").hidden = !sel.size;
+    if (sel.size) {
+      const n = ST.filter(st => linesOf(st).some(id => sel.has(id))).length;
+      $("fstat").textContent = n + " of " + N + " stations on " + [...sel].map(lineName).join(" or ");
+    } else $("fstat").textContent = "";
+  }
+
+  function renderTrip() {
+    if (!G || !L.trip) return;
+    L.trip.textContent = ""; L.badges.textContent = "";
+    if (!trip) return;
+    const ks = (trip.stations || []).filter(n => kByN.has(n)).map(n => kByN.get(n));
+    if (!ks.length) return;
+    let pts = [];
+    for (let j = 1; j < ks.length; j++) {
+      const a = G.pos[ks[j - 1]].s, b = G.pos[ks[j]].s;
+      let seg = G.P.slice(Math.min(a, b), Math.max(a, b));
+      if (b < a) seg = seg.slice().reverse();
+      pts = pts.concat(j > 1 ? seg.slice(1) : seg);
+    }
+    if (pts.length > 1) {
+      const d = pts.map((q, i) => (i ? "L" : "M") + f(q.x) + " " + f(q.y)).join("");
+      sv("path", { "class": "corr", d, "stroke-width": 2 * BH + 10 }, L.trip);
+      sv("path", { "class": "pulse", d, "stroke-width": 2 * BH + 4, pathLength: 1000 }, L.trip);
+    }
+    const order = new Map();
+    ks.forEach((k, j) => { if (!order.has(k)) order.set(k, []); order.get(k).push(j + 1); });
+    order.forEach((nums, k) => {
+      const p = G.pos[k], txt = nums.join(","), r = 10.5, w = Math.max(2 * r, 9 * txt.length + 9), cx = p.x - BH - 15;
+      const gg = sv("g", { "class": "tb" }, L.badges);
+      sv("rect", { x: f(cx - w / 2), y: f(p.y - r), width: f(w), height: 2 * r, rx: r }, gg);
+      sv("text", { x: f(cx), y: f(p.y) }, gg).textContent = txt;
+    });
+  }
+
+  let haloS = null, haloAnim = 0;
+  function placeHalo(s) {
+    const q = G.P.at(s), ang = Math.atan2(q.tx, -q.ty) * 180 / Math.PI;
+    L.halo.setAttribute("transform", "translate(" + f(q.x) + " " + f(q.y) + ") rotate(" + f(ang) + ")");
+  }
+  function moveHalo(to, animate) {
+    cancelAnimationFrame(haloAnim);
+    if (!animate || haloS == null || reduce.matches) { haloS = to; placeHalo(to); return; }
+    const from = haloS, d = to - from, dur = Math.min(900, 260 + Math.abs(d) * 0.5), t0 = performance.now();
+    const step = now => {
+      const t = Math.min(1, (now - t0) / dur), e = t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+      haloS = from + d * e; placeHalo(haloS);
+      if (t < 1) haloAnim = requestAnimationFrame(step);
+    };
+    haloAnim = requestAnimationFrame(step);
+  }
+
+  function renderCurrent(animate) {
+    btns.forEach((b, k) => { if (k === cur) b.setAttribute("aria-current", "true"); else b.removeAttribute("aria-current"); });
+    const c = $("counter");
+    c.textContent = "";
+    if (cur < 0) c.textContent = N + " stations";
+    else { h("span", "cw", c, "Station "); c.append(ST[cur].n + " of " + N); }
+    $("prog").style.width = cur < 0 ? "0" : ((cur + 1) / N * 100) + "%";
+    if (G && L.halo) {
+      if (cur < 0) { L.halo.style.display = "none"; haloS = null; }
+      else { L.halo.style.display = ""; moveHalo(G.pos[cur].s, animate); }
+    }
+    setPlay();
+  }
+
+  function renderPanel() {
+    const has = cur >= 0;
+    $("p-empty").hidden = has;
+    $("p-body").hidden = !has;
+    if (!has) { $("p-eyebrow").textContent = "Station details"; return; }
+    const st = ST[cur], z = ZONES[zIdx.get(st.zone)];
+    $("p-eyebrow").textContent = "Station " + st.n + " of " + N + " · Zone " + z.id + ": " + z.name;
+    $("p-q").textContent = st.q;
+    $("p-concept").textContent = st.concept;
+    $("p-what").textContent = st.what;
+    $("p-why").textContent = st.why;
+    $("p-ai").hidden = !st.ai;
+    $("p-ai-t").textContent = st.ai || "";
+    const pl = $("p-lines");
+    pl.textContent = "";
+    linesOf(st).forEach(id => {
+      const l = LINES[LI.get(id)], li = h("li", "pchip", pl);
+      li.style.setProperty("--c", cVar(id)); li.style.setProperty("--cbg", cBg(id));
+      h("i", null, li).setAttribute("aria-hidden", "true");
+      const t = h("span", null, li);
+      h("b", null, t, l.name);
+      t.append(" · " + l.detail);
+    });
+    $("p-src").textContent = st.source;
+    const ps = $("p-stories"), ts = tripsOf(st);
+    ps.textContent = "";
+    ts.forEach(t => {
+      const li = h("li", null, ps), href = EP_LINK[t.ep];
+      const a = h(href ? "a" : "span", null, li);
+      if (href) a.href = href;
+      a.appendChild(icon("i-route", "sm"));
+      h("span", null, a, "Ep " + t.ep + " · " + t.title);
+    });
+    ps.hidden = !ts.length;
+    $("p-none").hidden = ts.length > 0;
+  }
+
+  function renderTripCard() {
+    const card = $("tripcard");
+    tripBtns.forEach(b => b.setAttribute("aria-pressed", String(b._trip === trip)));
+    if (!trip) { card.hidden = true; return; }
+    card.hidden = false;
+    $("tc-title").textContent = "Episode " + trip.ep + " · " + trip.title;
+    const ol = $("tc-route");
+    ol.textContent = "";
+    (trip.stations || []).filter(n => kByN.has(n)).forEach((n, j) => {
+      const li = h("li", null, ol);
+      if (j) li.appendChild(icon("i-next", "to"));
+      const b = h("button", null, li, String(n));
+      b.type = "button";
+      b.setAttribute("aria-label", "Stop " + (j + 1) + ": station " + n + ", " + ST[kByN.get(n)].q);
+      b.addEventListener("click", () => { stop(); select(kByN.get(n), { scroll: true, panelToo: true }); });
+    });
+    const href = EP_LINK[trip.ep], a = $("tc-link");
+    a.hidden = !href;
+    if (href) a.href = href;
+    $("tc-link-tx").textContent = "Read Episode " + trip.ep;
+  }
+
+  function syncBars() {
+    document.documentElement.style.setProperty("--bar-h", ridebar.offsetHeight + "px");
+    const open = mode === "narrow" && panel.classList.contains("open");
+    document.documentElement.style.setProperty("--sheet-h", open ? panel.offsetHeight + "px" : "0px");
+  }
+
+  /* ---------- actions ---------- */
+  function select(k, o) {
+    o = o || {};
+    if (!N) return;
+    k = Math.max(0, Math.min(N - 1, k));
+    const wasNone = cur < 0;
+    cur = k;
+    if (mode === "narrow") panel.classList.add("open");
+    renderCurrent(!wasNone && o.animate !== false);
+    renderPanel();
+    syncBars();
+    if (o.focus) btns[k].focus({ preventScroll: true });
+    if (o.scroll) reveal(k, o.panelToo, o.instant, o.focus);
+  }
+
+  function reveal(k, panelToo, instant, mustSee) {
+    const topLim = ridebar.offsetHeight + 8;  // the bar is sticky, so after any scroll it sits at the top
+    const r = lis[k].getBoundingClientRect();
+    let bottom = innerHeight - 8, dy = 0;
+    if (mode === "narrow" && panel.classList.contains("open")) bottom = innerHeight - panel.offsetHeight - 8;
+    if (mode === "wide" && !panelToo && !mustSee) {
+      const pr = panel.getBoundingClientRect();
+      if (pr.top < innerHeight - 80 && pr.bottom > topLim + 80) return;  // reading the panel: stay put
+    }
+    if (mode === "wide" && panelToo) {
+      const pr = panel.getBoundingClientRect();
+      const want = pr.bottom - (innerHeight - 12);
+      if (want > 0) dy = Math.max(0, Math.min(want, r.top - topLim));
+      if (r.top - dy < topLim) dy = r.top - topLim;
+    } else if (r.top < topLim) dy = r.top - topLim;
+    else if (r.bottom > bottom) dy = Math.min(r.bottom - bottom, r.top - topLim);
+    if (Math.abs(dy) > 1) window.scrollBy({ top: dy, behavior: behavior(instant) });
+  }
+
+  function closeSheet() {
+    panel.classList.remove("open");
+    syncBars();
+  }
+
+  function setPlay() {
+    const atEnd = cur === N - 1;
+    $("play-ic").setAttribute("href", timer ? "#i-pause" : (atEnd ? "#i-replay" : "#i-play"));
+    $("play-tx").textContent = timer ? "Pause" : (atEnd ? "Ride again" : "Ride the map");
+  }
+  function stop() { clearInterval(timer); timer = null; setPlay(); }
+  function play() {
+    if (mode === "wide") {
+      const r = mapEl.getBoundingClientRect(), top = ridebar.offsetHeight + 6;
+      if (r.top < top || r.bottom > innerHeight) window.scrollBy({ top: r.top - top, behavior: behavior() });
+    }
+    if (cur < 0 || cur >= N - 1) select(0, { scroll: mode !== "wide" });
+    timer = setInterval(() => {
+      if (cur >= N - 1) { stop(); return; }
+      select(cur + 1, { scroll: mode !== "wide" });
+      if (cur >= N - 1) stop();
+    }, 4000);
+    setPlay();
+  }
+
+  function toggleLine(id) {
+    if (sel.has(id)) sel.delete(id); else sel.add(id);
+    renderDims();
+  }
+
+  function setTrip(t, announce) {
+    trip = t;
+    renderTripCard();
+    renderDims();
+    renderTrip();
+    if (announce) $("trip-live").textContent = t ? "Showing the Episode " + t.ep + " trip: " + t.title + ". " + (t.stations || []).length + " stops." : "Story trip cleared.";
+  }
+
+  $("play").addEventListener("click", () => timer ? stop() : play());
+  $("prev").addEventListener("click", () => { stop(); select(cur < 0 ? 0 : cur - 1, { scroll: true }); });
+  $("next").addEventListener("click", () => { stop(); select(cur < 0 ? 0 : cur + 1, { scroll: true }); });
+  $("clear").addEventListener("click", () => { sel.clear(); renderDims(); });
+  $("tc-x").addEventListener("click", () => { setTrip(null, true); tripBtns[0] && tripBtns[0].focus(); });
+  $("p-x").addEventListener("click", () => { stop(); closeSheet(); if (cur >= 0) btns[cur].focus({ preventScroll: true }); });
+
+  listEl.addEventListener("keydown", e => {
+    const b = e.target.closest(".st");
+    if (!b) return;
+    const k = +b.dataset.k;
+    let t = null;
+    if (e.key === "ArrowDown" || e.key === "ArrowRight") t = k + 1;
+    else if (e.key === "ArrowUp" || e.key === "ArrowLeft") t = k - 1;
+    else if (e.key === "Home") t = 0;
+    else if (e.key === "End") t = N - 1;
+    if (t == null) return;
+    e.preventDefault();
+    stop();
+    select(t, { focus: true, scroll: true });
+  });
+  document.addEventListener("keydown", e => {
+    if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.key === "Escape" && mode === "narrow" && panel.classList.contains("open")) { stop(); closeSheet(); return; }
+    const t = e.target;
+    if (!(t === document.body || t === document.documentElement || panel.contains(t))) return;
+    if (e.key === "ArrowRight") { stop(); select(cur < 0 ? 0 : cur + 1, { scroll: true }); }
+    if (e.key === "ArrowLeft") { stop(); select(cur < 0 ? 0 : cur - 1, { scroll: true }); }
+  });
+
+  const relayout = () => layout();
+  mqNarrow.addEventListener("change", relayout);
+  mqWide.addEventListener("change", relayout);
+  new ResizeObserver(() => {
+    const w = Math.floor(mapEl.clientWidth);
+    if (w !== lastW) layout(); else syncBars();
+  }).observe(mapEl);
+
+  /* ---------- start ---------- */
+  renderPanel();
+  layout();
+  const q = new URLSearchParams(location.search);
+  const tN = parseInt(q.get("trip"), 10), sN = parseInt(q.get("station"), 10);
+  const t0 = TRIPS.find(t => t.ep === tN);
+  if (t0) setTrip(t0, false);
+  if (kByN.has(sN)) {
+    select(kByN.get(sN), { animate: false });
+    requestAnimationFrame(() => reveal(kByN.get(sN), true, true));
+  }
+})();
+</script>
+</body>
+</html>

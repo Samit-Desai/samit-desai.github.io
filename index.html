@@ -80,6 +80,20 @@ h2 { font-size: clamp(22px, 2.8vw, 30px); line-height: 1.2; margin: 0; }
 .made .t span { color: var(--hue); display: block; }
 .made .s { color: var(--text-2); font-size: clamp(12px, 1.4vw, 15px); }
 .med { --hue: #2dd4bf; --tint: #0f3a3f; }
+.cover.mid { object-position: 50% 50%; }
+/* a picture that plays the trailer, with a play button on it, and two buttons beside it */
+.shot { position: relative; display: block; height: 100%; }
+.shot .pl { position: absolute; left: 66%; top: 41%;   /* on the trailer cover */ width: 68px; height: 68px; margin: -34px 0 0 -34px; border-radius: 50%;
+            background: var(--accent); box-shadow: 0 10px 26px rgba(0,0,0,.35); transition: transform .2s ease; }
+.shot .pl::after { content: ""; position: absolute; left: 26px; top: 20px; border-style: solid; border-width: 14px 0 14px 22px;
+                   border-color: transparent transparent transparent #0b1220; }
+.shot:hover .pl, .shot:focus-visible .pl { transform: scale(1.08); background: #7dd3fc; }
+.btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 6px; }
+.btns .go { margin-top: 0; text-decoration: none; }
+.btns .go:hover { background: #7dd3fc; text-decoration: none; }
+.go.ghost { background: transparent; color: var(--accent); box-shadow: inset 0 0 0 1.5px var(--accent); }
+.go.ghost:hover { background: rgba(56,189,248,.12); }
+.featured .made { height: 100%; border-bottom: 0; border-right: 1px solid var(--line); }
 .trade { --hue: #fbbf24; --tint: #3a2f12; }
 
 footer { border-top: 1px solid var(--line); padding-block: 24px 40px; color: var(--muted); font-size: 14px; }
@@ -87,6 +101,7 @@ footer p { margin: 4px 0; }
 
 @media (max-width: 860px) {
   .featured, .pair { grid-template-columns: 1fr; }
+  .featured .made { border-right: 0; border-bottom: 1px solid var(--line); }
   .featured .cover { height: auto; }
 }
 @media (max-width: 560px) {
@@ -121,35 +136,33 @@ footer p { margin: 4px 0; }
     </div>
   </a>
 
-  <div class="pair">
-    <div class="card">
-      <div class="made med" role="img" aria-label="Cover: Medical Device Software Lifecycle in Practice, coming soon">
-        <span class="k">Coming soon</span>
-        <span class="t">Medical Device Software <span>Lifecycle in Practice</span></span>
-        <span class="s">IEC 62304 · ISO 14971 · ISO 13485</span>
-      </div>
-      <div class="body">
-        <span class="status soon">Coming soon</span>
-        <h2>Medical Device Software Lifecycle in Practice</h2>
-        <p>How software work runs in a regulated medical device team: the rules behind it, the three standards that do
-        most of the work, and the whole life cycle as one map.</p>
-        <ul class="tags"><li>IEC 62304</li><li>ISO 14971</li><li>ISO 13485</li></ul>
-      </div>
+  <div class="card featured">
+    <a class="shot" href="meddevice-sdlc-series/00-trailer/" aria-label="Play the trailer: Medical Device Software Lifecycle in Practice">
+      <img class="cover mid" src="img/meddevice.jpg" alt="Cover: Medical Device Software Lifecycle in Practice, a trailer and four episodes" width="1280" height="720">
+      <span class="pl" aria-hidden="true"></span>
+    </a>
+    <div class="body">
+      <span class="status">Live · trailer + 4 episodes</span>
+      <h2>Medical Device Software Lifecycle in Practice</h2>
+      <p>How software work runs in a regulated medical device team, shown on one made-up device. Videos, transcripts
+      with sources, and a clickable map.</p>
+      <ul class="tags"><li>IEC 62304</li><li>ISO 14971</li><li>ISO 13485</li></ul>
+      <div class="btns"><a class="go" href="meddevice-sdlc-series/00-trailer/">▶ Play the trailer</a><a class="go ghost" href="meddevice-sdlc-series/">All episodes</a></div>
     </div>
+  </div>
 
-    <div class="card">
-      <div class="made trade" role="img" aria-label="Cover: Tick to Pixel, a real-time trading workstation, coming soon">
-        <span class="k">Coming soon</span>
-        <span class="t">Tick to Pixel <span>a real-time trading workstation</span></span>
-        <span class="s">.NET MAUI · measured from tick to pixel</span>
-      </div>
-      <div class="body">
-        <span class="status soon">Coming soon</span>
-        <h2>Tick to Pixel</h2>
-        <p>A real-time trading desktop in .NET MAUI, measured from a market tick arriving to the pixel that shows it.
-        Paper trading only.</p>
-        <ul class="tags"><li>C#</li><li>.NET MAUI</li><li>SkiaSharp</li><li>Channels</li></ul>
-      </div>
+  <div class="card featured">
+    <div class="made trade" role="img" aria-label="Cover: Tick to Pixel, a real-time trading workstation, coming soon">
+      <span class="k">Coming soon</span>
+      <span class="t">Tick to Pixel <span>a real-time trading workstation</span></span>
+      <span class="s">.NET MAUI · measured from tick to pixel</span>
+    </div>
+    <div class="body">
+      <span class="status soon">Coming soon</span>
+      <h2>Tick to Pixel</h2>
+      <p>A real-time trading desktop in .NET MAUI, measured from a market tick arriving to the pixel that shows it.
+      Paper trading only.</p>
+      <ul class="tags"><li>C#</li><li>.NET MAUI</li><li>SkiaSharp</li><li>Channels</li></ul>
     </div>
   </div>
 </main>

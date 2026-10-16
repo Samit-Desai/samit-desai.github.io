@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Episode 4 of 4: When something goes wrong · Medical Device Software Lifecycle in Practice</title>
+<meta name="description" content="Episode 4 of 4: When something goes wrong. A report from the field: the motor took almost half a second to stop. Four paths after release, and the audit.">
+<meta name="author" content="Samit Desai">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Episode 4 of 4: When something goes wrong · Medical Device Software Lifecycle in Practice">
+<meta property="og:description" content="Episode 4 of 4: When something goes wrong. A report from the field: the motor took almost half a second to stop. Four paths after release, and the audit.">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/player.js" defer></script>
+</head>
+<body>
+<header class="bar"><div class="wrap"><a class="home" href="../">Medical Device Software Lifecycle in Practice</a><span class="by">Samit Desai</span></div></header>
+<main class="wrap" style="--hue: #2f6fd6">
+<div class="tags"><span class="badge">Episode 4 of 4</span><span class="pill">ISO 13485</span><span class="len">3:29</span></div>
+<h1>When something <em>goes wrong</em></h1>
+<p class="lead">A report from the field: the motor took almost half a second to stop. Four paths after release, and the audit.</p>
+<div class="watch">
+<div class="player">
+  <video controls playsinline preload="metadata" poster="poster.jpg">
+    <source src="episode4.mp4" type="video/mp4">
+    Your browser can't play this video. <a href="episode4.mp4">Download it (MP4)</a>.
+  </video>
+  <button class="cover" type="button" aria-label="Play Episode 4 of 4: When something goes wrong">
+    <img src="poster.jpg" alt="Cover: Episode 4 of 4: When something goes wrong" width="1080" height="1350">
+    <span class="play" aria-hidden="true"><i></i><span class="pl">Play</span> · 3:29</span>
+  </button>
+</div>
+<nav class="nav"><a class="btn ghost" href="../03-build-it-right/">← Episode 3 of 4</a><a class="btn ghost" href="../00-the-map/interactive.html">Open the clickable map</a><a class="btn" href="../">All episodes</a></nav>
+</div>
+<section class="card"><h2>Transcript</h2>
+<p class="note">Every example uses one made-up device: a motorized rehab device in which a PC app sends settings to controller firmware that drives a motor moving a patient&#x27;s arm or leg. Every number, ID and version in the story is made up.</p>
+<p><b>The hook.</b> A therapist reports that the app stopped responding, and the motor took almost half a second to stop. In this made-up story, nobody was hurt, but the requirement says 300 milliseconds. What happens next? This is Episode 4: when something goes wrong, four paths, and the audit.</p>
+<p><b>The big picture.</b> Here&#x27;s the one-page picture from Episode 1 again. Each flow on it ends in the same place: in the field, after release. That&#x27;s where complaints, fixes, CAPA and audits come together, and it&#x27;s the part this episode zooms into.</p>
+<p><b>A complaint.</b> The therapist&#x27;s report is logged as a complaint. ISO 13485 expects each complaint to be recorded and evaluated, and if one isn&#x27;t investigated, the reason is written down. Here, a safety stop missed its requirement, so the team investigates.</p>
+<p><b>Is it reportable?.</b> Then a question with a deadline: does the regulator need to know? If the problem could seriously hurt someone if it happened again, it usually has to be reported, within days or weeks, depending on the country and the event. The team decides, and writes down why.</p>
+<p><b>Problem report and investigation.</b> On the software side, IEC 62304 asks for a problem report. The team investigates the cause, checks what it means for safety, and updates the risk file. The logs show a clue: the slow stop came soon after the PC woke from sleep.</p>
+<p><b>The fix, and the 510(k) question.</b> The fix starts as a change request, approved before anyone changes the code. Then the team verifies the change, repeating any verification the change invalidated. The made-up device is cleared through a 510(k), so the team also asks: does this change need a new 510(k), or a documented decision? FDA&#x27;s 2017 software-change guidance helps answer that, and either way, the reasoning is written down.</p>
+<p><b>Four paths, side by side.</b> So far, two paths have run: problem resolution and change control. Two more come from ISO 13485. A nonconformance report, or NCR, records product that missed a requirement. And CAPA, corrective and preventive action, goes after the cause. In my experience, it&#x27;s for patterns, recurrence and serious problems, so not every bug is a CAPA. The four paths are separate, but linked.</p>
+<p><b>CAPA: a pattern.</b> Here&#x27;s a pattern: three clinics report the same slow stop, always after the PC wakes from sleep, so the team opens a CAPA. The root cause goes deeper than the code: the requirements never covered the heartbeat during PC sleep, and no review asked. So the team fixes the process: power states join the requirements checklist and the tests, and other features are checked for the same gap. Months later, an effectiveness check finds no slow stops came back.</p>
+<p><b>Pause and guess.</b> Pause and guess: which path does each one take? A planned larger-text change is change control. One motor batch failing inspection is an NCR. The same failure in five batches is a pattern: an NCR for each, plus a CAPA.</p>
+<p><b>Audit day.</b> Then comes audit day. An auditor picks this one complaint and follows the trail, record by record, from the complaint to the CAPA&#x27;s effectiveness check. Here, each record points to the next. In my experience, a break in that trail is where findings tend to start.</p>
+<p><b>Season close.</b> This season started with chaos: FDA, MDR, ISO, CAPA, SOUP. I hope it now looks more like a map, where every rule answers a question and has its place. That&#x27;s how I make sense of it. Thanks for following along.</p>
+<p><b>End card.</b> Medical Device Software Lifecycle in Practice. That&#x27;s the season.</p>
+</section>
+
+<section class="card"><h2>Sources (public, checked October 2026)</h2>
+<ul>
+<li>FDA, mandatory reporting for manufacturers (30 calendar days, 5 work days, the malfunction trigger; content current 27 Mar 2025): <a href="https://www.fda.gov/medical-devices/postmarket-requirements-devices/mandatory-reporting-requirements-manufacturers-importers-and-device-user-facilities">https://www.fda.gov/medical-devices/postmarket-requirements-devices/mandatory-reporting-requirements-manufacturers-importers-and-device-user-facilities</a>
+</li>
+<li>21 CFR 803.50 (30 calendar days; malfunction "if the malfunction were to recur"): <a href="https://www.law.cornell.edu/cfr/text/21/803.50">https://www.law.cornell.edu/cfr/text/21/803.50</a>
+</li>
+<li>21 CFR 803.53 (5-day reports): <a href="https://www.law.cornell.edu/cfr/text/21/803.53">https://www.law.cornell.edu/cfr/text/21/803.53</a>
+</li>
+<li>21 CFR 803.18 (MDR event files keep the reportability deliberations and decision): <a href="https://www.law.cornell.edu/cfr/text/21/803.18">https://www.law.cornell.edu/cfr/text/21/803.18</a>
+</li>
+<li>21 CFR 806.10 (corrections and removals, 10 working days): <a href="https://www.law.cornell.edu/cfr/text/21/806.10">https://www.law.cornell.edu/cfr/text/21/806.10</a>
+</li>
+<li>EU vigilance: MDCG 2023-3 Rev.2 (15 / 2 / 10 calendar days from awareness; "might have led or might lead"): <a href="https://health.ec.europa.eu/document/download/af1433fd-ed64-4c53-abc7-612a7f16f976_en?filename=mdcg_2023-3_en.pdf">https://health.ec.europa.eu/document/download/af1433fd-ed64-4c53-abc7-612a7f16f976_en?filename=mdcg_2023-3_en.pdf</a>
+</li>
+<li>FDA Compliance Program 7382.850 (QMSR inspections; lists ISO 13485 7.3.9, 8.2.2–8.2.4, 8.3, 8.5.2, 8.5.3 by title): <a href="https://www.fda.gov/media/80195/download">https://www.fda.gov/media/80195/download</a>
+</li>
+<li>FDA 2017 software-change guidance, page (final, Oct 2017): <a href="https://www.fda.gov/regulatory-information/search-fda-guidance-documents/deciding-when-submit-510k-software-change-existing-device">https://www.fda.gov/regulatory-information/search-fda-guidance-documents/deciding-when-submit-510k-software-change-existing-device</a> · PDF (issued 25 Oct 2017; questions 1–4 on pp. 11–13; scope excludes PMA and 510(k)-exempt devices; documentation of changes): <a href="https://www.fda.gov/media/99785/download">https://www.fda.gov/media/99785/download</a>
+</li>
+<li>QMSR page (ISO 13485:2016 incorporated by reference, effective 2 Feb 2026): <a href="https://www.fda.gov/medical-devices/postmarket-requirements-devices/quality-management-system-regulation-qmsr">https://www.fda.gov/medical-devices/postmarket-requirements-devices/quality-management-system-regulation-qmsr</a>
+</li>
+<li>QMSR final rule with preamble (8.2.2 and 820.35(a): a complaint not investigated needs a documented reason; CAPA "commensurate with the risks"; CAPA effectiveness verified): <a href="https://www.govinfo.gov/content/pkg/FR-2024-02-02/html/2024-01709.htm">https://www.govinfo.gov/content/pkg/FR-2024-02-02/html/2024-01709.htm</a>
+</li>
+<li>21 CFR 820.35 (complaint records "in addition to Clause 8.2.2"): <a href="https://www.law.cornell.edu/cfr/text/21/820.35">https://www.law.cornell.edu/cfr/text/21/820.35</a>
+</li>
+<li>ISO 13485 clause titles 7.3.9, 8.2.4, 8.3, 8.5.2, 8.5.3 (Greenlight Guru comparison table): <a href="https://www.greenlight.guru/hubfs/Blog-Giveaways/ISO-13485-2016_vs_FDA-21-CRF-Part-820.pdf">https://www.greenlight.guru/hubfs/Blog-Giveaways/ISO-13485-2016_vs_FDA-21-CRF-Part-820.pdf</a>
+</li>
+<li>ISO 13485 8.2.2, 8.2.3 and 8.2.4 summary (Advisera): <a href="https://advisera.com/13485academy/blog/2018/09/20/how-to-comply-with-section-8-2-monitoring-and-measurement-in-iso-134852018/">https://advisera.com/13485academy/blog/2018/09/20/how-to-comply-with-section-8-2-monitoring-and-measurement-in-iso-134852018/</a>
+</li>
+<li>ISO 13485 8.3.3, nonconforming product after delivery (Advisera): <a href="https://advisera.com/13485academy/blog/2017/04/11/iso-134852016-nonconforming-product-how-to-approach-the-post-delivery-actions/">https://advisera.com/13485academy/blog/2017/04/11/iso-134852016-nonconforming-product-how-to-approach-the-post-delivery-actions/</a>
+</li>
+<li>IEC 62304 clause titles 8.2 and 9.1–9.7 (IEC's free preview, contents): <a href="https://assets.vde-verlag.de/iec-normen/preview-pdf/info_iec62304%7Bed1.1%7Db.pdf">https://assets.vde-verlag.de/iec-normen/preview-pdf/info_iec62304%7Bed1.1%7Db.pdf</a>
+</li>
+<li>Changes to released software: approval first, regression testing, trends in problem reports (Johner Institute, secondary): <a href="https://blog.johner-institute.com/iec-62304-medical-software/software-maintenance-iec-62304-and-compliance-testing/">https://blog.johner-institute.com/iec-62304-medical-software/software-maintenance-iec-62304-and-compliance-testing/</a>
+</li>
+<li>What should trigger a CAPA (recurrence, serious harm, systemic issues; not every one-off; Greenlight Guru, 13 Oct 2026, vendor view): <a href="https://www.greenlight.guru/blog/what-should-really-trigger-a-capa">https://www.greenlight.guru/blog/what-should-really-trigger-a-capa</a>
+</li></ul>
+<p class="note">IEC 62304, ISO 14971 and ISO 13485 are paid documents, and this series doesn&#x27;t reproduce them. Where only a clause title is public, the point is stated in my own words with the clause number, and checked against public sources like the ones above.</p>
+</section>
+<section class="card disclaimer"><h2>Disclaimer</h2><p>This is my personal understanding and experience, shared for learning. It is not legal, regulatory or professional advice, and it is not a statement of what you or your organization must do. Standards and regulations change and can be read in different ways. Check the current official texts, and follow your own quality system and procedures, your notified body or regulator, and qualified advisers. The device, scenarios and numbers are made up and do not describe any real product, company or event. Views are my own, not those of any current or past employer. I accept no responsibility or liability for actions taken based on this material. Narration: AI voice made from my own voice. I used an AI assistant for research, fact-checking and drafting; the judgment and any mistakes are mine.</p></section>
+</main>
+<footer><div class="wrap">
+<p>© 2026 Samit Desai · Text, videos and diagrams <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code MIT ·
+<a href="https://www.linkedin.com/in/samit-desai-62868420">LinkedIn</a> · <a href="https://samit-desai.github.io/">More projects</a></p>
+<p>Standards named here (IEC, ISO, AAMI) are copyrighted by their publishers; this site refers to clause numbers and
+describes them in its own words. Jira and Confluence are Atlassian trademarks, named as examples, not endorsements.</p>
+</div></footer>
+</body>
+</html>

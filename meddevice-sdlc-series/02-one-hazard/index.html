@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Episode 2 of 4: One hazard, from risk to test · Medical Device Software Lifecycle in Practice</title>
+<meta name="description" content="Episode 2 of 4: One hazard, from risk to test. The motor must stop within 300 milliseconds. But why 300? One made-up hazard, followed from risk to requirement to test, with ISO 14971 and IEC 62304.">
+<meta name="author" content="Samit Desai">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Episode 2 of 4: One hazard, from risk to test · Medical Device Software Lifecycle in Practice">
+<meta property="og:description" content="Episode 2 of 4: One hazard, from risk to test. The motor must stop within 300 milliseconds. But why 300? One made-up hazard, followed from risk to requirement to test, with ISO 14971 and IEC 62304.">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/player.js" defer></script>
+</head>
+<body>
+<header class="bar"><div class="wrap"><a class="home" href="../">Medical Device Software Lifecycle in Practice</a><span class="by">Samit Desai</span></div></header>
+<main class="wrap" style="--hue: #d8405e">
+<div class="tags"><span class="badge">Episode 2 of 4</span><span class="pill">ISO 14971</span><span class="len">3:42</span></div>
+<h1>One hazard, <em>from risk to test</em></h1>
+<p class="lead">The motor must stop within 300 milliseconds. But why 300? One made-up hazard, followed from risk to requirement to test, with ISO 14971 and IEC 62304.</p>
+<div class="watch">
+<div class="player">
+  <video controls playsinline preload="metadata" poster="poster.jpg">
+    <source src="episode2.mp4" type="video/mp4">
+    Your browser can't play this video. <a href="episode2.mp4">Download it (MP4)</a>.
+  </video>
+  <button class="cover" type="button" aria-label="Play Episode 2 of 4: One hazard, from risk to test">
+    <img src="poster.jpg" alt="Cover: Episode 2 of 4: One hazard, from risk to test" width="1080" height="1350">
+    <span class="play" aria-hidden="true"><i></i><span class="pl">Play</span> · 3:42</span>
+  </button>
+</div>
+<nav class="nav"><a class="btn ghost" href="../01-one-fix/">← Episode 1 of 4</a><a class="btn ghost" href="../00-the-map/interactive.html">Open the clickable map</a><a class="btn" href="../03-build-it-right/">Episode 3 of 4 →</a></nav>
+</div>
+<section class="card"><h2>Transcript</h2>
+<p class="note">Every example uses one made-up device: a motorized rehab device in which a PC app sends settings to controller firmware that drives a motor moving a patient&#x27;s arm or leg. Every number, ID and version in the story is made up.</p>
+<p><b>Why 300 ms?.</b> In Episode 1, a made-up team wrote a requirement: if the app stops, the motor stops within 300 milliseconds. But why 300 milliseconds? What could hurt the patient, and how badly? This is Episode 2: one hazard, from risk to test.</p>
+<p><b>The big picture.</b> Here&#x27;s the one-page picture from Episode 1. This time the risk band lifts out: ISO 14971. FDA inspectors look at risk analysis too: their citations for missing or inadequate risk analysis rose from 26 to 42 to 47 over three fiscal years.</p>
+<p><b>The freeze, and the risk thread.</b> Back on the made-up rehab device, suppose the app freezes mid-motion. Stop on screen does nothing, and the motor keeps moving the limb. This episode follows that one risk, like a thread, from hazard to test.</p>
+<p><b>Hazard to harm.</b> The hazard is the motor&#x27;s energy, a potential source of harm, and the freeze is one way it gets out of control. The hazardous situation: the limb keeps moving past its set range. The harm: a strain or sprain.</p>
+<p><b>Estimating the risk.</b> Next, the team estimates the risk: how likely the harm is, and how severe. In my experience, teams often assume a software failure will happen. The made-up team rates the sprain a non-serious injury.</p>
+<p><b>Risk control, in order.</b> Risk controls come in a set order. First, safe design, the top choice: here, a made-up mechanical stop, so the joint can&#x27;t move past a safe outer range. Second, protective measures in the device: the firmware stops the motor if the app&#x27;s &quot;still alive&quot; heartbeat goes quiet. Last, information for safety, like labeling, warnings and training, as the last resort.</p>
+<p><b>The software safety class.</b> Now the software safety class, A, B or C. To set it, IEC 62304 also assumes the software fails, and counts only controls outside it. So a check inside the app wouldn&#x27;t lower its class, but the firmware stop can. To me, where a control lives matters as much as what it does.</p>
+<p><b>Risk control → requirements.</b> Next, the control becomes requirements, with made-up numbers. The system requirement: if the app goes silent, motion stops within 300 milliseconds. The software requirements: a heartbeat every 50 milliseconds, and a firmware stop if it&#x27;s missing for 150. So why 300? At a top speed of 30 degrees a second, that&#x27;s at most 9 degrees past the set range, a made-up limit agreed with clinicians.</p>
+<p><b>Verification.</b> Then the team verifies the stop. The made-up test tries four ways the app can stop: closed, frozen, cable pulled, PC asleep. The motor must stop every time.</p>
+<p><b>A new risk from the control.</b> But a control can bring a new risk, which ISO 14971 asks teams to look for: an instant stop could jerk the limb. So the team adds FW-05, a made-up firmware requirement: slow the motor smoothly to zero within 100 milliseconds. That&#x27;s 150 milliseconds to notice, plus 100 to slow down: 250, still inside the 300.</p>
+<p><b>Residual risk.</b> Even with every control in place, some risk is left. The team checks that residual risk against the acceptance criteria in the risk management plan. If it&#x27;s still too high, they add controls, or, when no more are practicable, weigh it against the medical benefit, and named people sign the decision.</p>
+<p><b>Traceability.</b> Traceability ties it all together: hazard, control, requirement, test. It shows each link is written down, though it can&#x27;t prove every hazard was found.</p>
+<p><b>Built right?.</b> So the 300 milliseconds now has a reason, a control and a test. Now it has to be built right, and proved.</p>
+<p><b>End card.</b> Medical Device Software Lifecycle in Practice. Next: build it right.</p>
+</section>
+
+<section class="card"><h2>Sources (public, checked October 2026)</h2>
+<ul>
+<li>ISO 14971:2019 contents (7.1 risk control option analysis, 7.3 residual risk evaluation, 7.4 benefit-risk analysis, 7.5 risks arising from risk control measures, 8 evaluation of overall residual risk, 9 risk management review, 4.4 plan, 4.5 file, 5.5 risk estimation), introduction (probability and severity; "some residual risks remain") and scope ("moving parts"): publisher preview <a href="https://assets.vde-verlag.de/iec-normen/preview-pdf/info_iso14971%7Bed3.0%7Den.pdf">https://assets.vde-verlag.de/iec-normen/preview-pdf/info_iso14971%7Bed3.0%7Den.pdf</a>
+</li>
+<li>Hazard and hazardous situation definitions; mechanical energy as an example hazard: <a href="https://blog.johner-institute.com/iso-14971-risk-management/hazard-and-hazardous-situation/">https://blog.johner-institute.com/iso-14971-risk-management/hazard-and-hazardous-situation/</a>
+</li>
+<li>Harm definition; risk = probability of harm combined with its severity: <a href="https://www.outsourcedpharma.com/doc/avoiding-iso-mistakes-what-does-harm-really-mean-0001">https://www.outsourcedpharma.com/doc/avoiding-iso-mistakes-what-does-harm-really-mean-0001</a>
+</li>
+<li>Risk control order (inherent safety → protective measures → information for safety, such as labeling), new hazards from risk controls, residual risk, benefit-risk, overall residual risk, review and approval of the risk management report: <a href="https://www.greenlight.guru/blog/iso-14971-risk-management">https://www.greenlight.guru/blog/iso-14971-risk-management</a>
+</li>
+<li>EU MDR Annex I §4, order of priority and residual risk judged acceptable: <a href="https://advisera.com/13485academy/mdr/general-requirements/">https://advisera.com/13485academy/mdr/general-requirements/</a>
+</li>
+<li>ISO 14971 7.4 wording ("may"; only when the residual risk isn't acceptable and further control isn't practicable): <a href="https://naveenagarwalphd.substack.com/p/iso14971-benefit-risk-analysis">https://naveenagarwalphd.substack.com/p/iso14971-benefit-risk-analysis</a>
+</li>
+<li>ISO 14971 4.5 traceability for each identified hazard: <a href="https://naveenagarwalphd.substack.com/p/iso14971-concepts-risk-management-file">https://naveenagarwalphd.substack.com/p/iso14971-concepts-risk-management-file</a>
+</li>
+<li>Software safety class, external controls, in-software monitors, class C by default: <a href="https://blog.johner-institute.com/iec-62304-medical-software/safety-class-iec-62304/">https://blog.johner-institute.com/iec-62304-medical-software/safety-class-iec-62304/</a>
+</li>
+<li>"Probability = 1" is for classification only, not for risk estimation: <a href="https://blog.johner-institute.com/iec-62304-medical-software/probability-of-software-defects/">https://blog.johner-institute.com/iec-62304-medical-software/probability-of-software-defects/</a>
+</li>
+<li>Device class ≠ software class; class A/B/C by severity: <a href="https://www.greenlight.guru/blog/iec-62304-software-safety-classes">https://www.greenlight.guru/blog/iec-62304-software-safety-classes</a> (note: this page says controls don't lower the class, which differs from IEC 62304 4.3 with Amendment 1; don't use it for the external-control point)
+</li>
+<li>IEC 62304 contents (4.3, 5.2, 7.1–7.4 incl. 7.3 "Verification of risk control measures") and the introduction (software risk management embedded in ISO 14971): <a href="https://assets.vde-verlag.de/iec-normen/preview-pdf/info_iec62304%7Bed1.1%7Db.pdf">https://assets.vde-verlag.de/iec-normen/preview-pdf/info_iec62304%7Bed1.1%7Db.pdf</a>
+</li>
+<li>IEC 62304 clause titles 7.2.2, 7.3.1, 7.3.3: <a href="https://blogs.sw.siemens.com/polarion/?p=960">https://blogs.sw.siemens.com/polarion/?p=960</a>
+</li>
+<li>IEC 62304 5.1.1 traceability incl. risk controls in software; ISO 14971 4.5 quote: <a href="https://meddevice.substack.com/p/v-and-v-deep-dive-part-2-traceability">https://meddevice.substack.com/p/v-and-v-deep-dive-part-2-traceability</a>
+</li>
+<li>FDA inspection observations (index page, caveats, FY files): <a href="https://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/inspection-references/inspection-observations">https://www.fda.gov/inspections-compliance-enforcement-and-criminal-investigations/inspection-references/inspection-observations</a> · FY2023 <a href="https://www.fda.gov/media/174101/download">https://www.fda.gov/media/174101/download</a> · FY2024 <a href="https://www.fda.gov/media/185090/download">https://www.fda.gov/media/185090/download</a> · FY2025 <a href="https://www.fda.gov/media/190190/download">https://www.fda.gov/media/190190/download</a>
+</li>
+<li>QMSR effective Feb 2, 2026, incorporating ISO 13485:2016: <a href="https://www.fda.gov/medical-devices/postmarket-requirements-devices/quality-management-system-regulation-qmsr">https://www.fda.gov/medical-devices/postmarket-requirements-devices/quality-management-system-regulation-qmsr</a>
+</li></ul>
+<p class="note">IEC 62304, ISO 14971 and ISO 13485 are paid documents, and this series doesn&#x27;t reproduce them. Where only a clause title is public, the point is stated in my own words with the clause number, and checked against public sources like the ones above.</p>
+</section>
+<section class="card disclaimer"><h2>Disclaimer</h2><p>This is my personal understanding and experience, shared for learning. It is not legal, regulatory or professional advice, and it is not a statement of what you or your organization must do. Standards and regulations change and can be read in different ways. Check the current official texts, and follow your own quality system and procedures, your notified body or regulator, and qualified advisers. The device, scenarios and numbers are made up and do not describe any real product, company or event. Views are my own, not those of any current or past employer. I accept no responsibility or liability for actions taken based on this material. Narration: AI voice made from my own voice. I used an AI assistant for research, fact-checking and drafting; the judgment and any mistakes are mine.</p></section>
+</main>
+<footer><div class="wrap">
+<p>© 2026 Samit Desai · Text, videos and diagrams <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code MIT ·
+<a href="https://www.linkedin.com/in/samit-desai-62868420">LinkedIn</a> · <a href="https://samit-desai.github.io/">More projects</a></p>
+<p>Standards named here (IEC, ISO, AAMI) are copyrighted by their publishers; this site refers to clause numbers and
+describes them in its own words. Jira and Confluence are Atlassian trademarks, named as examples, not endorsements.</p>
+</div></footer>
+</body>
+</html>

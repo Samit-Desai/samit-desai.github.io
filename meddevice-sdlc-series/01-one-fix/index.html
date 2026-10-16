@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Episode 1 of 4: One fix, through the software life cycle · Medical Device Software Lifecycle in Practice</title>
+<meta name="description" content="Episode 1 of 4: One fix, through the software life cycle. Why do device teams follow a common set of steps? One made-up feature travels from a therapist&#x27;s question to release, through IEC 62304.">
+<meta name="author" content="Samit Desai">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Episode 1 of 4: One fix, through the software life cycle · Medical Device Software Lifecycle in Practice">
+<meta property="og:description" content="Episode 1 of 4: One fix, through the software life cycle. Why do device teams follow a common set of steps? One made-up feature travels from a therapist&#x27;s question to release, through IEC 62304.">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/player.js" defer></script>
+</head>
+<body>
+<header class="bar"><div class="wrap"><a class="home" href="../">Medical Device Software Lifecycle in Practice</a><span class="by">Samit Desai</span></div></header>
+<main class="wrap" style="--hue: #0f9a6c">
+<div class="tags"><span class="badge">Episode 1 of 4</span><span class="pill">IEC 62304</span><span class="len">4:39</span></div>
+<h1>One fix, through the <em>software life cycle</em></h1>
+<p class="lead">Why do device teams follow a common set of steps? One made-up feature travels from a therapist&#x27;s question to release, through IEC 62304.</p>
+<div class="watch">
+<div class="player">
+  <video controls playsinline preload="metadata" poster="poster.jpg">
+    <source src="episode1.mp4" type="video/mp4">
+    Your browser can't play this video. <a href="episode1.mp4">Download it (MP4)</a>.
+  </video>
+  <button class="cover" type="button" aria-label="Play Episode 1 of 4: One fix, through the software life cycle">
+    <img src="poster.jpg" alt="Cover: Episode 1 of 4: One fix, through the software life cycle" width="1080" height="1350">
+    <span class="play" aria-hidden="true"><i></i><span class="pl">Play</span> · 4:39</span>
+  </button>
+</div>
+<nav class="nav"><a class="btn ghost" href="../00-trailer/">← Trailer</a><a class="btn ghost" href="../00-the-map/interactive.html">Open the clickable map</a><a class="btn" href="../02-one-hazard/">Episode 2 of 4 →</a></nav>
+</div>
+<section class="card"><h2>Transcript</h2>
+<p class="note">Every example uses one made-up device: a motorized rehab device in which a PC app sends settings to controller firmware that drives a motor moving a patient&#x27;s arm or leg. Every number, ID and version in the story is made up.</p>
+<p><b>Why a standard.</b> Imagine teams building software that moves a patient&#x27;s arm, with no shared rules. Each would plan, test and fix in its own way. Some would do it well, some wouldn&#x27;t, and nobody outside could easily tell which. IEC 62304 gives everyone a common set of steps for the software life cycle, and a way to show the work was done. And regulators like FDA recognize it. This is Episode 1: one fix, through the software life cycle.</p>
+<p><b>The big picture.</b> Here&#x27;s how I picture it, on one page. The quality system holds everything. Risk management runs through every step. Work flows from user needs to release, and each link should trace back. And the software has its own life cycle, IEC 62304. That&#x27;s the part this episode zooms into.</p>
+<p><b>The people and the steps.</b> Here&#x27;s how one feature typically travels. A therapist asks: if the app freezes mid-session, will the motor stop? That&#x27;s a user need. Engineers turn it into system requirements, then software requirements. An architect decides what runs in the app and what runs in the firmware, and developers design and write the code, testing each unit. QA tests the parts together, then the whole system. The company builds the device, and therapists try it for real. Later, auditors pick a record and follow the trail. IEC 62304 is the software part of that journey, from the plan to the release, and the maintenance after.</p>
+<p><b>Before the first line of code.</b> Before anyone writes code, four answers set the rules. Is it a medical device? Yes: its intended use is rehabilitation. Is the software the device itself, or part of one? Part of one. The app and firmware drive the motor, so it isn&#x27;t software as a medical device. How risky is the device? Suppose it&#x27;s class II in the US. Then the usual route to market is a 510(k). Europe and India have their own classes and routes.</p>
+<p><b>Three classes.</b> That&#x27;s the device class. Two other classes are easy to mix up with it. IEC 62304 gives the software its own safety class, A, B or C, from the worst harm if the software fails, counting only safeguards outside the software. It sets how much process the software needs. FDA guidance also sets a Basic or Enhanced documentation level, which guides how much you submit. A class II device doesn&#x27;t make the software class B. And until you assign a class, class C rules apply.</p>
+<p><b>Where IEC 62304 sits.</b> So where does IEC 62304 sit? Inside the company&#x27;s quality system, ISO 13485, as the software part of design and development. ISO 14971 runs alongside, asking at every step what could hurt someone. And regulators look for the evidence from all three.</p>
+<p><b>Life cycle, part 1.</b> In this made-up story, the fix starts as a user need: if the app stops, the motor must stop safely. That becomes a system requirement: stop within 300 milliseconds. Then IEC 62304 takes over. The team plans the work for the software&#x27;s class. The software requirements say: the app sends a heartbeat every 50 milliseconds, and the firmware stops the motor if the heartbeat is missing for 150. The architecture puts the stop in the firmware, so it works even when the app doesn&#x27;t.</p>
+<p><b>Life cycle, part 2.</b> Developers write the code and check each unit. Then the parts are put together and tested as one. The system test hangs the app on purpose and checks that the motor stops in time. Then the software is released for use in the device, with its exact version, its known issues, and an archive.</p>
+<p><b>Alongside.</b> After release, IEC 62304 keeps going. A problem from the field gets a problem report and an investigation. If the fix changes the software, the change is approved before it&#x27;s made, and tested again. Nonconformance reports and CAPA are separate quality paths, and Episode 4 follows them.</p>
+<p><b>Where it stops.</b> But IEC 62304 stops at the software. Validating the whole device for its intended use, and releasing it, belong to the quality system. That closes the loop back to the user need this story started with.</p>
+<p><b>The habit.</b> Software in a medical device can hurt someone when it fails. In my experience, engineers in this field learn one habit: whenever they ask what the software should do, they also ask what could go wrong, who could get hurt, how badly, and how likely. That&#x27;s hazard and risk, and it&#x27;s where Episode 2 begins.</p>
+<p><b>End card.</b> Medical Device Software Lifecycle in Practice. Next: one hazard, from risk to test.</p>
+</section>
+
+<section class="card"><h2>Sources (public, checked October 2026)</h2>
+<ul>
+<li>IEC 62304 scope, edition 1.1 current, Ed. 2 not published: <a href="https://webstore.iec.ch/en/publication/22794">https://webstore.iec.ch/en/publication/22794</a> · IEC's free preview (contents, introduction, scope): <a href="https://assets.vde-verlag.de/iec-normen/preview-pdf/info_iec62304%7Bed1.1%7Db.pdf">https://assets.vde-verlag.de/iec-normen/preview-pdf/info_iec62304%7Bed1.1%7Db.pdf</a>
+</li>
+<li>FDA recognizes IEC 62304 (recognition 13-79): <a href="https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfStandards/detail.cfm?standard__identification_no=38829">https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfStandards/detail.cfm?standard__identification_no=38829</a>
+</li>
+<li>AAMI TIR45:2023 FDA-recognized (13-143): <a href="https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfStandards/detail.cfm?standard__identification_no=46295">https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfStandards/detail.cfm?standard__identification_no=46295</a>
+</li>
+<li>QMSR incorporates ISO 13485:2016, effective Feb 2, 2026: <a href="https://www.fda.gov/medical-devices/postmarket-requirements-devices/quality-management-system-regulation-qmsr">https://www.fda.gov/medical-devices/postmarket-requirements-devices/quality-management-system-regulation-qmsr</a>
+</li>
+<li>Is it a medical device (intended use): <a href="https://www.fda.gov/medical-devices/classify-your-medical-device/how-determine-if-your-product-medical-device">https://www.fda.gov/medical-devices/classify-your-medical-device/how-determine-if-your-product-medical-device</a>
+</li>
+<li>Software that drives a hardware device is not SaMD (IMDRF N10 note, as quoted by Health Canada): <a href="https://www.canada.ca/en/health-canada/services/drugs-health-products/medical-devices/application-information/guidance-documents/software-medical-device-guidance-document.html">https://www.canada.ca/en/health-canada/services/drugs-health-products/medical-devices/application-information/guidance-documents/software-medical-device-guidance-document.html</a>
+</li>
+<li>Classify your medical device (class II devices usually need a 510(k)): <a href="https://www.fda.gov/medical-devices/classify-your-medical-device">https://www.fda.gov/medical-devices/classify-your-medical-device</a>
+</li>
+<li>Class I and II exemptions (why "usually" a 510(k)): <a href="https://www.fda.gov/medical-devices/classify-your-medical-device/class-i-and-class-ii-device-exemptions">https://www.fda.gov/medical-devices/classify-your-medical-device/class-i-and-class-ii-device-exemptions</a>
+</li>
+<li>EU and India classes: <a href="https://advisera.com/13485academy/mdr/classification-of-devices/">https://advisera.com/13485academy/mdr/classification-of-devices/</a> · <a href="https://cdsco.gov.in/opencms/opencms/en/Medical-Device-Diagnostics/Medical-Device-Diagnostics/">https://cdsco.gov.in/opencms/opencms/en/Medical-Device-Diagnostics/Medical-Device-Diagnostics/</a>
+</li>
+<li>Software safety class and "class C until assigned" (secondary source): <a href="https://blog.johner-institute.com/iec-62304-medical-software/safety-class-iec-62304/">https://blog.johner-institute.com/iec-62304-medical-software/safety-class-iec-62304/</a> · class II device ≠ class B: <a href="https://www.greenlight.guru/blog/iec-62304-software-safety-classes">https://www.greenlight.guru/blog/iec-62304-software-safety-classes</a>
+</li>
+<li>FDA Basic / Enhanced documentation level (Section V): <a href="https://www.fda.gov/media/153781/download">https://www.fda.gov/media/153781/download</a>
+</li>
+<li>Release, change and configuration (secondary): <a href="https://blogs.sw.siemens.com/polarion/morris-medical-monday-polarion-medpack-and-regulatory-compliance-part-2/">https://blogs.sw.siemens.com/polarion/morris-medical-monday-polarion-medpack-and-regulatory-compliance-part-2/</a> · <a href="https://blog.johner-institute.com/iec-62304-medical-software/configuration-management/">https://blog.johner-institute.com/iec-62304-medical-software/configuration-management/</a>
+</li>
+<li>NCR and CAPA in ISO 13485 vs 21 CFR 820: <a href="https://www.greenlight.guru/hubfs/Blog-Giveaways/ISO-13485-2016_vs_FDA-21-CRF-Part-820.pdf">https://www.greenlight.guru/hubfs/Blog-Giveaways/ISO-13485-2016_vs_FDA-21-CRF-Part-820.pdf</a>
+</li></ul>
+<p class="note">IEC 62304, ISO 14971 and ISO 13485 are paid documents, and this series doesn&#x27;t reproduce them. Where only a clause title is public, the point is stated in my own words with the clause number, and checked against public sources like the ones above.</p>
+</section>
+<section class="card disclaimer"><h2>Disclaimer</h2><p>This is my personal understanding and experience, shared for learning. It is not legal, regulatory or professional advice, and it is not a statement of what you or your organization must do. Standards and regulations change and can be read in different ways. Check the current official texts, and follow your own quality system and procedures, your notified body or regulator, and qualified advisers. The device, scenarios and numbers are made up and do not describe any real product, company or event. Views are my own, not those of any current or past employer. I accept no responsibility or liability for actions taken based on this material. Narration: AI voice made from my own voice. I used an AI assistant for research, fact-checking and drafting; the judgment and any mistakes are mine.</p></section>
+</main>
+<footer><div class="wrap">
+<p>© 2026 Samit Desai · Text, videos and diagrams <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code MIT ·
+<a href="https://www.linkedin.com/in/samit-desai-62868420">LinkedIn</a> · <a href="https://samit-desai.github.io/">More projects</a></p>
+<p>Standards named here (IEC, ISO, AAMI) are copyrighted by their publishers; this site refers to clause numbers and
+describes them in its own words. Jira and Confluence are Atlassian trademarks, named as examples, not endorsements.</p>
+</div></footer>
+</body>
+</html>

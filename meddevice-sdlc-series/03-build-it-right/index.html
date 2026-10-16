@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Episode 3 of 4: Build it right, and prove it · Medical Device Software Lifecycle in Practice</title>
+<meta name="description" content="Episode 3 of 4: Build it right, and prove it. Build 398 passed the tests, and build 412 is about to ship. Which one was tested? Building device software under IEC 62304, with the evidence made as you go.">
+<meta name="author" content="Samit Desai">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="Episode 3 of 4: Build it right, and prove it · Medical Device Software Lifecycle in Practice">
+<meta property="og:description" content="Episode 3 of 4: Build it right, and prove it. Build 398 passed the tests, and build 412 is about to ship. Which one was tested? Building device software under IEC 62304, with the evidence made as you go.">
+<link rel="stylesheet" href="../assets/site.css">
+<script src="../assets/player.js" defer></script>
+</head>
+<body>
+<header class="bar"><div class="wrap"><a class="home" href="../">Medical Device Software Lifecycle in Practice</a><span class="by">Samit Desai</span></div></header>
+<main class="wrap" style="--hue: #0f9a6c">
+<div class="tags"><span class="badge">Episode 3 of 4</span><span class="pill">IEC 62304</span><span class="len">3:40</span></div>
+<h1>Build it right, <em>and prove it</em></h1>
+<p class="lead">Build 398 passed the tests, and build 412 is about to ship. Which one was tested? Building device software under IEC 62304, with the evidence made as you go.</p>
+<div class="watch">
+<div class="player">
+  <video controls playsinline preload="metadata" poster="poster.jpg">
+    <source src="episode3.mp4" type="video/mp4">
+    Your browser can't play this video. <a href="episode3.mp4">Download it (MP4)</a>.
+  </video>
+  <button class="cover" type="button" aria-label="Play Episode 3 of 4: Build it right, and prove it">
+    <img src="poster.jpg" alt="Cover: Episode 3 of 4: Build it right, and prove it" width="1080" height="1350">
+    <span class="play" aria-hidden="true"><i></i><span class="pl">Play</span> · 3:40</span>
+  </button>
+</div>
+<nav class="nav"><a class="btn ghost" href="../02-one-hazard/">← Episode 2 of 4</a><a class="btn ghost" href="../00-the-map/interactive.html">Open the clickable map</a><a class="btn" href="../04-when-something-goes-wrong/">Episode 4 of 4 →</a></nav>
+</div>
+<section class="card"><h2>Transcript</h2>
+<p class="note">Every example uses one made-up device: a motorized rehab device in which a PC app sends settings to controller firmware that drives a motor moving a patient&#x27;s arm or leg. Every number, ID and version in the story is made up.</p>
+<p><b>Which build was tested?.</b> It&#x27;s release day for the made-up rehab device. The test report says build 398 passed, but the build about to go out is 412. Which one was actually tested? This is Episode 3: build it right, and prove it.</p>
+<p><b>The big picture.</b> Here&#x27;s the one-page picture from Episode 1. The quality system holds everything, and risk management runs through every step. This episode lifts out the development flow: building the software, and showing it was built right.</p>
+<p><b>A plan sized to the class.</b> It starts with a plan, sized to the software safety class. Every class needs requirements, code, system tests and a release record. Class B adds an architecture, unit verification and integration testing. Class C adds a detailed design for every unit. In this story, the app and firmware are class B, a made-up rating.</p>
+<p><b>Sprints, with the evidence in done.</b> IEC 62304 doesn&#x27;t prescribe a life cycle model, and this team works in sprints. AAMI TIR45 describes how agile practices fit. I think sprints work best when &quot;done&quot; includes the evidence: a story isn&#x27;t done until its code, tests, updated requirement, risk check and review are recorded.</p>
+<p><b>Everything versioned.</b> Configuration management gives each controlled item an ID and a version: the code, requirements, tests, libraries, even the build tools. Once an item is under control, it changes only through an approved change request. So the team can say exactly what went into any release, and rebuild it.</p>
+<p><b>SOUP and the SBOM.</b> The app uses an open-source library for PDF reports. In IEC 62304, that&#x27;s SOUP, software of unknown provenance: off-the-shelf software not developed for this device, or software without adequate development records. The team lists it in the SOUP list and the SBOM, the software bill of materials, and watches it for newly known problems. In the US, a cyber device&#x27;s premarket submission must include an SBOM.</p>
+<p><b>Verified, at three levels.</b> For class B, verification happens at three levels. Unit tests check each piece, integration tests check the parts together, and system tests check the whole software against its requirements. Every result names the exact build it ran on. The trace report is built from those results, linking each requirement to tests that passed on that build.</p>
+<p><b>The release record.</b> The software release record names the exact build and lists the known bugs it ships with, called residual anomalies, each checked for risk. The software, its items and documents are archived. Because every result names its build, the near-miss is caught here: the tests name 398, but the release names 412. So build 412 is tested before anything ships. In my view, a test result is evidence only for the build it names.</p>
+<p><b>Build the evidence and documents as you go.</b> In my experience, it&#x27;s easier to build the evidence and documents as you go. A CI pipeline is one way to do it, though IEC 62304 doesn&#x27;t require one. It builds each version, runs the tests and ties each result to that build. It regenerates the SBOM, checks the SOUP list, and flags newly known vulnerabilities for a person to assess. AI drafts from those facts, and a named person reviews and signs.</p>
+<p><b>The tools are checked too.</b> One key guardrail: tools that create quality records are validated for their intended use, in proportion to the risk. That&#x27;s in ISO 13485, and FDA&#x27;s Computer Software Assurance guidance describes a risk-based way to do it.</p>
+<p><b>Into the field.</b> The software ships. Months later, a report comes in from the field. That&#x27;s where Episode 4 begins.</p>
+<p><b>End card.</b> Medical Device Software Lifecycle in Practice. Next: when something goes wrong.</p>
+</section>
+
+<section class="card"><h2>Sources (public, checked October 2026)</h2>
+<ul>
+<li>IEC 62304 Ed. 1.1 (2015-06-26), common framework, validation and final release out of scope: <a href="https://webstore.iec.ch/en/publication/22794">https://webstore.iec.ch/en/publication/22794</a>
+</li>
+<li>IEC's free preview (Introduction: no life cycle model prescribed, no document names or formats prescribed; 1.4 compliance by software safety class; Figure 1: activities 5.1–5.8 with unit, integration and system testing; contents for 5.7, 5.8, 8.1): <a href="https://assets.vde-verlag.de/iec-normen/preview-pdf/info_iec62304%7Bed1.1%7Db.pdf">https://assets.vde-verlag.de/iec-normen/preview-pdf/info_iec62304%7Bed1.1%7Db.pdf</a>
+</li>
+<li>Open book chapter quoting IEC 62304 clause by clause, with class tables (SOUP definition; 5.3–5.6 class tables; 5.7.4 traceability; 5.7.5 "the version of software tested"; 5.8.1–5.8.8 release tasks and archive; 6.1 SOUP upgrades, patches and obsolescence; 7.1.3; 8.1.1, 8.1.2; 8.2.1 approved change requests): Marques et al., <i>Fundamentals of IEC 62304 with an Agile Software Development Model</i>, SBCAS 2021, ch. 3: <a href="https://books-sol.sbc.org.br/index.php/sbc/catalog/download/77/330/586?inline=1">https://books-sol.sbc.org.br/index.php/sbc/catalog/download/77/330/586?inline=1</a>
+</li>
+<li>What each class requires (A: requirements, release, system tests since Amendment 1; B adds architecture and verification 5.5–5.7; C adds detailed design): <a href="https://blog.johner-institute.com/iec-62304-medical-software/safety-class-iec-62304/">https://blog.johner-institute.com/iec-62304-medical-software/safety-class-iec-62304/</a>
+</li>
+<li>FDA recognizes IEC 62304 (13-79, complete standard): <a href="https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfStandards/detail.cfm?standard__identification_no=38829">https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfStandards/detail.cfm?standard__identification_no=38829</a>
+</li>
+<li>FDA recognizes AAMI TIR45:2023 (13-143, May 26, 2025, complete standard): <a href="https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfStandards/detail.cfm?standard__identification_no=46295">https://www.accessdata.fda.gov/scripts/cdrh/cfdocs/cfStandards/detail.cfm?standard__identification_no=46295</a>
+</li>
+<li>TIR45 layers and Definition of Done including documentation (secondary): <a href="https://blog.johner-institute.com/iec-62304-medical-software/tir-45-agile-software-development/">https://blog.johner-institute.com/iec-62304-medical-software/tir-45-agile-software-development/</a> · <a href="https://medicaldevicehq.com/articles/agile-deveopment-practices-ready-done/">https://medicaldevicehq.com/articles/agile-deveopment-practices-ready-done/</a>
+</li>
+<li>FDA premarket software guidance (June 2023): no life cycle model recommended (waterfall, spiral, Agile as examples); documentation created retrospectively "could raise concerns": <a href="https://www.fda.gov/media/153781/download">https://www.fda.gov/media/153781/download</a>
+</li>
+<li>Configuration management: items under version control incl. SOUP and build scripts, control before verification, approval of changes (secondary): <a href="https://blog.johner-institute.com/iec-62304-medical-software/configuration-management/">https://blog.johner-institute.com/iec-62304-medical-software/configuration-management/</a>
+</li>
+<li>SOUP definition and the 2015 note (secondary): <a href="https://blog.johner-institute.com/iec-62304-medical-software/off-the-shelf-software-ots-versus-soup/">https://blog.johner-institute.com/iec-62304-medical-software/off-the-shelf-software-ots-versus-soup/</a> · open-source software as SOUP, monitored for new anomalies and vulnerabilities (secondary): <a href="https://meddeviceguide.com/blog/soup-software-unknown-provenance-iec-62304-guide">https://meddeviceguide.com/blog/soup-software-unknown-provenance-iec-62304-guide</a>
+</li>
+<li>FD&amp;C Act §524B (21 U.S.C. 360n-2): (b)(1) postmarket vulnerability plan, (b)(3) SBOM incl. commercial, open-source and off-the-shelf, (c) cyber device: <a href="https://www.law.cornell.edu/uscode/text/21/360n-2">https://www.law.cornell.edu/uscode/text/21/360n-2</a>
+</li>
+<li>§524B applies to submissions from March 29, 2023: <a href="https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity-medical-devices-frequently-asked-questions-faqs">https://www.fda.gov/medical-devices/digital-health-center-excellence/cybersecurity-medical-devices-frequently-asked-questions-faqs</a>
+</li>
+<li>FDA cybersecurity guidance (Feb 3, 2026): SBOM kept under configuration management and updated regularly; §524B(b)(3) SBOM section: <a href="https://www.fda.gov/media/119933/download">https://www.fda.gov/media/119933/download</a>
+</li>
+<li>ISO 13485:2016 4.1.6 wording (validation of QMS software, proportionate to risk; secondary): <a href="https://www.greenlight.guru/blog/software-validation-iso-13485-2016">https://www.greenlight.guru/blog/software-validation-iso-13485-2016</a>
+</li>
+<li>FDA CSA guidance (title, Feb 3, 2026, supersedes Sep 24, 2025; scope incl. software that maintains a quality record; AI/ML tools; risk-based): <a href="https://www.fda.gov/media/188844/download">https://www.fda.gov/media/188844/download</a>
+</li>
+<li>QMSR incorporates ISO 13485:2016, effective Feb 2, 2026: <a href="https://www.fda.gov/medical-devices/postmarket-requirements-devices/quality-management-system-regulation-qmsr">https://www.fda.gov/medical-devices/postmarket-requirements-devices/quality-management-system-regulation-qmsr</a>
+</li>
+<li>Team-NB 2025 sector survey press release (May 18, 2026; 41 notified bodies; 65% of MDR files missing half of the needed information): <a href="https://www.team-nb.org/wp-content/uploads/2026/05/Team-NB-MD-Sector-Survey-PressRelease-20260518.docx">https://www.team-nb.org/wp-content/uploads/2026/05/Team-NB-MD-Sector-Survey-PressRelease-20260518.docx</a>
+</li>
+<li>Black Duck OSSRA 2026 (vendor report; 98% of 947 codebases; 1,180 components per application on average): <a href="https://www.blackduck.com/resources/analyst-reports/open-source-security-risk-analysis.html">https://www.blackduck.com/resources/analyst-reports/open-source-security-risk-analysis.html</a>
+</li></ul>
+<p class="note">IEC 62304, ISO 14971 and ISO 13485 are paid documents, and this series doesn&#x27;t reproduce them. Where only a clause title is public, the point is stated in my own words with the clause number, and checked against public sources like the ones above.</p>
+</section>
+<section class="card disclaimer"><h2>Disclaimer</h2><p>This is my personal understanding and experience, shared for learning. It is not legal, regulatory or professional advice, and it is not a statement of what you or your organization must do. Standards and regulations change and can be read in different ways. Check the current official texts, and follow your own quality system and procedures, your notified body or regulator, and qualified advisers. The device, scenarios and numbers are made up and do not describe any real product, company or event. Views are my own, not those of any current or past employer. I accept no responsibility or liability for actions taken based on this material. Narration: AI voice made from my own voice. I used an AI assistant for research, fact-checking and drafting; the judgment and any mistakes are mine.</p></section>
+</main>
+<footer><div class="wrap">
+<p>© 2026 Samit Desai · Text, videos and diagrams <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a> · Code MIT ·
+<a href="https://www.linkedin.com/in/samit-desai-62868420">LinkedIn</a> · <a href="https://samit-desai.github.io/">More projects</a></p>
+<p>Standards named here (IEC, ISO, AAMI) are copyrighted by their publishers; this site refers to clause numbers and
+describes them in its own words. Jira and Confluence are Atlassian trademarks, named as examples, not endorsements.</p>
+</div></footer>
+</body>
+</html>
