@@ -43,7 +43,8 @@ h1 { font-family: var(--hand); font-weight: 700; font-size: clamp(34px, 6vw, 56p
 h1.big { font-size: clamp(38px, 7vw, 66px); }
 h1 em { font-style: normal; color: var(--hue); }
 .lead { font-size: clamp(17px, 2.2vw, 20px); color: #2e3239; max-width: 760px; margin: 0 0 26px; }
-.card { display: block; position: relative; background-color: #fff; background-image: var(--gloss); border-radius: 18px;
+/* boxes are a soft cream, lightly tinted with the page's standard color, not plain white */
+.card { display: block; position: relative; background-color: color-mix(in srgb, var(--hue) 5%, #fbf5e8); background-image: var(--gloss); border-radius: 18px;
         box-shadow: var(--soft); padding: 22px 26px; margin: 0 0 22px; color: inherit; }
 .card h2 { font-family: var(--hand); font-size: 26px; margin: 0 0 10px; }
 .card p { margin: 0 0 12px; }
@@ -57,7 +58,8 @@ h1 em { font-style: normal; color: var(--hue); }
 
 /* the video, with its cover: shown before play, on pause and at the end */
 /* video on the left, chapters and buttons on the right; stacked on narrow screens */
-.watch { display: grid; grid-template-columns: minmax(0, 540px) minmax(0, 1fr); gap: 28px; align-items: stretch; margin: 0 0 30px; }
+.watch { display: grid; grid-template-columns: minmax(0, 540px) minmax(280px, 1fr); gap: 28px; align-items: stretch; margin: 0 0 30px; }
+.watch .player { align-self: start; }   /* the video keeps its 4:5 shape; only the side panel stretches */
 .side { margin: 0; display: flex; flex-direction: column; }
 .side h2 { margin-bottom: 6px; }
 .chap { margin: 0 0 18px; padding-left: 26px; color: #3a3f47; font-size: 16px; line-height: 1.45; flex: 1; }
@@ -113,9 +115,9 @@ h1 em { font-style: normal; color: var(--hue); }
 footer { border-top: 1px solid var(--line); padding-block: 22px 40px; color: var(--muted); font-size: 14px; }
 footer p { margin: 4px 0; }
 
-@media (max-width: 860px) {
-  .watch { grid-template-columns: 1fr; }
-  .player { margin: 0 auto; }
+@media (max-width: 760px) {
+  .watch { grid-template-columns: 1fr; justify-items: center; }
+  .side { width: 100%; max-width: 540px; }
 }
 @media (max-width: 560px) {
   body { font-size: 16px; }
