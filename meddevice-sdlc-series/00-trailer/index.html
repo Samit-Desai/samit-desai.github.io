@@ -9,8 +9,8 @@
 <meta name="robots" content="noindex, nofollow">
 <meta property="og:title" content="Trailer: The whole life cycle, on one map · Medical Device Software Lifecycle in Practice">
 <meta property="og:description" content="Trailer: The whole life cycle, on one map. Medical device software can feel like chaos. Here&#x27;s how I make sense of it: the rules as plain questions, in the order a device lives through them.">
-<link rel="stylesheet" href="../assets/site.css?v=1792182582">
-<script src="../assets/player.js?v=1792182582" defer></script>
+<link rel="stylesheet" href="../assets/site.css?v=1792182936">
+<script src="../assets/player.js?v=1792182936" defer></script>
 </head>
 <body>
 <header class="bar"><div class="wrap"><a class="nb" href="https://samit-desai.github.io/">← Home</a><a class="nb ep-all" href="../#episodes">All episodes</a><a class="home" href="../">Medical Device Software Lifecycle in Practice</a>
@@ -37,7 +37,7 @@
   <a class="jump" href="#transcript">Transcript and sources ↓</a>
 </aside>
 </div>
-<section class="card" id="transcript"><h2>Transcript</h2>
+<details class="card fold" id="transcript"><summary><h2>Transcript</h2><span class="sum">14 parts · every spoken word</span></summary><div class="fold-body">
 <p class="note">Every example uses one made-up device: a motorized rehab device in which a PC app sends settings to controller firmware that drives a motor moving a patient&#x27;s arm or leg. Every number, ID and version in the story is made up.</p>
 <p><b>The chaos.</b> If you&#x27;ve ever built software for a medical device, you know the feeling. FDA, MDR, CDSCO, ISO 13485, IEC 62304, CAPA, SOUP, NCR. It can feel like chaos.</p>
 <p><b>Why it&#x27;s hard.</b> There are good reasons for it. If the software fails, a patient can get hurt. Each market has its own regulator, and you have to prove what you did, in writing.</p>
@@ -53,8 +53,8 @@
 <p><b>Tools and AI.</b> In my experience, much of this can be automated. Tools like Jira and Confluence, test management, and a CI/CD pipeline can link requirements to tests on every build. AI drafts from those facts, and a named person reviews and signs. And the tools themselves are validated for their use.</p>
 <p><b>Payoff.</b> Once I knew the questions, there were fewer surprises, and the process started to help me.</p>
 <p><b>What&#x27;s coming.</b> Over four short episodes, one made-up rehab device travels from the first map, through risk and evidence, to the day an auditor picks one bug. Medical Device Software Lifecycle in Practice. See you in Episode 1.</p>
-</section>
-<section class="card"><h2>On screen, but not spoken</h2>
+</div></details>
+<details class="card fold" id="onscreen"><summary><h2>On screen, but not spoken</h2><span class="sum">6 notes the video shows without saying</span></summary><div class="fold-body">
 <ul>
 <li><b>IEC 62304's steps, with their clauses:</b>
 <ul>
@@ -75,8 +75,8 @@
 </li>
 <li><b>Tools:</b> 21 CFR Part 11 covers electronic records and signatures; ISO 13485 4.1.6 asks for software used in the quality system to be validated for its use.
 </li></ul>
-</section>
-<section class="card"><h2>Sources (public, checked October 2026)</h2>
+</div></details>
+<details class="card fold" id="sources"><summary><h2>Sources</h2><span class="sum">17 public sources, checked October 2026</span></summary><div class="fold-body">
 <ul>
 <li>IEC 62304:2006 + Amendment 1:2015, <i>Medical device software — Software life cycle processes</i>: 1.2, 3.29, 4.3, 5.1–5.8, 6, 7, 8, 9. IEC's preview (contents, scope): <a href="https://assets.vde-verlag.de/iec-normen/preview-pdf/info_iec62304%7Bed1.1%7Db.pdf">https://assets.vde-verlag.de/iec-normen/preview-pdf/info_iec62304%7Bed1.1%7Db.pdf</a> · current edition: <a href="https://webstore.iec.ch/en/publication/22794">https://webstore.iec.ch/en/publication/22794</a>
 </li>
@@ -111,9 +111,8 @@
 <li>Software safety class and outside risk controls (secondary): <a href="https://blog.johner-institute.com/iec-62304-medical-software/safety-class-iec-62304/">https://blog.johner-institute.com/iec-62304-medical-software/safety-class-iec-62304/</a>
 </li>
 <li>Jira and Confluence are Atlassian trademarks: <a href="https://www.atlassian.com/legal/trademark">https://www.atlassian.com/legal/trademark</a>
-</li></ul>
-<p class="note">IEC 62304, ISO 14971 and ISO 13485 are paid documents, and this series doesn&#x27;t reproduce them. Where only a clause title is public, the point is stated in my own words with the clause number, and checked against public sources like the ones above.</p>
-</section>
+</li></ul><p class="note">IEC 62304, ISO 14971 and ISO 13485 are paid documents, and this series doesn&#x27;t reproduce them. Where only a clause title is public, the point is stated in my own words with the clause number, and checked against public sources like the ones above.</p>
+</div></details>
 <section class="card disclaimer"><h2>Disclaimer</h2><p>This is my personal understanding and experience, shared for learning. It is not legal, regulatory or professional advice, and it is not a statement of what you or your organization must do. Standards and regulations change and can be read in different ways. Check the current official texts, and follow your own quality system and procedures, your notified body or regulator, and qualified advisers. The device, scenarios and numbers are made up and do not describe any real product, company or event. Views are my own, not those of any current or past employer. I accept no responsibility or liability for actions taken based on this material. Narration: AI voice made from my own voice. I used an AI assistant for research, fact-checking and drafting; the judgment and any mistakes are mine.</p></section>
 </main>
 <footer><div class="wrap">

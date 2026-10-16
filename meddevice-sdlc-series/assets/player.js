@@ -9,3 +9,8 @@ document.querySelectorAll(".player").forEach(function (p) {
   v.addEventListener("pause", function () { clearTimeout(t); t = setTimeout(function () { if (v.paused && !v.seeking) show("Resume"); }, 350); });
   v.addEventListener("ended", function () { show("Watch again"); });
 });
+
+// a link to a folded box (#transcript, #sources) opens it
+function openFold() { var d = location.hash && document.querySelector("details" + location.hash); if (d) d.open = true; }
+window.addEventListener("hashchange", openFold); openFold();
+document.querySelectorAll('a[href^="#"]').forEach(function (a) { a.addEventListener("click", function () { setTimeout(openFold, 0); }); });

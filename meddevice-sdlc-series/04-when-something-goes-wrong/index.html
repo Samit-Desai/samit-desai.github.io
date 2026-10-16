@@ -9,8 +9,8 @@
 <meta name="robots" content="noindex, nofollow">
 <meta property="og:title" content="Episode 4 of 4: When something goes wrong · Medical Device Software Lifecycle in Practice">
 <meta property="og:description" content="Episode 4 of 4: When something goes wrong. A report from the field: the motor took almost half a second to stop. Four paths after release, and the audit.">
-<link rel="stylesheet" href="../assets/site.css?v=1792182582">
-<script src="../assets/player.js?v=1792182582" defer></script>
+<link rel="stylesheet" href="../assets/site.css?v=1792182936">
+<script src="../assets/player.js?v=1792182936" defer></script>
 </head>
 <body>
 <header class="bar"><div class="wrap"><a class="nb" href="https://samit-desai.github.io/">← Home</a><a class="nb ep-all" href="../#episodes">All episodes</a><a class="home" href="../">Medical Device Software Lifecycle in Practice</a>
@@ -37,7 +37,7 @@
   <a class="jump" href="#transcript">Transcript and sources ↓</a>
 </aside>
 </div>
-<section class="card" id="transcript"><h2>Transcript</h2>
+<details class="card fold" id="transcript"><summary><h2>Transcript</h2><span class="sum">12 parts · every spoken word</span></summary><div class="fold-body">
 <p class="note">Every example uses one made-up device: a motorized rehab device in which a PC app sends settings to controller firmware that drives a motor moving a patient&#x27;s arm or leg. Every number, ID and version in the story is made up.</p>
 <p><b>The hook.</b> A therapist reports that the app stopped responding, and the motor took almost half a second to stop. In this made-up story, nobody was hurt, but the requirement says 300 milliseconds. What happens next? This is Episode 4: when something goes wrong, four paths, and the audit.</p>
 <p><b>The big picture.</b> Here&#x27;s the one-page picture from Episode 1 again. Each flow on it ends in the same place: in the field, after release. That&#x27;s where complaints, fixes, CAPA and audits come together, and it&#x27;s the part this episode zooms into.</p>
@@ -51,9 +51,9 @@
 <p><b>Audit day.</b> Then comes audit day. An auditor picks this one complaint and follows the trail, record by record, from the complaint to the CAPA&#x27;s effectiveness check. Here, each record points to the next. In my experience, a break in that trail is where findings tend to start.</p>
 <p><b>Season close.</b> This season started with chaos: FDA, MDR, ISO, CAPA, SOUP. I hope it now looks more like a map, where every rule answers a question and has its place. That&#x27;s how I make sense of it. Thanks for following along.</p>
 <p><b>End card.</b> Medical Device Software Lifecycle in Practice. That&#x27;s the season.</p>
-</section>
+</div></details>
 
-<section class="card"><h2>Sources (public, checked October 2026)</h2>
+<details class="card fold" id="sources"><summary><h2>Sources</h2><span class="sum">17 public sources, checked October 2026</span></summary><div class="fold-body">
 <ul>
 <li>FDA, mandatory reporting for manufacturers (30 calendar days, 5 work days, the malfunction trigger; content current 27 Mar 2025): <a href="https://www.fda.gov/medical-devices/postmarket-requirements-devices/mandatory-reporting-requirements-manufacturers-importers-and-device-user-facilities">https://www.fda.gov/medical-devices/postmarket-requirements-devices/mandatory-reporting-requirements-manufacturers-importers-and-device-user-facilities</a>
 </li>
@@ -88,9 +88,8 @@
 <li>Changes to released software: approval first, regression testing, trends in problem reports (Johner Institute, secondary): <a href="https://blog.johner-institute.com/iec-62304-medical-software/software-maintenance-iec-62304-and-compliance-testing/">https://blog.johner-institute.com/iec-62304-medical-software/software-maintenance-iec-62304-and-compliance-testing/</a>
 </li>
 <li>What should trigger a CAPA (recurrence, serious harm, systemic issues; not every one-off; Greenlight Guru, 13 Oct 2026, vendor view): <a href="https://www.greenlight.guru/blog/what-should-really-trigger-a-capa">https://www.greenlight.guru/blog/what-should-really-trigger-a-capa</a>
-</li></ul>
-<p class="note">IEC 62304, ISO 14971 and ISO 13485 are paid documents, and this series doesn&#x27;t reproduce them. Where only a clause title is public, the point is stated in my own words with the clause number, and checked against public sources like the ones above.</p>
-</section>
+</li></ul><p class="note">IEC 62304, ISO 14971 and ISO 13485 are paid documents, and this series doesn&#x27;t reproduce them. Where only a clause title is public, the point is stated in my own words with the clause number, and checked against public sources like the ones above.</p>
+</div></details>
 <section class="card disclaimer"><h2>Disclaimer</h2><p>This is my personal understanding and experience, shared for learning. It is not legal, regulatory or professional advice, and it is not a statement of what you or your organization must do. Standards and regulations change and can be read in different ways. Check the current official texts, and follow your own quality system and procedures, your notified body or regulator, and qualified advisers. The device, scenarios and numbers are made up and do not describe any real product, company or event. Views are my own, not those of any current or past employer. I accept no responsibility or liability for actions taken based on this material. Narration: AI voice made from my own voice. I used an AI assistant for research, fact-checking and drafting; the judgment and any mistakes are mine.</p></section>
 </main>
 <footer><div class="wrap">

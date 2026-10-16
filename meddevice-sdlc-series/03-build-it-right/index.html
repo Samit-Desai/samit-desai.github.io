@@ -9,8 +9,8 @@
 <meta name="robots" content="noindex, nofollow">
 <meta property="og:title" content="Episode 3 of 4: Build it right, and prove it · Medical Device Software Lifecycle in Practice">
 <meta property="og:description" content="Episode 3 of 4: Build it right, and prove it. Build 398 passed the tests, and build 412 is about to ship. Which one was tested? Building device software under IEC 62304, with the evidence made as you go.">
-<link rel="stylesheet" href="../assets/site.css?v=1792182582">
-<script src="../assets/player.js?v=1792182582" defer></script>
+<link rel="stylesheet" href="../assets/site.css?v=1792182936">
+<script src="../assets/player.js?v=1792182936" defer></script>
 </head>
 <body>
 <header class="bar"><div class="wrap"><a class="nb" href="https://samit-desai.github.io/">← Home</a><a class="nb ep-all" href="../#episodes">All episodes</a><a class="home" href="../">Medical Device Software Lifecycle in Practice</a>
@@ -37,7 +37,7 @@
   <a class="jump" href="#transcript">Transcript and sources ↓</a>
 </aside>
 </div>
-<section class="card" id="transcript"><h2>Transcript</h2>
+<details class="card fold" id="transcript"><summary><h2>Transcript</h2><span class="sum">12 parts · every spoken word</span></summary><div class="fold-body">
 <p class="note">Every example uses one made-up device: a motorized rehab device in which a PC app sends settings to controller firmware that drives a motor moving a patient&#x27;s arm or leg. Every number, ID and version in the story is made up.</p>
 <p><b>Which build was tested?.</b> It&#x27;s release day for the made-up rehab device. The test report says build 398 passed, but the build about to go out is 412. Which one was actually tested? This is Episode 3: build it right, and prove it.</p>
 <p><b>The big picture.</b> Here&#x27;s the one-page picture from Episode 1. The quality system holds everything, and risk management runs through every step. This episode lifts out the development flow: building the software, and showing it was built right.</p>
@@ -51,9 +51,9 @@
 <p><b>The tools are checked too.</b> One key guardrail: tools that create quality records are validated for their intended use, in proportion to the risk. That&#x27;s in ISO 13485, and FDA&#x27;s Computer Software Assurance guidance describes a risk-based way to do it.</p>
 <p><b>Into the field.</b> The software ships. Months later, a report comes in from the field. That&#x27;s where Episode 4 begins.</p>
 <p><b>End card.</b> Medical Device Software Lifecycle in Practice. Next: when something goes wrong.</p>
-</section>
+</div></details>
 
-<section class="card"><h2>Sources (public, checked October 2026)</h2>
+<details class="card fold" id="sources"><summary><h2>Sources</h2><span class="sum">18 public sources, checked October 2026</span></summary><div class="fold-body">
 <ul>
 <li>IEC 62304 Ed. 1.1 (2015-06-26), common framework, validation and final release out of scope: <a href="https://webstore.iec.ch/en/publication/22794">https://webstore.iec.ch/en/publication/22794</a>
 </li>
@@ -90,9 +90,8 @@
 <li>Team-NB 2025 sector survey press release (May 18, 2026; 41 notified bodies; 65% of MDR files missing half of the needed information): <a href="https://www.team-nb.org/wp-content/uploads/2026/05/Team-NB-MD-Sector-Survey-PressRelease-20260518.docx">https://www.team-nb.org/wp-content/uploads/2026/05/Team-NB-MD-Sector-Survey-PressRelease-20260518.docx</a>
 </li>
 <li>Black Duck OSSRA 2026 (vendor report; 98% of 947 codebases; 1,180 components per application on average): <a href="https://www.blackduck.com/resources/analyst-reports/open-source-security-risk-analysis.html">https://www.blackduck.com/resources/analyst-reports/open-source-security-risk-analysis.html</a>
-</li></ul>
-<p class="note">IEC 62304, ISO 14971 and ISO 13485 are paid documents, and this series doesn&#x27;t reproduce them. Where only a clause title is public, the point is stated in my own words with the clause number, and checked against public sources like the ones above.</p>
-</section>
+</li></ul><p class="note">IEC 62304, ISO 14971 and ISO 13485 are paid documents, and this series doesn&#x27;t reproduce them. Where only a clause title is public, the point is stated in my own words with the clause number, and checked against public sources like the ones above.</p>
+</div></details>
 <section class="card disclaimer"><h2>Disclaimer</h2><p>This is my personal understanding and experience, shared for learning. It is not legal, regulatory or professional advice, and it is not a statement of what you or your organization must do. Standards and regulations change and can be read in different ways. Check the current official texts, and follow your own quality system and procedures, your notified body or regulator, and qualified advisers. The device, scenarios and numbers are made up and do not describe any real product, company or event. Views are my own, not those of any current or past employer. I accept no responsibility or liability for actions taken based on this material. Narration: AI voice made from my own voice. I used an AI assistant for research, fact-checking and drafting; the judgment and any mistakes are mine.</p></section>
 </main>
 <footer><div class="wrap">
