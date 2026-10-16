@@ -27,12 +27,17 @@
   </video>
   <button class="cover" type="button" aria-label="Play Episode 4 of 4: When something goes wrong">
     <img src="poster.jpg" alt="Cover: Episode 4 of 4: When something goes wrong" width="1080" height="1350">
-    <span class="play" aria-hidden="true"><i></i><span class="pl">Play</span> · 3:29</span>
+    <span class="play" aria-hidden="true"><i></i><span><span class="pl">Play</span> · 3:29</span></span>
   </button>
 </div>
-<nav class="nav"><a class="btn ghost" href="../03-build-it-right/">← Episode 3 of 4</a><a class="btn ghost" href="../00-the-map/interactive.html">Open the clickable map</a><a class="btn" href="../">All episodes</a></nav>
+<aside class="card side">
+  <h2>In this video</h2>
+  <ol class="chap"><li>The hook</li><li>The big picture</li><li>A complaint</li><li>Is it reportable?</li><li>Problem report and investigation</li><li>The fix, and the 510(k) question</li><li>Four paths, side by side</li><li>CAPA: a pattern</li><li>Pause and guess</li><li>Audit day</li><li>Season close</li></ol>
+  <nav class="nav"><a class="btn ghost" href="../03-build-it-right/">← Episode 3 of 4</a><a class="btn ghost" href="../00-the-map/interactive.html">Open the clickable map</a><a class="btn" href="../">All episodes</a></nav>
+  <a class="jump" href="#transcript">Transcript and sources ↓</a>
+</aside>
 </div>
-<section class="card"><h2>Transcript</h2>
+<section class="card" id="transcript"><h2>Transcript</h2>
 <p class="note">Every example uses one made-up device: a motorized rehab device in which a PC app sends settings to controller firmware that drives a motor moving a patient&#x27;s arm or leg. Every number, ID and version in the story is made up.</p>
 <p><b>The hook.</b> A therapist reports that the app stopped responding, and the motor took almost half a second to stop. In this made-up story, nobody was hurt, but the requirement says 300 milliseconds. What happens next? This is Episode 4: when something goes wrong, four paths, and the audit.</p>
 <p><b>The big picture.</b> Here&#x27;s the one-page picture from Episode 1 again. Each flow on it ends in the same place: in the field, after release. That&#x27;s where complaints, fixes, CAPA and audits come together, and it&#x27;s the part this episode zooms into.</p>

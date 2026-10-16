@@ -27,12 +27,17 @@
   </video>
   <button class="cover" type="button" aria-label="Play Episode 2 of 4: One hazard, from risk to test">
     <img src="poster.jpg" alt="Cover: Episode 2 of 4: One hazard, from risk to test" width="1080" height="1350">
-    <span class="play" aria-hidden="true"><i></i><span class="pl">Play</span> · 3:42</span>
+    <span class="play" aria-hidden="true"><i></i><span><span class="pl">Play</span> · 3:42</span></span>
   </button>
 </div>
-<nav class="nav"><a class="btn ghost" href="../01-one-fix/">← Episode 1 of 4</a><a class="btn ghost" href="../00-the-map/interactive.html">Open the clickable map</a><a class="btn" href="../03-build-it-right/">Episode 3 of 4 →</a></nav>
+<aside class="card side">
+  <h2>In this video</h2>
+  <ol class="chap"><li>Why 300 ms?</li><li>The big picture</li><li>The freeze, and the risk thread</li><li>Hazard to harm</li><li>Estimating the risk</li><li>Risk control, in order</li><li>The software safety class</li><li>Risk control → requirements</li><li>Verification</li><li>A new risk from the control</li><li>Residual risk</li><li>Traceability</li><li>Built right?</li></ol>
+  <nav class="nav"><a class="btn ghost" href="../01-one-fix/">← Episode 1 of 4</a><a class="btn ghost" href="../00-the-map/interactive.html">Open the clickable map</a><a class="btn" href="../03-build-it-right/">Episode 3 of 4 →</a></nav>
+  <a class="jump" href="#transcript">Transcript and sources ↓</a>
+</aside>
 </div>
-<section class="card"><h2>Transcript</h2>
+<section class="card" id="transcript"><h2>Transcript</h2>
 <p class="note">Every example uses one made-up device: a motorized rehab device in which a PC app sends settings to controller firmware that drives a motor moving a patient&#x27;s arm or leg. Every number, ID and version in the story is made up.</p>
 <p><b>Why 300 ms?.</b> In Episode 1, a made-up team wrote a requirement: if the app stops, the motor stops within 300 milliseconds. But why 300 milliseconds? What could hurt the patient, and how badly? This is Episode 2: one hazard, from risk to test.</p>
 <p><b>The big picture.</b> Here&#x27;s the one-page picture from Episode 1. This time the risk band lifts out: ISO 14971. FDA inspectors look at risk analysis too: their citations for missing or inadequate risk analysis rose from 26 to 42 to 47 over three fiscal years.</p>
