@@ -27,6 +27,8 @@ a { color: #1d5fc4; }
 .bar .nb { flex: none; text-decoration: none; color: var(--ink); font-weight: 700; font-size: 14px; padding: 7px 14px; border-radius: 999px;
            background: #fff; box-shadow: 0 4px 12px rgba(30,32,48,.10), inset 0 1px 0 #fff; }
 .bar .nb:hover { background: var(--ink); color: #fff; }
+.bar .ep-all { color: #fff; background-color: var(--blue); background-image: linear-gradient(180deg, rgba(255,255,255,.3), rgba(255,255,255,0) 60%); }
+html { scroll-padding-top: 80px; }
 .bar::after { content: ""; display: block; height: 4px; background: linear-gradient(90deg, var(--green), var(--blue)); opacity: .85; }
 main { padding-block: 36px 24px; }
 .tags { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin-bottom: 14px; }
@@ -125,5 +127,6 @@ footer p { margin: 4px 0; }
   .ep .d, .ep .pill { display: none; }
   .bar .home { display: none; }
   .bar .nb { padding: 6px 11px; font-size: 13px; }
+  .bar .links .nb:last-child { display: none; }
   .mapcard { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
