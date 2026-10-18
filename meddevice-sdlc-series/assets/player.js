@@ -8,6 +8,13 @@ document.querySelectorAll(".player").forEach(function (p) {
   // a short wait, so dragging the time bar (which pauses for a moment) doesn't flash the cover
   v.addEventListener("pause", function () { clearTimeout(t); t = setTimeout(function () { if (v.paused && !v.seeking) show("Resume"); }, 350); });
   v.addEventListener("ended", function () { show("Watch again"); });
+  // a link ending in #play (from the episode list, the README or the home page) starts the video right away;
+  // if the browser blocks playing with sound, the cover stays and one click plays it
+  if (location.hash === "#play") {
+    p.scrollIntoView({ block: "center" });
+    hide();
+    v.play().catch(function () { show("Play"); });
+  }
 });
 
 // a link to a folded box (#transcript, #sources) opens it
