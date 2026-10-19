@@ -51,9 +51,6 @@ main { display: grid; gap: 24px; padding-bottom: 56px; }
   display: grid; background: linear-gradient(180deg, var(--panel), var(--panel-2));
   border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; color: var(--text);
 }
-.card:hover { text-decoration: none; }
-a.card:hover { border-color: #2b5c80; }
-a.card:hover .go { background: #7dd3fc; }
 .featured { grid-template-columns: 3fr 2fr; }
 .cover { aspect-ratio: 16 / 9; width: 100%; height: 100%; object-fit: cover; object-position: 0 50%; background: #0b1220; }
 .body { padding: 24px 26px; display: flex; flex-direction: column; gap: 10px; }
@@ -123,8 +120,10 @@ footer p { margin: 4px 0; }
 </header>
 
 <main>
-  <a class="card featured" href="visionredact-series/">
-    <img class="cover" src="img/visionredact.jpg" alt="VisionRedact Studio trailer cover: I built a 4K video redaction app in C#" width="1280" height="720">
+  <div class="card featured">
+    <a class="shot" href="visionredact-series/" aria-label="Watch the series: VisionRedact Studio">
+      <img class="cover" src="img/visionredact.jpg" alt="VisionRedact Studio trailer cover: I built a 4K video redaction app in C#" width="1280" height="720">
+    </a>
     <div class="body">
       <span class="status">Live · trailer + 5 episodes</span>
       <h2>VisionRedact Studio</h2>
@@ -132,9 +131,9 @@ footer p { margin: 4px 0; }
       shared.</p>
       <ul class="tags"><li>C#</li><li>.NET 10</li><li>WPF</li><li>Prism</li><li>ONNX Runtime</li><li>DirectML</li>
       <li>YOLO</li><li>Hugging Face</li><li>ArcFace</li><li>OpenCV</li><li>FFmpeg</li></ul>
-      <span class="go">Watch the series</span>
+      <div class="btns"><a class="go" href="visionredact-series/">Watch the series</a><a class="go ghost" href="https://github.com/Samit-Desai/VisionRedact">Code</a></div>
     </div>
-  </a>
+  </div>
 
   <div class="card featured">
     <a class="shot" href="meddevice-sdlc-series/00-trailer/#play" aria-label="Play the trailer: Medical Device Software Lifecycle in Practice">
