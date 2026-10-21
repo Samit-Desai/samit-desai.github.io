@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tick to Pixel: coming soon · Samit Desai</title>
+<meta name="description" content="A real-time paper-trading desk in C# and .NET MAUI, measured from the moment a price arrives to the pixel that shows it. A series is on the way.">
+<meta name="author" content="Samit Desai">
+<meta name="theme-color" content="#0b1220">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Tick to Pixel: a real-time trading desk (coming soon)">
+<meta property="og:description" content="A real-time paper-trading desk in C# and .NET MAUI, measured from the moment a price arrives to the pixel that shows it.">
+<meta property="og:url" content="https://samit-desai.github.io/tick-to-pixel/">
+<meta property="og:image" content="https://samit-desai.github.io/img/ticktopixel.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+<style>
+:root {
+  --bg: #0b1220;
+  --panel: #111a2c;
+  --panel-2: #0e1626;
+  --line: #1f2c44;
+  --text: #f1f5f9;
+  --text-2: #c3cedb;
+  --muted: #8594a8;
+  --amber: #fbbf24;
+  --accent: #38bdf8;
+  --green: #22c55e;
+  --blue: #3b9cf6;
+  --red: #ef4f6a;
+  --radius: 14px;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg) radial-gradient(1100px 650px at 0 0, #2a2410, transparent 70%) no-repeat;
+  color: var(--text);
+  font: 17px/1.6 "Segoe UI", system-ui, -apple-system, "Helvetica Neue", Roboto, Arial, sans-serif;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { display: block; max-width: 100%; height: auto; }
+code { font-family: "Cascadia Mono", Consolas, monospace; font-size: .92em; color: var(--text); }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: 24px; }
+
+.bar { border-bottom: 1px solid var(--line); background: rgba(11,18,32,.85); position: sticky; top: 0; z-index: 2; backdrop-filter: blur(8px); }
+.bar .wrap { display: flex; align-items: center; gap: 18px; min-height: 56px; flex-wrap: wrap; }
+.bar .name { color: var(--text); font-weight: 700; }
+.bar nav { margin-left: auto; display: flex; gap: 18px; font-size: 15px; }
+.bar .home { font-size: 15px; }
+
+.hero { padding-block: 52px 8px; display: grid; gap: 18px; }
+.kicker { color: var(--amber); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; font-size: 14px; margin: 0; display: inline-flex; align-items: center; gap: 9px; }
+.kicker::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+h1 { font-size: clamp(36px, 6.4vw, 60px); line-height: 1.08; margin: 0; letter-spacing: -.01em; }
+h1 em { font-style: normal; color: var(--amber); display: block; font-size: .66em; margin-top: 6px; }
+.lead { color: var(--text-2); font-size: clamp(17px, 2.2vw, 20px); max-width: 780px; margin: 0; }
+.btns { display: flex; flex-wrap: wrap; gap: 10px; }
+.go { display: inline-block; background: var(--amber); color: #1a1406; font-weight: 600; font-size: 15px; padding: 10px 18px; border-radius: 999px; }
+.go:hover { background: #fcd34d; text-decoration: none; }
+.go.ghost { background: transparent; color: var(--amber); box-shadow: inset 0 0 0 1.5px var(--amber); }
+.go.ghost:hover { background: rgba(251,191,36,.12); }
+
+section { padding-top: 56px; }
+h2 { font-size: clamp(24px, 3vw, 32px); line-height: 1.2; margin: 0 0 8px; }
+.sub { color: var(--text-2); margin: 0 0 22px; max-width: 760px; }
+figure { margin: 26px 0 0; }
+.shot { border-radius: 12px; overflow: hidden; border: 1px solid rgba(251,191,36,.35); box-shadow: 0 30px 70px rgba(0,0,0,.45); }
+figcaption { color: var(--muted); font-size: 14px; margin-top: 10px; }
+
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.card { background: linear-gradient(180deg, var(--panel), var(--panel-2)); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 22px 20px; }
+.card h3 { margin: 0 0 8px; font-size: 19px; }
+.card p { margin: 0; color: var(--text-2); font-size: 16px; }
+
+/* how colour links work */
+.link { margin-top: 18px; display: grid; grid-template-columns: auto auto 1fr; gap: 14px 18px; align-items: center; }
+.node { display: inline-flex; align-items: center; gap: 9px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 9px 14px; font-size: 15px; white-space: nowrap; }
+.node b { font-weight: 700; }
+.dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.dot.b { background: var(--blue); } .dot.r { background: var(--red); }
+.store { border-color: rgba(251,191,36,.6); color: var(--amber); font-weight: 700; }
+.arrow { color: var(--muted); font-size: 22px; line-height: 1; }
+.fan { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.stay { grid-column: 1 / -1; color: var(--muted); font-size: 15px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
+.list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.list li { display: grid; grid-template-columns: 112px 1fr; gap: 16px; align-items: start; background: linear-gradient(180deg, var(--panel), var(--panel-2)); border: 1px solid var(--line); border-radius: 12px; padding: 16px 18px; }
+.list b { display: block; font-size: 17px; }
+.list span.d { color: var(--text-2); font-size: 16px; }
+.st { justify-self: start; font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; white-space: nowrap; margin-top: 2px; }
+.st.built { color: var(--green); background: rgba(34,197,94,.12); }
+.st.next { color: var(--amber); background: rgba(251,191,36,.14); }
+.st.plan { color: var(--accent); background: rgba(56,189,248,.12); }
+.measured { color: var(--green); font-weight: 600; }
+
+.eps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.ep { background: linear-gradient(180deg, var(--panel), var(--panel-2)); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: grid; gap: 6px; align-content: start; }
+.ep .n { color: var(--amber); font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.ep b { font-size: 17px; line-height: 1.25; }
+.ep span.d { color: var(--text-2); font-size: 14.5px; }
+.ep .soon { color: var(--muted); font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; margin-top: 4px; }
+
+.tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.tags li { border: 1.5px solid #2b3d5a; color: var(--text-2); border-radius: 999px; padding: 3px 12px; font-size: 15px; }
+.tags li.k { border-color: var(--amber); color: var(--text); }
+.tags li small { color: var(--muted); font-size: 12px; }
+
+.notes { margin: 0; padding-left: 20px; color: var(--text-2); display: grid; gap: 6px; }
+footer { border-top: 1px solid var(--line); margin-top: 64px; padding-block: 24px 40px; color: var(--muted); font-size: 14px; }
+footer p { margin: 4px 0; }
+
+@media (max-width: 900px) {
+  .cards { grid-template-columns: 1fr; }
+  .eps { grid-template-columns: 1fr 1fr; }
+  .link { grid-template-columns: 1fr; }
+  .link > .arrow { transform: rotate(90deg); justify-self: start; margin-left: 18px; }
+}
+@media (max-width: 560px) {
+  body { font-size: 16px; }
+  .wrap { padding-inline: 16px; }
+  .bar nav { margin-left: 0; }
+  .hero { padding-top: 34px; }
+  .eps { grid-template-columns: 1fr; }
+  .list li { grid-template-columns: 1fr; gap: 8px; }
+  .node { white-space: normal; }
+}
+</style>
+</head>
+<body>
+<header class="bar"><div class="wrap">
+  <a class="home" href="../">← Home</a><span class="name">Tick to Pixel</span>
+  <nav><a href="https://github.com/Samit-Desai">GitHub</a><a href="https://www.linkedin.com/in/samit-desai-62868420">LinkedIn</a></nav>
+</div></header>
+
+<main class="wrap">
+  <div class="hero">
+    <p class="kicker">Coming soon · a series in the works</p>
+    <h1>Tick to Pixel <em>a real-time trading desk in .NET MAUI</em></h1>
+    <p class="lead">A cross-platform desktop app in C# that follows every market price from the moment it arrives (the
+    tick) to the moment it's drawn on screen (the pixel), and measures each step on the way. Watchlists, charts and
+    orders sit side by side in one workspace. <b>Paper trading only: it never sends real orders.</b></p>
+    <div class="btns"><a class="go" href="#idea">See the idea</a><a class="go ghost" href="#roadmap">What's coming</a></div>
+  </div>
+
+  <section id="idea">
+    <h2>The idea: one workspace, many panels</h2>
+    <p class="sub">Not a pop-up window for every view. One desk, laid out the way you trade, with as many charts and
+    tickers as you need.</p>
+    <figure>
+      <div class="shot"><img src="../img/ticktopixel-workspace.jpg" alt="Concept design of the Tick to Pixel workspace: a watchlist on the left; four candlestick charts for AAPL, MSFT, NVDA and TSLA in a grid; an order ticket and time and sales on the right; positions and orders along the bottom. Panels carry blue, red or green link dots. All data is simulated." width="1600" height="900" loading="lazy"></div>
+      <figcaption>Concept design. The app is being built now; the series will show it running. All prices are simulated.</figcaption>
+    </figure>
+
+    <div class="cards" style="margin-top:22px">
+      <div class="card"><h3>Panels, not pop-ups</h3><p>Watchlists, charts, time and sales, an order ticket and your
+      positions share one window. Add another chart on another stock. Save a layout and it opens the same way tomorrow.
+      Any panel can still pop out onto a second screen.</p></div>
+      <div class="card"><h3>Linked by colour</h3><p>Give panels a colour. Pick a stock in a blue watchlist and every
+      blue panel switches to it, in the same frame. A red chart keeps its own stock. Panels never call each other: one
+      store holds the links.</p></div>
+      <div class="card"><h3>Fast, and measured</h3><p>Prices arrive thousands of times a second. The screen redraws
+      only what changed, once per frame. Every claim in the series comes with a measurement and its raw data.</p></div>
+    </div>
+
+    <div class="link" aria-label="How colour links work">
+      <span class="node"><i class="dot b"></i>Blue watchlist: pick <b>AAPL</b></span>
+      <span class="arrow" aria-hidden="true">→</span>
+      <div class="fan">
+        <span class="node store">Store: blue = AAPL</span>
+        <span class="arrow" aria-hidden="true">→</span>
+        <span class="node"><i class="dot b"></i>Chart · <b>AAPL</b></span>
+        <span class="node"><i class="dot b"></i>Order ticket · <b>AAPL</b></span>
+        <span class="node"><i class="dot b"></i>Time and sales · <b>AAPL</b></span>
+      </div>
+      <div class="stay"><span class="node"><i class="dot r"></i>Red chart · <b>MSFT</b></span>stays where it is: it's in a different group.</div>
+    </div>
+  </section>
+
+  <section id="working">
+    <h2>Already working</h2>
+    <p class="sub">Built and tested on Windows 11, in a private repository for now. The code is published with the
+    series.</p>
+    <ul class="list">
+      <li><span class="st built">Built</span><span><b>A simulated market you can replay</b><span class="d">The same seed
+      gives the same prices, trades and bursts every time, so every test and every video can be repeated.</span></span></li>
+      <li><span class="st built">Built</span><span><b>A live watchlist that keeps up</b><span class="d">Once per frame it
+      updates only the rows on screen that changed. <span class="measured">Measured: 60 frames a second while 50,000
+      simulated price updates arrive every second</span> (my Windows 11 laptop).</span></span></li>
+      <li><span class="st built">Built</span><span><b>Candles, time and sales, and my own chart</b><span class="d">Built
+      from every trade, nothing skipped, and drawn on the GPU with SkiaSharp: candles, volume, crosshair, pan and
+      zoom.</span></span></li>
+      <li><span class="st built">Built</span><span><b>Views linked by colour, through a store</b><span class="d">One
+      Fluxor store, used only on the UI thread. Three views on one stock share one market-data subscription.</span></span></li>
+      <li><span class="st built">Built</span><span><b>"The store buys atomicity"</b><span class="d">Cash and shares sent to
+      the screen as two separate updates: <span class="measured">about 1 frame in 5 showed numbers that never existed
+      together</span>. Sent as one snapshot through the store: <span class="measured">none</span>.</span></span></li>
+    </ul>
+  </section>
+
+  <section id="roadmap">
+    <h2>Coming next</h2>
+    <p class="sub">Designed in full, built one piece at a time.</p>
+    <ul class="list">
+      <li><span class="st next">Next</span><span><b>The workspace of panels</b><span class="d">Several charts and
+      tickers in one window; arrange them, save named layouts, restore them on start. A full diagnostics panel.</span></span></li>
+      <li><span class="st plan">Planned</span><span><b>Paper trading</b><span class="d">Order ticket, order states,
+      fills, positions and P&amp;L. Money as <code>decimal</code>; no order or fill is ever dropped or merged.</span></span></li>
+      <li><span class="st plan">Planned</span><span><b>Real market data through my own gateway</b><span class="d">ASP.NET
+      Core and SignalR on Azure: streaming prices, reconnect, and catching up after a drop.</span></span></li>
+      <li><span class="st plan">Planned</span><span><b>Distributed-systems labs</b><span class="d">Small working labs: a
+      message bus, saga and outbox, Redis, rate limits, tracing.</span></span></li>
+      <li><span class="st plan">Planned</span><span><b>Cloud and DevOps</b><span class="d">Containers, infrastructure as
+      code, CI/CD with no stored secrets, telemetry and cost alerts.</span></span></li>
+      <li><span class="st plan">Planned</span><span><b>Cross-platform builds</b><span class="d">.NET MAUI targets
+      Windows, Mac, Android and iOS. Windows comes first and is the only platform tested so far; a Mac build in CI is
+      next, and phones would need their own layout.</span></span></li>
+    </ul>
+  </section>
+
+  <section id="series">
+    <h2>The series</h2>
+    <p class="sub">A trailer and seven short episodes, published together when all of them are ready.</p>
+    <div class="eps">
+      <div class="ep"><span class="n">Trailer</span><b>Thousands of updates a second, still smooth?</b><span class="d">Can a
+      .NET MAUI trading desk keep up, and how do you prove it?</span><span class="soon">Coming soon</span></div>
+      <div class="ep"><span class="n">Episode 1</span><b>Speed under load</b><span class="d">From 10 frames a second to
+      60: what the UI thread was really doing.</span><span class="soon">Coming soon</span></div>
+      <div class="ep"><span class="n">Episode 2</span><b>The store buys atomicity</b><span class="d">Why cash and
+      positions must change together, measured frame by frame.</span><span class="soon">Coming soon</span></div>
+      <div class="ep"><span class="n">Episode 3</span><b>Prices can be merged, orders cannot be lost</b><span class="d">Different
+      data, different rules.</span><span class="soon">Coming soon</span></div>
+      <div class="ep"><span class="n">Episode 4</span><b>Linked panels</b><span class="d">One click, every linked view,
+      the same frame, and no leaks.</span><span class="soon">Coming soon</span></div>
+      <div class="ep"><span class="n">Episode 5</span><b>Connections and recovery</b><span class="d">Streaming prices
+      that survive a dropped connection.</span><span class="soon">Coming soon</span></div>
+      <div class="ep"><span class="n">Episode 6</span><b>WPF to .NET MAUI</b><span class="d">What carries over, what
+      changes, and what to keep out of the UI.</span><span class="soon">Coming soon</span></div>
+      <div class="ep"><span class="n">Episode 7</span><b>From desktop to distributed</b><span class="d">The same ideas,
+      scaled out to services in the cloud.</span><span class="soon">Coming soon</span></div>
+    </div>
+  </section>
+
+  <section id="stack">
+    <h2>Built with</h2>
+    <ul class="tags" style="margin-top:14px">
+      <li class="k">C#</li><li class="k">.NET 10</li><li class="k">.NET MAUI</li><li>WinUI 3</li><li>Prism</li>
+      <li class="k">SkiaSharp</li><li>Win2D</li><li class="k">Fluxor</li><li>System.Threading.Channels</li><li>NUnit</li>
+      <li>BenchmarkDotNet</li><li>ASP.NET Core <small>planned</small></li><li>SignalR <small>planned</small></li>
+      <li>Azure Container Apps <small>planned</small></li>
+    </ul>
+  </section>
+
+  <section id="notes">
+    <h2>Honest notes</h2>
+    <ul class="notes">
+      <li>Paper trading and simulated prices only. Nothing here is investment advice.</li>
+      <li>Company names and tickers appear only as examples, with simulated prices. No affiliation or endorsement.</li>
+      <li>Built and measured on Windows 11. Other platforms are .NET MAUI targets, not yet tested.</li>
+      <li>The workspace picture above is a concept design, not a screenshot.</li>
+      <li>I use an AI coding assistant. The design decisions, reviews and measurements are mine.</li>
+    </ul>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  <p>© 2026 Samit Desai · <a href="https://www.linkedin.com/in/samit-desai-62868420">LinkedIn</a> · <a href="https://github.com/Samit-Desai">GitHub</a> · <a href="../">More projects</a></p>
+</div></footer>
+</body>
+</html>
