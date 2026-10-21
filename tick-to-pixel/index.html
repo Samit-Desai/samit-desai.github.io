@@ -150,8 +150,8 @@ footer p { margin: 4px 0; }
     <p class="sub">Not a pop-up window for every view. One desk, laid out the way you trade, with as many charts and
     tickers as you need.</p>
     <figure>
-      <div class="shot"><img src="../img/ticktopixel-workspace.jpg" alt="Concept design of the Tick to Pixel workspace: a watchlist on the left; four candlestick charts for AAPL, MSFT, NVDA and TSLA in a grid; an order ticket and time and sales on the right; positions and orders along the bottom. Panels carry blue, red or green link dots. All data is simulated." width="1600" height="900" loading="lazy"></div>
-      <figcaption>Concept design. The app is being built now; the series will show it running. All prices are simulated.</figcaption>
+      <div class="shot"><img src="../img/ticktopixel-app.jpg" alt="Screenshot of the Tick to Pixel app on Windows 11: a watchlist and the paper account on the left; four candlestick charts for AAPL, NVDA, MSFT and TSLA; an order ticket and time and sales on the right. The account holds 100 AAPL bought on paper, and a limit sell is working, with a cancel button. Panels carry blue, red or green link dots. All prices are simulated." width="1600" height="888" loading="lazy"></div>
+      <figcaption>The real app on Windows 11 (October 2026): the "Morning desk" layout, after a paper buy filled and a limit sell placed. All prices are simulated; paper trading only.</figcaption>
     </figure>
 
     <div class="cards" style="margin-top:22px">
@@ -194,6 +194,12 @@ footer p { margin: 4px 0; }
       zoom.</span></span></li>
       <li><span class="st built">Built</span><span><b>Views linked by colour, through a store</b><span class="d">One
       Fluxor store, used only on the UI thread. Three views on one stock share one market-data subscription.</span></span></li>
+      <li><span class="st built">Built</span><span><b>The workspace of panels</b><span class="d">Watchlists, charts, time and sales,
+      an order ticket and your positions side by side; resizable columns; named layouts saved and restored; any panel
+      pops out into its own window.</span></span></li>
+      <li><span class="st built">Built</span><span><b>Paper trading</b><span class="d">One engine thread owns the money:
+      market and limit orders, cash held for buys, no short selling, and one order per click even on a double click.
+      <span class="measured">Measured: an order shows as filled on screen within 3 ms (p99)</span>.</span></span></li>
       <li><span class="st built">Built</span><span><b>"The store buys atomicity"</b><span class="d">Cash and shares sent to
       the screen as two separate updates: <span class="measured">about 1 frame in 5 showed numbers that never existed
       together</span>. Sent as one snapshot through the store: <span class="measured">none</span>.</span></span></li>
@@ -204,10 +210,11 @@ footer p { margin: 4px 0; }
     <h2>Coming next</h2>
     <p class="sub">Designed in full, built one piece at a time.</p>
     <ul class="list">
-      <li><span class="st next">Next</span><span><b>The workspace of panels</b><span class="d">Several charts and
-      tickers in one window; arrange them, save named layouts, restore them on start. A full diagnostics panel.</span></span></li>
-      <li><span class="st plan">Planned</span><span><b>Paper trading</b><span class="d">Order ticket, order states,
-      fills, positions and P&amp;L. Money as <code>decimal</code>; no order or fill is ever dropped or merged.</span></span></li>
+      <li><span class="st next">Next</span><span><b>More of paper trading</b><span class="d">Partial fills, the
+      cancel-or-fill race, and an account that survives a restart. Money stays <code>decimal</code>; no order or fill is
+      ever dropped or merged.</span></span></li>
+      <li><span class="st next">Next</span><span><b>Many charts, one GPU surface</b><span class="d">Four busy charts
+      in one window cost frames today; drawing them all on one surface should fix that. Measured first, of course.</span></span></li>
       <li><span class="st plan">Planned</span><span><b>Real market data through my own gateway</b><span class="d">ASP.NET
       Core and SignalR on Azure: streaming prices, reconnect, and catching up after a drop.</span></span></li>
       <li><span class="st plan">Planned</span><span><b>Distributed-systems labs</b><span class="d">Small working labs: a
@@ -259,7 +266,7 @@ footer p { margin: 4px 0; }
       <li>Paper trading and simulated prices only. Nothing here is investment advice.</li>
       <li>Company names and tickers appear only as examples, with simulated prices. No affiliation or endorsement.</li>
       <li>Built and measured on Windows 11. Other platforms are .NET MAUI targets, not yet tested.</li>
-      <li>The workspace picture above is a concept design, not a screenshot.</li>
+      <li>The pictures are screenshots of the app running on Windows 11, with simulated prices.</li>
       <li>I use an AI coding assistant. The design decisions, reviews and measurements are mine.</li>
     </ul>
   </section>
