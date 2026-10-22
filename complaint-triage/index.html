@@ -69,34 +69,70 @@ h3 { margin: 0 0 8px; font-size: 19px; }
 .card { background: linear-gradient(180deg, var(--panel), var(--panel-2)); border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 22px 20px; }
 .card p { margin: 0; color: var(--text-2); font-size: 16px; }
 
-/* the animated system diagram: one complaint moving through the five steps, in CSS only */
-.sys { --T: 12s; margin: 30px 0 0; background: linear-gradient(180deg, var(--panel), var(--panel-2)); border: 1px solid rgba(167,139,250,.35); border-radius: 16px; padding: 20px 22px 18px; box-shadow: 0 30px 70px rgba(0,0,0,.35); }
-.sys-head { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 0 0 18px; }
+/* the animated explainer: one complaint through the system (engine in explainer.js) */
+.ct { margin: 30px 0 0; background: linear-gradient(180deg, var(--panel), var(--panel-2)); border: 1px solid rgba(167,139,250,.35); border-radius: 16px; padding: 18px 20px 20px; box-shadow: 0 30px 70px rgba(0,0,0,.35); }
+.ct-head { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.ct-head h2 { font-size: 20px; margin: 0; }
 .badge { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: #1a1033; background: var(--violet); border-radius: 999px; padding: 3px 10px; }
-.sys-head .note { color: var(--muted); font-size: 14.5px; }
-.lane { display: grid; grid-template-columns: 1fr 40px 1fr 40px 1fr 40px 1fr 40px 1fr; align-items: center; }
-.node { --base: var(--line); background: #0b1220; border: 1px solid var(--base); border-radius: 12px; padding: 12px 12px 13px; min-height: 88px; display: grid; align-content: center; gap: 3px; animation: act var(--T) infinite; animation-delay: var(--d); }
-.node b { font-size: 16.5px; line-height: 1.2; }
-.node small { color: var(--muted); font-size: 13.5px; line-height: 1.35; }
-.node.human { --base: rgba(167,139,250,.6); }
-.link { position: relative; height: 2px; background: #2b3d5a; margin: 0 5px; }
-.link i { position: absolute; top: -4px; left: 0; width: 10px; height: 10px; border-radius: 50%; background: var(--violet); box-shadow: 0 0 12px var(--violet); opacity: 0; animation: move var(--T) infinite linear; animation-delay: var(--d); }
-.aux { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 16px; }
-.aux div { border: 1px dashed #2b3d5a; border-radius: 10px; padding: 9px 12px; font-size: 14px; color: var(--text-2); animation: lit var(--T) infinite; animation-delay: var(--d); }
-.aux b { color: var(--text); }
-.ticker { position: relative; min-height: 50px; margin-top: 14px; font-size: 15px; color: var(--text-2); }
-.ticker p { position: absolute; inset: 0; margin: 0; opacity: 0; animation: say var(--T) infinite; animation-delay: var(--d); }
-.ticker p b { color: var(--violet); }
-@keyframes act { 0%, 21%, 100% { border-color: var(--base); box-shadow: none; } 3%, 17% { border-color: var(--violet); box-shadow: 0 0 0 1px var(--violet), 0 0 28px rgba(167,139,250,.35); } }
-@keyframes move { 0% { left: 0; opacity: 0; } 1% { opacity: 1; } 6% { left: calc(100% - 10px); opacity: 1; } 7%, 100% { left: calc(100% - 10px); opacity: 0; } }
-@keyframes movev { 0% { top: 0; opacity: 0; } 1% { opacity: 1; } 6% { top: calc(100% - 10px); opacity: 1; } 7%, 100% { top: calc(100% - 10px); opacity: 0; } }
-@keyframes lit { 0%, 21%, 100% { border-color: #2b3d5a; background: transparent; } 3%, 17% { border-color: var(--violet); background: rgba(167,139,250,.08); } }
-@keyframes say { 0%, 20%, 100% { opacity: 0; } 2%, 18% { opacity: 1; } }
-@media (prefers-reduced-motion: reduce) {
-  .node, .link i, .aux div, .ticker p { animation: none; }
-  .ticker { min-height: 0; display: grid; gap: 6px; }
-  .ticker p { position: static; opacity: 1; }
-}
+.ct-note { color: var(--muted); font-size: 14.5px; margin: 6px 0 0; }
+.k-people { --c: #f472b6; } .k-azure { --c: #38bdf8; } .k-ai { --c: #a78bfa; } .k-know { --c: #2dd4bf; }
+.k-guard { --c: #fbbf24; } .k-loop { --c: #22c55e; } .k-none { --c: #2b3d5a; } .k-dot { --c: #e2e8f0; }
+.ct-key { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 12px 0 10px; padding: 0; list-style: none; font-size: 13.5px; color: var(--text-2); }
+.ct-key li { display: inline-flex; align-items: center; gap: 7px; }
+.ct-key li::before { content: ""; width: 10px; height: 10px; border-radius: 3px; border: 1.5px solid var(--c); }
+.ct-key li.k-dot::before { border: 0; border-radius: 50%; background: var(--c); box-shadow: 0 0 6px var(--c); }
+#ct-fig { outline: none; border-radius: 12px; }
+#ct-fig:focus-visible { box-shadow: 0 0 0 2px var(--violet); }
+.ct-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: #0b1220; }
+.ct-svg { display: block; width: 100%; height: auto; font-family: "Segoe UI", system-ui, -apple-system, Roboto, Arial, sans-serif; }
+.ct-svg .n { transition: opacity .35s; }
+.ct-svg .dim { opacity: .25; }
+.ct-svg .gwrap.dim { opacity: .45; }
+.ct-svg .b { fill: #0e1626; stroke: var(--c); stroke-opacity: .75; stroke-width: 1.5; }
+.ct-svg .hot .b { stroke-width: 3; stroke-opacity: 1; filter: drop-shadow(0 0 9px var(--c)); }
+.ct-svg .tt { fill: #f1f5f9; font-size: 14.5px; font-weight: 700; }
+.ct-svg .ss { fill: #8594a8; font-size: 11.5px; }
+.ct-svg .lk { fill: none; stroke: var(--c); stroke-opacity: .6; stroke-width: 1.6; }
+.ct-svg .lk.dash { stroke-dasharray: 5 5; }
+.ct-svg .grp { fill: none; stroke: var(--c); stroke-opacity: .45; stroke-dasharray: 5 5; }
+.ct-svg .gl { fill: var(--c); font-size: 11px; font-weight: 700; letter-spacing: .08em; }
+.ct-svg .lbl { fill: #8594a8; font-size: 10px; }
+.ct-svg .val { fill: #f1f5f9; font-size: 11.5px; }
+.ct-svg .fld { fill: #0b1220; stroke: #2b3d5a; }
+.ct-svg .wbar { fill: #111a2c; }
+.ct-svg .slot { fill: #0b1220; stroke: #2b3d5a; transition: fill .2s; }
+.ct-svg .slot.on { fill: #38bdf8; }
+.ct-svg .meter text { fill: #fbbf24; font-size: 11px; font-weight: 600; }
+.ct-svg .tick { fill: #e2e8f0; font-size: 15px; font-weight: 700; letter-spacing: .12em; }
+.ct-svg .note { fill: #8594a8; font-size: 11px; }
+.ct-svg .sline { stroke: var(--c); stroke-opacity: .45; }
+.ct-svg .dot { fill: var(--c); filter: drop-shadow(0 0 6px var(--c)); }
+.ct-hint { display: none; color: var(--muted); font-size: 13px; margin: 6px 0 0; }
+.ct-say { margin-top: 14px; min-height: 124px; }
+.ct-meta { display: flex; gap: 10px; align-items: center; font-size: 12.5px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.ct-meta .ct-layer { color: var(--violet); border: 1px solid rgba(167,139,250,.5); border-radius: 999px; padding: 1px 9px; }
+.ct-say h3 { margin: 6px 0 4px; font-size: 20px; }
+.ct-say p { margin: 0; color: var(--text-2); max-width: 880px; }
+.ct-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 12px; }
+.cbtn { font: inherit; font-size: 14.5px; font-weight: 600; color: var(--violet); background: transparent; border: 0; box-shadow: inset 0 0 0 1.5px var(--violet); border-radius: 999px; padding: 7px 15px; cursor: pointer; }
+.cbtn.primary { background: var(--violet); color: #1a1033; box-shadow: none; min-width: 104px; }
+.cbtn:hover { background: rgba(167,139,250,.14); }
+.cbtn.primary:hover { background: #c4b5fd; }
+.cbtn:disabled { opacity: .35; cursor: default; background: transparent; }
+.cbtn:focus-visible, .ct-pips button:focus-visible { outline: 2px solid #c4b5fd; outline-offset: 2px; }
+.ct-pips { display: flex; gap: 5px; margin: 0 4px; }
+.ct-pips button { width: 24px; height: 7px; border-radius: 4px; border: 0; padding: 0; background: #2b3d5a; cursor: pointer; }
+.ct-pips button.done { background: #5b4b99; }
+.ct-pips button.on { background: var(--violet); }
+.ct-layers { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; counter-reset: lay; }
+.ct-layers li { counter-increment: lay; border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; background: #0b1220; transition: border-color .3s, background .3s; }
+.ct-layers li b { display: block; font-size: 15px; }
+.ct-layers li b::before { content: counter(lay) " · "; color: var(--muted); font-weight: 600; }
+.ct-layers li span { color: var(--muted); font-size: 13.5px; }
+.ct-layers li.on { border-color: var(--violet); background: rgba(167,139,250,.1); }
+.ct-layers li.on b { color: var(--violet); }
+.ct-foot { margin: 10px 0 0; color: var(--muted); font-size: 13px; }
+@media (prefers-reduced-motion: reduce) { .ct-svg .n, .ct-layers li { transition: none; } }
 
 .groups { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .group { border: 1px dashed #2b3d5a; border-radius: var(--radius); padding: 18px 20px 20px; }
@@ -137,13 +173,13 @@ h3 { margin: 0 0 8px; font-size: 19px; }
 footer { border-top: 1px solid var(--line); margin-top: 64px; padding-block: 24px 40px; color: var(--muted); font-size: 14px; }
 footer p { margin: 4px 0; }
 
-@media (max-width: 860px) {
-  .lane { grid-template-columns: 1fr; }
-  .node { min-height: 0; }
-  .link { width: 2px; height: 26px; margin: 4px 0 4px 24px; }
-  .link i { top: 0; left: -4px; animation-name: movev; }
-  .aux { grid-template-columns: 1fr; }
-  .ticker { min-height: 96px; }
+@media (max-width: 760px) {
+  .ct { padding: 14px 12px 16px; }
+  .ct-svg { min-width: 760px; }
+  .ct-hint { display: block; }
+  .ct-say { min-height: 170px; }
+  .ct-pips { order: 10; width: 100%; margin: 4px 0 0; }
+  .ct-layers { grid-template-columns: 1fr 1fr; }
 }
 @media (max-width: 900px) {
   .cards, .groups { grid-template-columns: 1fr; }
@@ -170,44 +206,145 @@ footer p { margin: 4px 0; }
   <div class="hero">
     <p class="kicker">Coming soon · a series in the works</p>
     <h1>Complaint Triage <em>an AI first pass for medical-device complaints</em></h1>
-    <p class="lead">A pipeline on Azure that reads each incoming complaint, investigates it with tools, checks its own
-    work, and hands a person a <b>drafted, cited record</b> to approve or edit, instead of a blank page. Every run
-    also writes its own test evidence, so changes ship faster without skipping the paperwork. Built only on public FDA
-    data. <b>The AI proposes; a person decides.</b></p>
-    <div class="btns"><a class="go" href="#how">See how it works</a><a class="go ghost" href="#plan">The plan</a></div>
+    <p class="lead">An AI first pass for medical-device complaints, on Azure and public FDA data. It hands a person a
+    <b>drafted, cited record</b> to approve or edit instead of a blank page, and every change carries its own test
+    evidence. <b>The AI proposes; a person decides.</b></p>
   </div>
 
-  <figure class="sys" aria-label="Initial design: how one complaint moves through the system">
-    <div class="sys-head"><span class="badge">Initial design</span><span class="note">How one complaint will move
-    through the system. It will change as the measurements come in.</span></div>
-    <div class="lane">
-      <div class="node" style="--d:0s"><b>Queue</b><small>arrives, waits safely</small></div>
-      <div class="link" aria-hidden="true"><i style="--d:1.9s"></i></div>
-      <div class="node" style="--d:2.4s"><b>Reader</b><small>narrative → checked fields</small></div>
-      <div class="link" aria-hidden="true"><i style="--d:4.3s"></i></div>
-      <div class="node" style="--d:4.8s"><b>Agent</b><small>investigates, drafts the record</small></div>
-      <div class="link" aria-hidden="true"><i style="--d:6.7s"></i></div>
-      <div class="node" style="--d:7.2s"><b>Verifier</b><small>checks every source</small></div>
-      <div class="link" aria-hidden="true"><i style="--d:9.1s"></i></div>
-      <div class="node human" style="--d:9.6s"><b>A person decides</b><small>approves or edits the draft</small></div>
+  <section id="explain" class="ct" aria-labelledby="ct-h">
+    <div class="ct-head"><span class="badge">Initial design</span><h2 id="ct-h">Watch one complaint go through it</h2></div>
+    <p class="ct-note">Press Next to go one step at a time, or use the arrow keys. The design will change as the
+    measurements come in.</p>
+    <ul class="ct-key" aria-label="Colour key">
+      <li class="k-people">People</li><li class="k-azure">Azure plumbing</li><li class="k-ai">AI model calls</li>
+      <li class="k-know">Public FDA knowledge</li><li class="k-guard">Harness and checks</li>
+      <li class="k-loop">Improvement loop</li><li class="k-dot">a dot is one message</li>
+    </ul>
+    <div id="ct-fig" tabindex="0" aria-label="Animated diagram. Left and right arrow keys step through it.">
+      <div class="ct-scroll">
+<svg class="ct-svg" viewBox="0 0 1000 480" role="img" aria-labelledby="ct-svg-t">
+<title id="ct-svg-t">A complaint form on a web app goes into an Azure queue. A reader and an agent call AI models through a gateway and search FDA reports, recalls and guidance through read-only tools. A verifier checks the sources, with one retry. A reviewer approves or edits the draft, and corrections feed a golden set and an eval gate that produce the next version.</title>
+<defs>
+  <marker id="m-people" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#f472b6"/></marker>
+  <marker id="m-azure" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#38bdf8"/></marker>
+  <marker id="m-ai" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#a78bfa"/></marker>
+  <marker id="m-know" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#2dd4bf"/></marker>
+  <marker id="m-guard" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#fbbf24"/></marker>
+  <marker id="m-loop" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#22c55e"/></marker>
+</defs>
+
+<g class="k-azure"><rect class="grp" x="180" y="28" width="645" height="340" rx="14"/><text class="gl" x="194" y="46">AZURE BACK END · SCALES TO ZERO</text></g>
+<g id="harness" class="n gwrap k-guard"><rect class="grp" x="476" y="66" width="178" height="220" rx="12"/><text class="gl" x="484" y="80">HARNESS</text></g>
+<g id="loopgrp" class="n gwrap k-loop"><rect class="grp" x="306" y="384" width="690" height="86" rx="14"/><text class="gl" x="490" y="402">LOOP · GITHUB CI</text></g>
+
+<path id="l-web-q" class="n lk k-people" d="M162 120 H186" marker-end="url(#m-people)"/>
+<path id="l-q-rd" class="n lk k-azure" d="M290 120 H316" marker-end="url(#m-azure)"/>
+<path id="l-rd-ag" class="n lk k-ai" d="M440 112 H486" marker-end="url(#m-ai)"/>
+<path id="l-ag-vf" class="n lk k-ai" d="M640 120 H686" marker-end="url(#m-ai)"/>
+<path id="l-vf-rv" class="n lk k-guard" d="M810 120 H846" marker-end="url(#m-guard)"/>
+<path id="l-rd-gw" class="n lk k-ai" d="M380 152 V216" marker-end="url(#m-ai)"/>
+<path id="l-gw-fd" class="n lk k-ai" d="M320 248 H304" marker-end="url(#m-ai)"/>
+<path id="l-ag-gw" class="n lk k-ai" d="M490 140 H465 V248 H444" marker-end="url(#m-ai)"/>
+<path id="l-ag-mcp" class="n lk k-guard" d="M520 152 V216" marker-end="url(#m-guard)"/>
+<path id="l-mcp-s1" class="n lk k-know" d="M545 276 V296 H453 V306" marker-end="url(#m-know)"/>
+<path id="l-mcp-s2" class="n lk k-know" d="M565 276 V306" marker-end="url(#m-know)"/>
+<path id="l-mcp-s3" class="n lk k-know" d="M585 276 V296 H677 V306" marker-end="url(#m-know)"/>
+<path id="l-vf-ag" class="n lk dash k-guard" d="M750 88 V56 H565 V84" marker-end="url(#m-guard)"/>
+<text id="retry" class="n note" x="658" y="47" text-anchor="middle" style="fill:#fbbf24">retry once, with the reason</text>
+<path id="l-rv-gs" class="n lk k-loop" d="M919 196 V410" marker-end="url(#m-loop)"/>
+<path id="l-gs-ev" class="n lk k-loop" d="M850 437 H794" marker-end="url(#m-loop)"/>
+<path id="l-ev-pr" class="n lk k-loop" d="M640 437 H474" marker-end="url(#m-loop)"/>
+<path id="l-pr-gw" class="n lk dash k-loop" d="M380 414 V280" marker-end="url(#m-loop)"/>
+<text id="nextv" class="n note" x="372" y="334" text-anchor="end" style="fill:#22c55e">next version</text>
+
+<g id="web" class="n k-people">
+  <rect class="b" x="20" y="60" width="142" height="136" rx="10"/>
+  <rect class="wbar"x="21.5" y="61.5" width="139" height="19" rx="8.5"/>
+  <circle cx="32" cy="71" r="2.5" fill="#2b3d5a"/><circle cx="40" cy="71" r="2.5" fill="#2b3d5a"/><circle cx="48" cy="71" r="2.5" fill="#2b3d5a"/>
+  <text class="lbl" x="104" y="74.5" text-anchor="middle">Complaint form</text>
+  <text class="lbl" x="30" y="95">Device</text><rect class="fld" x="28" y="99" width="126" height="17" rx="4"/><text class="val" x="33" y="111.5" data-t="f1"></text>
+  <text class="lbl" x="30" y="125">What happened</text><rect class="fld" x="28" y="129" width="126" height="17" rx="4"/><text class="val" x="33" y="141.5" data-t="f2"></text>
+  <text class="lbl" x="30" y="155">Patient</text><rect class="fld" x="28" y="159" width="126" height="17" rx="4"/><text class="val" x="33" y="171.5" data-t="f3"></text>
+  <g id="submit" class="k-people"><rect class="b" x="100" y="179" width="54" height="14" rx="7" style="fill:#f472b6"/><text x="127" y="189.5" text-anchor="middle" style="fill:#2a0b1c;font-size:9.5px;font-weight:700">Submit</text></g>
+</g>
+
+<g id="counters" class="n k-none">
+  <rect class="b" x="20" y="224" width="142" height="128" rx="10"/>
+  <text class="tt" x="30" y="245" style="font-size:12.5px">This complaint</text>
+  <text class="lbl" x="30" y="268" style="font-size:11px">AI calls</text><text class="val" x="152" y="268" text-anchor="end" data-t="calls">0</text>
+  <text class="lbl" x="30" y="288" style="font-size:11px">Sources</text><text class="val" x="152" y="288" text-anchor="end" data-t="src">0</text>
+  <text class="lbl" x="30" y="308" style="font-size:11px">Cost</text><text class="val" x="152" y="308" text-anchor="end" data-t="cost">$0.000</text>
+  <text class="lbl" x="30" y="328" style="font-size:11px">Time</text><text class="val" x="152" y="328" text-anchor="end" data-t="time">0 s</text>
+  <text class="note" x="30" y="345" style="font-size:9.5px">illustrative numbers</text>
+</g>
+
+<g id="queue" class="n k-azure">
+  <text class="tt" x="240" y="96" text-anchor="middle" style="font-size:13.5px">Queue</text>
+  <rect class="b" x="190" y="102" width="100" height="36" rx="6"/>
+  <rect class="slot" x="197" y="108" width="14" height="24" rx="3"/><rect class="slot" x="214" y="108" width="14" height="24" rx="3"/><rect class="slot" x="231" y="108" width="14" height="24" rx="3"/><rect class="slot" x="248" y="108" width="14" height="24" rx="3"/><rect class="slot" x="265" y="108" width="14" height="24" rx="3"/>
+  <text class="ss" x="240" y="153" text-anchor="middle">Service Bus</text>
+</g>
+
+<g id="reader" class="n k-ai"><rect class="b" x="320" y="88" width="120" height="64" rx="10"/><text class="tt" x="380" y="114" text-anchor="middle">Reader</text><text class="ss" x="380" y="133" text-anchor="middle" data-t="rd">words → fields</text></g>
+<g id="agent" class="n k-ai"><rect class="b" x="490" y="88" width="150" height="64" rx="10"/><text class="tt" x="565" y="114" text-anchor="middle">Agent</text><text class="ss" x="565" y="133" text-anchor="middle" data-t="ag">plan → act → check</text></g>
+<g id="verifier" class="n k-guard"><rect class="b" x="690" y="88" width="120" height="64" rx="10"/><text class="tt" x="750" y="114" text-anchor="middle">Verifier</text><text class="ss" x="750" y="133" text-anchor="middle" data-t="vf">checks sources</text><text class="tick" x="750" y="178" text-anchor="middle" data-t="ticks"></text></g>
+
+<g id="review" class="n k-people">
+  <rect class="b" x="850" y="60" width="138" height="136" rx="10"/>
+  <rect class="wbar"x="851.5" y="61.5" width="135" height="19" rx="8.5"/>
+  <circle cx="862" cy="71" r="2.5" fill="#2b3d5a"/><circle cx="870" cy="71" r="2.5" fill="#2b3d5a"/><circle cx="878" cy="71" r="2.5" fill="#2b3d5a"/>
+  <text class="lbl" x="932" y="74.5" text-anchor="middle">Review app</text>
+  <text class="val" x="860" y="99" style="font-size:11px" data-t="rv1"></text>
+  <text class="val" x="860" y="117" style="font-size:11px" data-t="rv2"></text>
+  <text class="val" x="860" y="135" style="font-size:11px" data-t="rv3"></text>
+  <g id="approve" class="k-ai"><rect class="b" x="860" y="146" width="62" height="19" rx="9.5" style="fill:#a78bfa"/><text x="891" y="159" text-anchor="middle" style="fill:#1a1033;font-size:10.5px;font-weight:700">Approve</text></g>
+  <rect x="928" y="146" width="48" height="19" rx="9.5" fill="none" stroke="#a78bfa" stroke-width="1.2"/><text x="952" y="159" text-anchor="middle" style="fill:#a78bfa;font-size:10.5px;font-weight:700">Edit</text>
+  <text x="919" y="184" text-anchor="middle" data-t="rvs" style="fill:#22c55e;font-size:10.5px;font-weight:600"></text>
+</g>
+
+<g id="foundry" class="n k-ai"><rect class="b" x="190" y="220" width="110" height="56" rx="10"/><text class="tt" x="245" y="244" text-anchor="middle">Foundry</text><text class="ss" x="245" y="262" text-anchor="middle">small → large</text></g>
+<g id="gateway" class="n k-ai"><rect class="b" x="320" y="220" width="120" height="56" rx="10"/><text class="tt" x="380" y="244" text-anchor="middle">LLM gateway</text><text class="ss" x="380" y="262" text-anchor="middle">route, cache, cost</text></g>
+<g id="mcp" class="n k-guard"><rect class="b" x="490" y="220" width="150" height="56" rx="10"/><text class="tt" x="565" y="244" text-anchor="middle">MCP tools</text><text class="ss" x="565" y="262" text-anchor="middle">read-only</text></g>
+<g id="meter" class="n meter"><text x="532" y="174" data-t="steps">steps 0/8</text><text x="532" y="190" data-t="cap">$0.000 / $0.05</text></g>
+
+<g id="s1" class="n k-know"><rect class="b" x="403" y="310" width="100" height="46" rx="8"/><path class="sline" d="M413 318 H493"/><text class="tt" x="453" y="334" text-anchor="middle" style="font-size:13px">FDA reports</text><text class="ss" x="453" y="349" text-anchor="middle" style="font-size:10.5px">past cases</text></g>
+<g id="s2" class="n k-know"><rect class="b" x="515" y="310" width="100" height="46" rx="8"/><path class="sline" d="M525 318 H605"/><text class="tt" x="565" y="334" text-anchor="middle" style="font-size:13px">Recalls</text><text class="ss" x="565" y="349" text-anchor="middle" style="font-size:10.5px">openFDA</text></g>
+<g id="s3" class="n k-know"><rect class="b" x="627" y="310" width="100" height="46" rx="8"/><path class="sline" d="M637 318 H717"/><text class="tt" x="677" y="334" text-anchor="middle" style="font-size:13px">FDA guidance</text><text class="ss" x="677" y="349" text-anchor="middle" style="font-size:10.5px">public PDFs</text></g>
+
+<g id="prompts" class="n k-loop"><rect class="b" x="320" y="414" width="150" height="46" rx="10"/><text class="tt" x="395" y="433" text-anchor="middle" style="font-size:13.5px">Prompts + settings</text><text class="ss" x="395" y="450" text-anchor="middle" data-t="pv">version 1</text></g>
+<g id="eval" class="n k-loop"><rect class="b" x="640" y="414" width="150" height="46" rx="10"/><text class="tt" x="715" y="433" text-anchor="middle" style="font-size:13.5px">Eval gate</text><text class="ss" x="715" y="450" text-anchor="middle" data-t="ev">CI, every change</text></g>
+<g id="golden" class="n k-loop"><rect class="b" x="850" y="414" width="138" height="46" rx="10"/><text class="tt" x="919" y="433" text-anchor="middle" style="font-size:13.5px">Golden set</text><text class="ss" x="919" y="450" text-anchor="middle" data-t="gs">your labels</text></g>
+
+<g id="dots"></g>
+</svg>
+      </div>
+      <p class="ct-hint">Swipe the diagram sideways to see all of it.</p>
+      <div class="ct-say" id="ct-say" aria-live="off">
+        <div class="ct-meta"><span id="ct-stepno">Step 1 of 8</span><span class="ct-layer" id="ct-layer" hidden></span></div>
+        <h3 id="ct-title">A customer files a complaint</h3>
+        <p id="ct-text">Someone fills in a complaint form: the device, what happened, and how the patient is. In this
+        project most complaints are public FDA reports, replayed as if they arrived today; a small form in the review
+        app lets you type one in for a demo.</p>
+      </div>
+      <div class="ct-ctl">
+        <button type="button" class="cbtn primary" id="ct-play" aria-pressed="false">▶ Play</button>
+        <button type="button" class="cbtn" id="ct-restart">↺ Restart</button>
+        <button type="button" class="cbtn" id="ct-back">‹ Back</button>
+        <div class="ct-pips" id="ct-pips" role="group" aria-label="Jump to a step"></div>
+        <button type="button" class="cbtn" id="ct-next">Next ›</button>
+        <button type="button" class="cbtn" id="ct-speed" aria-label="Animation speed">1×</button>
+      </div>
     </div>
-    <div class="aux">
-      <div style="--d:4.8s"><b>Tools via MCP:</b> similar past cases, recalls, FDA guidance, through hybrid search</div>
-      <div style="--d:7.2s"><b>↻ Fails the check?</b> One retry with the reason, then it goes to a person as "not verified"</div>
-      <div style="--d:9.6s"><b>Corrections become tests.</b> Every change must pass the eval gate, which writes its own report</div>
-    </div>
-    <div class="ticker" aria-live="off">
-      <p style="--d:0s"><b>1 · Queue.</b> A public FDA report is replayed as if it came in today. It waits safely, with
-      retries and a dead-letter queue.</p>
-      <p style="--d:2.4s"><b>2 · Reader.</b> An LLM turns the narrative into checked fields: device, problem, patient
-      harm, software-related?</p>
-      <p style="--d:4.8s"><b>3 · Agent.</b> It looks up similar cases, recalls and guidance, then drafts the record:
-      adverse event? Reportable? How severe? And why, with sources.</p>
-      <p style="--d:7.2s"><b>4 · Verifier.</b> An independent check that every cited source really says what's claimed.</p>
-      <p style="--d:9.6s"><b>5 · A person decides.</b> Approve or edit the draft, not a blank page. Every correction is
-      kept as a test case.</p>
-    </div>
-  </figure>
+    <ol class="ct-layers" aria-label="The four layers">
+      <li data-l="prompt"><b>Prompt</b><span>what we say to the model</span></li>
+      <li data-l="context"><b>Context</b><span>what we show the model</span></li>
+      <li data-l="harness"><b>Harness</b><span>the code around the model</span></li>
+      <li data-l="loop"><b>Loop</b><span>running and improving on its own</span></li>
+    </ol>
+    <p class="ct-foot">Simplified for the picture: in the design every step has its own queue, and the verifier also
+    uses the gateway. The numbers are illustrative, not measured yet. The four layers are how I frame the project, not
+    an industry standard.</p>
+  </section>
 
   <section id="why">
     <h2>The problem</h2>
@@ -219,8 +356,8 @@ footer p { margin: 4px 0; }
       <div class="card"><h3>A first pass, not a decision</h3><p>The system reads, investigates and suggests. A person
       approves or edits every case. Nothing is closed without a human.</p></div>
       <div class="card"><h3>A drafted record, with sources</h3><p>Each suggestion comes as a draft write-up: what
-      happened, what was checked, the decision and why, every claim linked to its source. A separate check confirms
-      each source says what's claimed. The reviewer edits instead of writing from scratch.</p></div>
+      happened, what was checked, the decision and why, every claim linked to its source. A separate check tests
+      whether each source supports its claim. The reviewer edits instead of writing from scratch.</p></div>
       <div class="card"><h3>Measured, not demoed</h3><p>A test set I label myself, a baseline, and a gate that blocks
       any change that makes the scores worse. Every number in the series will come from a report you can rerun.</p></div>
     </div>
@@ -228,8 +365,8 @@ footer p { margin: 4px 0; }
 
   <section id="how">
     <h2>How it works</h2>
-    <p class="sub">The diagram at the top shows the path of one complaint: five steps joined by queues. Around them sit
-    the parts every step shares, and the parts that measure and improve the system.</p>
+    <p class="sub">The explainer at the top follows one complaint. Here are the parts every step shares, and the parts
+    that measure and improve the system.</p>
     <div class="groups">
       <div class="group"><h3>Shared by every step</h3><ul>
         <li><b>One gateway for every AI call</b>A small model first and a larger one when it's unsure, a fallback when a
@@ -252,8 +389,10 @@ footer p { margin: 4px 0; }
     <ul class="list plain">
       <li><span><b>A person decides</b><span class="d">The AI only suggests. A person approves or corrects every case,
       and nothing is closed without them.</span></span><span class="qms">Complaint handling</span></li>
-      <li><span><b>Fix the cause, not just the case</b><span class="d">Each correction is traced to its cause (the prompt,
-      the retrieval or a rule) and kept as a test case, so the same mistake can't quietly come back.</span></span><span class="qms">CAPA</span></li>
+      <li><span><b>Fix the cause, not just the case</b><span class="d">When a reviewer corrects a suggestion, they tag
+      its cause (the prompt, the retrieval, a rule, the model, or a wrong label) using the case's stored trace, with a
+      hint the system suggests. The fix targets that cause, the case becomes a test, and the eval gate checks the fix
+      worked and flags the mistake if it comes back.</span></span><span class="qms">CAPA-style</span></li>
       <li><span><b>The AI changes only through review</b><span class="d">The nightly loop proposes one change at a time,
       tested on data it has never seen, as a pull request with its results. I merge it or close it.</span></span><span class="qms">Change control</span></li>
       <li><span><b>Every suggestion can be traced</b><span class="d">It's stored with the model, the prompt version, the
@@ -263,10 +402,13 @@ footer p { margin: 4px 0; }
       choice has a short decision record. The paperwork is a by-product, not a separate chore.</span></span><span class="qms">Objective evidence</span></li>
       <li><span><b>Severity first</b><span class="d">Reports that mention death or serious injury go to the top of the
       review queue. A suggestion that can't be verified is escalated, never guessed.</span></span><span class="qms">Risk-based</span></li>
-      <li><span><b>No answer without evidence</b><span class="d">Personal details are removed before any model call.
-      Text inside a report is data, never instructions, and attempts to trick the model are part of the test set.</span></span><span class="qms">Risk controls</span></li>
-      <li><span><b>The model is software I didn't write</b><span class="d">Each model version is pinned, tested before any
-      change, and has a fallback.</span></span><span class="qms">SOUP</span></li>
+      <li><span><b>No answer without evidence</b><span class="d">A claim with no cited source is removed; if the key
+      answer can't be supported, the case goes to a person. Personal details are scrubbed before any model call, and
+      what slips through is measured. Text inside a report is treated as data, not instructions, and attempts to trick
+      the model are part of the test set.</span></span><span class="qms">Risk controls</span></li>
+      <li><span><b>The model is software I didn't write</b><span class="d">Each model version is pinned with automatic
+      upgrades turned off, and has a fallback. Any switch, including the forced one when the provider retires a
+      version, goes through the same eval gate.</span></span><span class="qms">SOUP</span></li>
     </ul>
     <p class="aside">Related: <a href="../meddevice-sdlc-series/">Medical Device Software Lifecycle in Practice</a>.</p>
   </section>
@@ -361,6 +503,8 @@ footer p { margin: 4px 0; }
       <li>Every public report was, by definition, sent to the FDA, so "must the FDA be told?" has almost no "no"
       examples. I'll show that limit next to the numbers.</li>
       <li>Not a medical device and not regulatory advice. It makes no real reporting decisions.</li>
+      <li>The quality-process names on this page (complaint handling, CAPA-style, change control, SOUP and others)
+      describe ideas the design borrows. This is not a quality system.</li>
       <li>Runs on a hobby budget (under about $50 a month), so most of it scales to zero when idle.</li>
       <li>The code is in a private repository for now and will be published with the series.</li>
       <li>I use an AI coding assistant. The design decisions, reviews and measurements are mine.</li>
@@ -371,5 +515,6 @@ footer p { margin: 4px 0; }
 <footer><div class="wrap">
   <p>© 2026 Samit Desai · <a href="https://www.linkedin.com/in/samit-desai-62868420">LinkedIn</a> · <a href="https://github.com/Samit-Desai">GitHub</a> · <a href="../">More projects</a></p>
 </div></footer>
+<script src="explainer.js?v=3" defer></script>
 </body>
 </html>
